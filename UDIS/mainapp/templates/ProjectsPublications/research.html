@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./research.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
+    />
+  </head>
+  <body>
+    <div class="projects-publications">
+      <div class="projects">
+        <div class="projects_heading">
+            <h1>Research Projects</h1>
+            <button>Add Project</button>
+        </div>
+        <!-- Swiper -->
+        <div class="swiper-container">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <img src="http://cse.iitkgp.ac.in/~animeshm/mypic.jpg"/>
+                    <span class="professor">Prof. Animesh Mukherjee</span>
+                    <span class="project-name">Emotion Recognition Software</span>
+                    <p class="project-description">The project includes designing and analyzing lightweight ciphers, developing novel cryptographic solutions to allow processing on encrypted data, cryptanalysis of cryptographic algorithms, group signature schemes for batch verifications,  secure authentication protocols for smart grids, etc</p>
+                </div>
+                  <div class="swiper-slide">
+                    <img src="http://cse.iitkgp.ac.in/~animeshm/mypic.jpg"/>
+                    <span class="professor">Prof. Animesh Mukherjee</span>
+                    <span class="project-name">Emotion Recognition Software</span>
+                    <p class="project-description">The project includes designing and analyzing lightweight ciphers, developing novel cryptographic solutions to allow processing on encrypted data, cryptanalysis of cryptographic algorithms, group signature schemes for batch verifications,  secure authentication protocols for smart grids, etc</p>
+                  </div>
+                  <div class="swiper-slide">
+                    <img src="http://cse.iitkgp.ac.in/~animeshm/mypic.jpg"/>
+                    <span class="professor">Prof. Animesh Mukherjee</span>
+                    <span class="project-name">Emotion Recognition Software</span>
+                    <p class="project-description">The project includes designing and analyzing lightweight ciphers, developing novel cryptographic solutions to allow processing on encrypted data, cryptanalysis of cryptographic algorithms, group signature schemes for batch verifications,  secure authentication protocols for smart grids, etc</p>
+                  </div>
+                  <div class="swiper-slide">Slide 4</div>
+                  <div class="swiper-slide">Slide 5</div>
+                  <div class="swiper-slide">Slide 6</div>
+                  <div class="swiper-slide">Slide 7</div>
+                  <div class="swiper-slide">Slide 8</div>
+                  <div class="swiper-slide">Slide 9</div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+              </div>
+        </div>
+      </div>
+
+      <div class="publications">
+        <div class="publications_heading">
+            <h1>Publications</h1>
+            <button>Add Publication</button>
+        </div>
+        <!-- Swiper -->
+        <div class="swiper-container">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <span class="publication-name">A cluster-based practical key recovery attack on reduced-round AES using impossible-differential cryptanalysis</span>
+                    <span class="authors">Pal D., Ali M.R., Das A., Roy Chowdhury D.</span>
+                    <span class="publication-type">Article</span>
+                    <span class="publication-place">Journal of Supercomputing, Year 2022
+                    </span>
+                    <a class="publication-link" href="#">Link</a>
+                  </div>
+                  <div class="swiper-slide">
+                    <span class="publication-name">A cluster-based practical key recovery attack on reduced-round AES using impossible-differential cryptanalysis</span>
+                    <span class="authors">Pal D., Ali M.R., Das A., Roy Chowdhury D.</span>
+                    <span class="publication-type">Article</span>
+                    <span class="publication-place">Journal of Supercomputing, Year 2022
+                    </span>
+                    <a class="publication-link" href="#">Link</a>
+                  </div>
+                  <div class="swiper-slide">
+                    <span class="publication-name">A cluster-based practical key recovery attack on reduced-round AES using impossible-differential cryptanalysis</span>
+                    <span class="authors">Pal D., Ali M.R., Das A., Roy Chowdhury D.</span>
+                    <span class="publication-type">Article</span>
+                    <span class="publication-place">Journal of Supercomputing, Year 2022
+                    </span>
+                    <a class="publication-link" href="#">Link</a>
+                  </div>
+                  <div class="swiper-slide">Slide 4</div>
+                  <div class="swiper-slide">Slide 5</div>
+                  <div class="swiper-slide">Slide 6</div>
+                  <div class="swiper-slide">Slide 7</div>
+                  <div class="swiper-slide">Slide 8</div>
+                  <div class="swiper-slide">Slide 9</div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+              </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+      var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        cssMode: true,
+        mousewheel: true,
+        keyboaard: true,
+        autoplay: {
+          delay: 7000,
+          disableOnInteraction: false,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        breakpoints: {
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 40,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 50,
+          },
+        },
+      });
+    </script>
+    <script src="" async defer></script>
+  </body>
+</html>
