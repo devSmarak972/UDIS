@@ -1,0 +1,420 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+
+<link href="{% static 'secretary/css/style.css' %}" rel="stylesheet" />
+
+<div class="content-body">
+  <div class="container-fluid">
+    <!-- row -->
+    <div class="row">
+      <div class="col-xl-3 col-lg-4">
+        <div class="clearfix">
+          <div class="card card-bx profile-card author-profile m-b30">
+            <div class="card-body">
+              <div class="p-5">
+                <div class="author-profile">
+                  <div class="author-media">
+                    <img
+                      src="{% static 'secretary/images/anonuser.jpg' %}"
+                      alt=""
+                    />
+                    <div
+                      class="upload-link"
+                      title=""
+                      data-toggle="tooltip"
+                      data-placement="right"
+                      data-original-title="update"
+                    >
+                      <input type="file" class="update-flie" />
+                      <i class="fa fa-camera"></i>
+                    </div>
+                  </div>
+                  <div class="author-info">
+                    <h6 class="title">Smarak Kanjilal</h6>
+                    <span>Student</span>
+                  </div>
+                </div>
+              </div>
+              <div class="info-list">
+                <ul>
+                  <li>
+                    <a href="app-profile.html">CGPA</a><span>{{cgpa}}</span>
+                  </li>
+                  <li>
+                    <a href="uc-lightgallery.html">Courses Registered</a
+                    ><span>{{courses|length}}</span>
+                  </li>
+                  <li>
+                    <a href="app-profile.html">Backlogs</a
+                    ><span>{{backlogs}}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="input-group mb-3">
+                <div class="form-control rounded text-center bg-white">
+                  Grade Card
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <div class="form-control rounded text-center bg-white">
+                  Downlaod Profile
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-9">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Registration Details</h4>
+          </div>
+          <div class="col-xl-12 col-lg-12 col-sm-12">
+            <div class="card" style="margin-bottom: 0">
+              <div class="card-body pb-0" style="padding: 10px 0; margin: auto">
+                <h4>Performance Upto Previos Semester</h4>
+              </div>
+              <div class="card-footer pt-0 pb-0 text-center">
+                <div class="row">
+                  <div class="col-4 pt-3 pb-3 border-end">
+                    <h3 class="mb-1 text-primary">
+                      {{cleared_sem_crd}}/{{sem_crd}}
+                    </h3>
+                    <span>Semester Credits</span>
+                  </div>
+                  <div class="col-4 pt-3 pb-3 border-end">
+                    <h3 class="mb-1 text-primary">
+                      {{cleared_tot_crd}}/{{tot_crd}}
+                    </h3>
+                    <span>Total credits</span>
+                  </div>
+                  <div class="col-4 pt-3 pb-3">
+                    <h3 class="mb-1 text-primary">{{sgpa}}</h3>
+                    <span>SGPA</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="">
+            <a href="content-add.html" class="btn btn-primary mx-4">Download</a>
+          </div>
+          <div class="card-body" style="padding-top: 1rem">
+            <div class="table-responsive">
+              <table class="table table-responsive-md">
+                <thead>
+                  <tr>
+                    <th style="width: 80px"><strong>Subno</strong></th>
+                    <th><strong>Subject Name</strong></th>
+                    <th><strong>Subject Type</strong></th>
+                    <th><strong>LTP</strong></th>
+                    <th><strong>Credit</strong></th>
+                    <th><strong>Faculty</strong></th>
+                    <th><strong>status</strong></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in courses %}
+                  <tr>
+                    <td><strong>{{item.subno}}</strong></td>
+                    <td href="{{item.url}}">{{item.name}}</td>
+                    <td>{{item.type}}</td>
+                    <td>{{item.LTP}}</td>
+                    <td>{{item.credits}}</td>
+                    <td>{{item.faculty}}</td>
+                    {% comment %}
+                    <td>
+                      <div class="dropdown">
+                        <button
+                          type="button"
+                          class="btn btn-success light sharp"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <svg
+                            width="20px"
+                            height="20px"
+                            viewBox="0 0 24 24"
+                            version="1.1"
+                          >
+                            <g
+                              stroke="none"
+                              stroke-width="1"
+                              fill="none"
+                              fill-rule="evenodd"
+                            >
+                              <rect x="0" y="0" width="24" height="24"></rect>
+                              <circle
+                                fill="#000000"
+                                cx="5"
+                                cy="12"
+                                r="2"
+                              ></circle>
+                              <circle
+                                fill="#000000"
+                                cx="12"
+                                cy="12"
+                                r="2"
+                              ></circle>
+                              <circle
+                                fill="#000000"
+                                cx="19"
+                                cy="12"
+                                r="2"
+                              ></circle>
+                            </g>
+                          </svg>
+                        </button>
+                        <div class="dropdown-menu" style="">
+                          <a class="dropdown-item" href="#">Edit</a>
+                          <a class="dropdown-item" href="#">Delete</a>
+                        </div>
+                      </div>
+                    </td>
+                    {% endcomment %}
+                    <td>
+                      <span
+                        class="badge light {% if item.status == 'Registered' %} badge-success {% endif %}"
+                        >{{item.status}}</span
+                      >
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-12">
+        <div class="filter cm-content-box box-primary">
+          <div class="content-title">
+            <div class="cpa">
+              <i class="fa-solid fa-file-lines me-1"></i>Basic Information
+            </div>
+            <div class="tools">
+              <a href="javascript:void(0);" class="expand SlideToolHeader"
+                ><i class="fal fa-angle-down"></i
+              ></a>
+            </div>
+          </div>
+          <div class="cm-content-body form excerpt">
+            <div class="row">
+              <div class="col-xl-6 col-lg-12 col-sm-12">
+                <div class="card">
+                  <div class="card-header border-0 pb-0">
+                    <h2 class="card-title">{{name}}</h2>
+                  </div>
+                  <div class="card-body pb-0">
+                    <ul class="list-group list-group-flush">
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Roll no. </strong>
+                        <span class="mb-0">{{rollno}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Gender</strong>
+                        <span class="mb-0">{{gender}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Department</strong>
+                        <span class="mb-0">{{department}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Course</strong>
+                        <span class="mb-0">{{course}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Hall (Allocated by HMC)</strong>
+                        <span class="mb-0">{{hall}}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-12 col-sm-12">
+                <div class="card">
+                  <div class="card-body pb-0">
+                    <ul class="list-group list-group-flush">
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Nationality </strong>
+                        <span class="mb-0">{{nationality}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Aadhar Card Number</strong>
+                        <span class="mb-0">{{aadhar}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Current Status</strong>
+                        <span class="mb-0">{{status}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Allocated EAA</strong>
+                        <span class="mb-0">{{EAA}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Year of Admission</strong>
+                        <span class="mb-0">{{adm_year}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Nature of Admission</strong>
+                        <span class="mb-0">{{adm_nature}}</span>
+                      </li>
+                    </ul>
+                  </div>
+                  {% comment %}
+                  <div class="card-footer pt-0 pb-0 text-center">
+                    <div class="row">
+                      <div class="col-4 pt-3 pb-3 border-end">
+                        <h3 class="mb-1 text-primary">150</h3>
+                        <span>Projects</span>
+                      </div>
+                      <div class="col-4 pt-3 pb-3 border-end">
+                        <h3 class="mb-1 text-primary">140</h3>
+                        <span>Uploads</span>
+                      </div>
+                      <div class="col-4 pt-3 pb-3">
+                        <h3 class="mb-1 text-primary">45</h3>
+                        <span>Tasks</span>
+                      </div>
+                    </div>
+                  </div>
+                  {% endcomment %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="filter cm-content-box box-primary">
+          <div class="content-title">
+            <div class="cpa">
+              <i class="fa-solid fa-file-lines me-1"></i>Contact Details
+            </div>
+            <div class="tools">
+              <a href="javascript:void(0);" class="expand SlideToolHeader"
+                ><i class="fal fa-angle-down"></i
+              ></a>
+            </div>
+          </div>
+          <div class="cm-content-body form excerpt">
+            <div class="row">
+              <div class="col-xl-6 col-lg-12 col-sm-12">
+                <div class="card">
+                  <div class="card-body pb-0">
+                    <ul class="list-group list-group-flush">
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Email </strong>
+                        <span class="mb-0">{{primary_email}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Institute Email</strong>
+                        <span class="mb-0">{{inst_email}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Microsoft Teams Password</strong>
+                        <span class="mb-0">{{teams_pass}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Mobile No.</strong>
+                        <span class="mb-0">{{mobile}}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-12 col-sm-12">
+                <div class="card">
+                  <div class="card-body pb-0">
+                    <ul class="list-group list-group-flush">
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Guardians Email </strong>
+                        <span class="mb-0">{{guardian_email}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Residential Address</strong>
+                        <span class="mb-0">{{address}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Village/Town/City</strong>
+                        <span class="mb-0">{{location}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>Pin no.</strong>
+                        <span class="mb-0">{{pin}}</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex px-0 justify-content-between"
+                      >
+                        <strong>State</strong>
+                        <span class="mb-0">{{state}}</span>
+                      </li>
+                    </ul>
+                  </div>
+                  {% comment %}
+                  <div class="card-footer pt-0 pb-0 text-center">
+                    <div class="row">
+                      <div class="col-4 pt-3 pb-3 border-end">
+                        <h3 class="mb-1 text-primary">150</h3>
+                        <span>Projects</span>
+                      </div>
+                      <div class="col-4 pt-3 pb-3 border-end">
+                        <h3 class="mb-1 text-primary">140</h3>
+                        <span>Uploads</span>
+                      </div>
+                      <div class="col-4 pt-3 pb-3">
+                        <h3 class="mb-1 text-primary">45</h3>
+                        <span>Tasks</span>
+                      </div>
+                    </div>
+                  </div>
+                  {% endcomment %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
