@@ -16,7 +16,7 @@
 }
 
 .projects, .publications {
-    width: 75%;
+    width: 100%;
     margin-top: 3rem;
     background-color: antiquewhite;
     background: #eee;
@@ -34,7 +34,7 @@
 .projects_heading, .publications_heading {
     width: 100%;
     border-radius: 20px 20px 0 0;
-    background-color: #000364;
+    background-color: #00273a;
     position: relative;
 }
 
@@ -43,7 +43,7 @@
     right: 1rem;
     top: 0.7rem;
     background-color: white;
-    color: #000364;
+    color: #00273a;
     font-weight: 500;
     font-size: 1rem;
     border: 0px;
@@ -91,7 +91,7 @@
 
 .swiper-slide .project-name {
     font-size: 20px;
-    color: #0006b9;
+    color: #00273a;
     font-weight: 600;
 }
 
@@ -117,7 +117,7 @@
     font-weight: 400;
 }
 .publication-type{
-    background-color: #0006b9;
+    background-color: #00273a;
     color: white;
     font-size: 16px;
     padding: 0.3rem 1rem;
@@ -128,7 +128,7 @@
     font-weight: 500;
 }
 .publication-link{
-    color: #0006b9;
+    color: #00273a;
     text-decoration: none;   
 }
 

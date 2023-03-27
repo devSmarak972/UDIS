@@ -64,9 +64,11 @@
         Preloader start
     ********************-->
 
+    {% comment %}
     <div id="preloader">
       <div class="loader"></div>
     </div>
+    {% endcomment %}
     <!--**********************************
         Main wrapper start
     ***********************************-->
@@ -767,9 +769,9 @@
               </a>
               <ul aria-expanded="false">
                 <li>
-                  <a href="./app-profile.html">Research & Publications</a>
+                  <a href="research">Research & Publications</a>
                 </li>
-                <li><a href="./edit-profile.html">Details</a></li>
+                <li><a href="">Details</a></li>
               </ul>
             </li>
             <li>
@@ -826,7 +828,10 @@
     <script src="{% static 'secretary/vendor/wow-master/dist/wow.min.js' %}"></script>
     <script src="{% static 'secretary/js/custom.min.js' %}"></script>
     <script src="{% static 'secretary/js/dlabnav-init.js' %}"></script>
+    {% comment %}
     <script src="{% static 'secretary/js/demo.js' %}"></script>
+    {% endcomment %} {% comment %}
     <script src="{% static 'secretary/js/styleSwitcher.js' %}"></script>
+    {% endcomment %}
   </body>
 </html>
