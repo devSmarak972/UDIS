@@ -7,8 +7,9 @@ class usermodel(models.Model):
 	created_At = models.DateTimeField(null=True)
 	primary_email=models.EmailField()
 	name=models.CharField(max_length=200)
-	class Meta:
-		abstract = True
+	department=models.TextField()
+	# class Meta:
+	# 	abstract = True
   
   
 class Course(models.Model):
@@ -47,7 +48,7 @@ class Experience(models.Model):
 	
 class Professor(usermodel):
 	# name=models.CharField(max_length=200)
-	department=models.CharField(max_length=200)
+	# department=models.CharField(max_length=200)
 	mobile=models.CharField(max_length=200)
 	courses=models.ManyToManyField(Course)
 	education=models.ManyToManyField(Experience,related_name="education")
@@ -82,6 +83,10 @@ class Transaction(models.Model):
 	
 	def __str__(self):
 		return self.id+"_"+self.amount
+class Secretary(usermodel):
+	mobile=models.CharField(max_length=200)
+	def __str__(self):
+		return self.name
 	
 	
 class Student(usermodel):
@@ -93,7 +98,7 @@ class Student(usermodel):
 	cgpa=models.CharField(max_length=200)
 	rollno=models.CharField(max_length=200)
 	gender=models.TextField()
-	department=models.CharField(max_length=200)
+	# department=models.CharField(max_length=200)
 	course=models.CharField(max_length=200)
 	hall=models.CharField(max_length=200)
 	aadhar=models.CharField(max_length=200)
@@ -103,7 +108,6 @@ class Student(usermodel):
 	nationality=models.CharField(max_length=200)
 	adm_nature=models.CharField(max_length=200)
 	inst_email=models.EmailField()
-	teams_pass=models.CharField(max_length=200)
 	teams_pass=models.CharField(max_length=200)
 	mobile=models.CharField(max_length=200)
 	guardian_email=models.EmailField()
@@ -127,5 +131,14 @@ class Student(usermodel):
 	def addcgpa(self,sg):
 		return json.dumps("{ 'cgpa': "+str(self.getcgpa()+[sg])+"}")
 	 
-		
+class Notification(models.Model):
+	title=models.TextField()
+	content=models.TextField()
+	date=models.DateField(auto_now=True)
+	sender=models.OneToOneField(usermodel,related_name="sender",on_delete=models.CASCADE)
+	receiver=models.ManyToManyField(usermodel,related_name="receiver")
+	def __str__(self):
+		return self.title
+	
+	
 
