@@ -725,10 +725,12 @@
               </a>
               <ul aria-expanded="false">
                 <li><a href="dashboard">Student Details</a></li>
-                <li><a href="course">Courses</a></li>
+                <li><a href="curriculum">Curriculum</a></li>
+                <li><a href="feepayment">Fee Payment</a></li>
               </ul>
             </li>
-            {% comment %} <li>
+            {% comment %}
+            <li>
               <a
                 class="has-arrow"
                 href="javascript:void(0);"
@@ -743,7 +745,8 @@
                 <li><a href="chat.html">Chat</a></li>
                 <li><a href="activity.html">Activity</a></li>
               </ul>
-            </li> {% endcomment %}
+            </li>
+            {% endcomment %}
             <li>
               <a
                 class="has-arrow"
@@ -754,8 +757,8 @@
                 <span class="nav-text">Inventory</span>
               </a>
               <ul aria-expanded="false">
-                <li><a href="content.html">Equipment</a></li>
-                <li><a href="menu.html">Accounts</a></li>
+                <li><a href="inventory">Inventory</a></li>
+                <li><a href="cashregister">Cashbook</a></li>
               </ul>
             </li>
             <li>
@@ -790,7 +793,8 @@
               </ul>
             </li>
 
-            {% comment %} <li>
+            {% comment %}
+            <li>
               <a
                 class="has-arrow"
                 href="javascript:void(0);"
@@ -803,7 +807,8 @@
                 <li><a href="./page-login.html">Login</a></li>
                 <li><a href="./page-register.html">Register</a></li>
               </ul>
-            </li> {% endcomment %}
+            </li>
+            {% endcomment %}
             <li>
               <a href="calendar">
                 {% comment %} <i class="fas fa-calendar"></i> {% endcomment %}
@@ -821,6 +826,7 @@
       {% block content %}{% endblock content %}
     </div>
 
+    <script src="{% static 'common/js/jquery-3.6.4.min.js' %}"></script>
     <script src="{% static 'secretary/vendor/global/global.min.js' %}"></script>
     <script src="{% static 'secretary/vendor/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
     <!-- Dashboard 1 -->
