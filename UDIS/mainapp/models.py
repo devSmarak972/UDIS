@@ -8,6 +8,11 @@ class usermodel(models.Model):
 	primary_email=models.EmailField()
 	name=models.CharField(max_length=200)
 	department=models.TextField()
+	def get_derived_type(self):
+		if self.derived_type ==  'Secretary':
+			return "secretary"
+		elif self.derived_type == 'Student':
+			return "student"
 	# class Meta:
 	# 	abstract = True
   
@@ -22,11 +27,12 @@ class Course(models.Model):
 	credits=models.IntegerField()
 	sem=models.IntegerField()
 	session=models.IntegerField()#starting year
+	prerequisites=models.ManyToManyField("self",related_name="prerequisites")
 	def __str__(self):
 		return self.name
  
 	
-class Publication(models.Model):
+class Publication(models.Model):           
 	name=models.TextField()
 	abstract=models.TextField()
 	url=models.CharField(max_length=200)
@@ -63,7 +69,7 @@ class Item(models.Model):
 	expenditure=models.CharField(max_length=200)
 	def __str__(self):
 		return self.name
-class order(models.Model):
+class Order(models.Model):
 	item=models.CharField(max_length=200)
 	qty=models.IntegerField()
 	price=models.FloatField()
@@ -83,6 +89,7 @@ class Transaction(models.Model):
 	
 	def __str__(self):
 		return self.id+"_"+self.amount
+
 class Secretary(usermodel):
 	mobile=models.CharField(max_length=200)
 	def __str__(self):
