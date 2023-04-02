@@ -7,7 +7,7 @@ urlpatterns=[
   path('dashboard',views.dashboard),
   path('research',views.research),
   path('calendar',views.calendar),
-  path('student-profile',views.profile),
+  path('student-profile/<str:rollno>',views.profile),
   path('curriculum',views.curriculum),
   path('cashregister',views.cashregister),
   path('feepayment',views.Fee),
