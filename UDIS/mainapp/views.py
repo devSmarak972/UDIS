@@ -57,6 +57,7 @@ def profile(request,rollno):
 		"user":"Student",
 		"backlogs":0,
 		"courses":courses,
+        "course":student.course,
 		"cgpa":student.getcgpa()[-1],
 		"name":student.name,
 		"rollno":student.rollno,
@@ -96,7 +97,6 @@ def curriculum(request):
 	context ={
 		"user":"Secretary",
 		"courses":courses,
-
 	}
 	# return response with template and context
 	return render(request, "curriculum.html", context)
