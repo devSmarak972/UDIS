@@ -1,4 +1,5 @@
-{% extends "base.html" %}{% load static %} {% block content %}
+{% extends "base.html" %}{% load static %} {% load apptags %}
+{% block content %}
 <!--*******************
         Preloader end
     ********************-->
@@ -139,114 +140,17 @@
                     </tr>
                   </thead>
                   <tbody>
-          
-                    <tr onclick="window.location='student-profile';">
-                      <td>21CS30061</td>
-                      <td>Smarak Kanjilal</td>
-                      <td>4th Semester</td>
-                      <td>Yes</td>
-                      <td>No</td>
+                  {% for student in students%}
+                    <tr onclick="window.location='student-profile/{{student.rollno}}';">
+                      <td>{{student.rollno}}</td>
+                      <td>{{student.name}}</td>
+                      <td>{{student.sem}}th Semester</td>
+                         <td>{{ fees|at_index:forloop.counter0 }}</td>
+                      {% comment %} <td>{% if student.fees[ {{forloop.counter1}} ] %} Yes {% else %}No {% endif %}</td> {% endcomment %}
+                      <td>{{student.regdone}}</td>
                     </tr>
-                    <tr>
-                      <td>21CS30061</td>
-                      <td>Smarak Kanjilal</td>
-                      <td>4th Semester</td>
-                      <td>Yes</td>
-                      <td>Yes</td>
-                    </tr>
-                    <tr>
-                      <td>21CS30061</td>
-                      <td>Smarak Kanjilal</td>
-                      <td>4th Semester</td>
-                      <td>Yes</td>
-                      <td>Yes</td>
-                    </tr>
-                    <tr>
-                      <td>21CS30061</td>
-                      <td>Smarak Kanjilal</td>
-                      <td>4th Semester</td>
-                      <td>Yes</td>
-                      <td>Yes</td>
-                    </tr>
-                    <tr>
-                      <td>21CS30061</td>
-                      <td>Smarak Kanjilal</td>
-                      <td>4th Semester</td>
-                      <td>Yes</td>
-                      <td>Yes</td>
-                    </tr>
-                    <tr>
-                      <td>21CS30061</td>
-                      <td>Smarak Kanjilal</td>
-                      <td>4th Semester</td>
-                      <td>Yes</td>
-                      <td>Yes</td>
-                    </tr>
-                    <tr>
-                      <td>21CS30061</td>
-                      <td>Smarak Kanjilal</td>
-                      <td>4th Semester</td>
-                      <td>Yes</td>
-                      <td>Yes</td>
-                    </tr>
-                    <tr>
-                      <td>21CS30061</td>
-                      <td>Smarak Kanjilal</td>
-                      <td>4th Semester</td>
-                      <td>Yes</td>
-                      <td>Yes</td>
-                    </tr>
-                    <tr>
-                      <td>21CS30061</td>
-                      <td>Smarak Kanjilal</td>
-                      <td>4th Semester</td>
-                      <td>Yes</td>
-                      <td>Yes</td>
-                    </tr>
-                    <tr>
-                      <td>21CS30061</td>
-                      <td>Smarak Kanjilal</td>
-                      <td>4th Semester</td>
-                      <td>Yes</td>
-                      <td>Yes</td>
-                    </tr>
-                    <tr>
-                      <td>21CS30061</td>
-                      <td>Smarak Kanjilal</td>
-                      <td>4th Semester</td>
-                      <td>Yes</td>
-                      <td>Yes</td>
-                    </tr>
-                    <tr>
-                      <td>21CS30061</td>
-                      <td>Smarak Kanjilal</td>
-                      <td>4th Semester</td>
-                      <td>Yes</td>
-                      <td>Yes</td>
-                    </tr>
-                    <tr>
-                      <td>21CS30061</td>
-                      <td>Smarak Kanjilal</td>
-                      <td>4th Semester</td>
-                      <td>Yes</td>
-                      <td>Yes</td>
-                    </tr>
-                    <tr>
-                      <td>21CS30061</td>
-                      <td>Smarak Kanjilal</td>
-                      <td>4th Semester</td>
-                      <td>Yes</td>
-                      <td>Yes</td>
-                      <!-- <td>
-													
-														<a href="javascript:void(0);" class="btn btn-warning btn-sm content-icon">
-															<i class="fa fa-edit"></i>
-														</a>
-														<a href="javascript:void(0);" class="btn btn-danger btn-sm content-icon">
-															 <i class="fa fa-times"></i>
-														</a>
-													</td> -->
-                    </tr>
+                    {% endfor %}
+      
                   </tbody>
                 </table>
                 <div

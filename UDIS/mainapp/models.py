@@ -4,10 +4,15 @@ from django.utils import timezone
 import json
 
 class usermodel(models.Model):
-	created_At = models.DateTimeField(null=True)
+	created_At = models.DateTimeField(null=True ,blank=True,auto_now=True)
 	primary_email=models.EmailField()
 	name=models.CharField(max_length=200)
 	department=models.TextField()
+	def get_derived_type(self):
+		if self.derived_type ==  'Secretary':
+			return "secretary"
+		elif self.derived_type == 'Student':
+			return "student"
 	# class Meta:
 	# 	abstract = True
   
@@ -22,11 +27,12 @@ class Course(models.Model):
 	credits=models.IntegerField()
 	sem=models.IntegerField()
 	session=models.IntegerField()#starting year
+	prerequisites=models.ManyToManyField("self",related_name="prerequisites",blank=True,null=True)
 	def __str__(self):
 		return self.name
  
 	
-class Publication(models.Model):
+class Publication(models.Model):           
 	name=models.TextField()
 	abstract=models.TextField()
 	url=models.CharField(max_length=200)
@@ -50,7 +56,7 @@ class Professor(usermodel):
 	# name=models.CharField(max_length=200)
 	# department=models.CharField(max_length=200)
 	mobile=models.CharField(max_length=200)
-	courses=models.ManyToManyField(Course)
+	courses=models.ManyToManyField(Course,blank=True,null=True)
 	education=models.ManyToManyField(Experience,related_name="education")
 	workex=models.ManyToManyField(Experience,related_name="workexperience")
 	publications=models.ManyToManyField(Publication)
@@ -63,7 +69,7 @@ class Item(models.Model):
 	expenditure=models.CharField(max_length=200)
 	def __str__(self):
 		return self.name
-class order(models.Model):
+class Order(models.Model):
 	item=models.CharField(max_length=200)
 	qty=models.IntegerField()
 	price=models.FloatField()
@@ -83,6 +89,7 @@ class Transaction(models.Model):
 	
 	def __str__(self):
 		return self.id+"_"+self.amount
+
 class Secretary(usermodel):
 	mobile=models.CharField(max_length=200)
 	def __str__(self):
@@ -92,44 +99,64 @@ class Secretary(usermodel):
 class Student(usermodel):
 	state = models.CharField(max_length=100)
 	country = models.CharField(max_length=100)
-	pin_code = models.IntegerField()
-	backlogs=models.IntegerField()
-	courses=models.ManyToManyField(Course)
-	cgpa=models.CharField(max_length=200)
-	rollno=models.CharField(max_length=200)
-	gender=models.TextField()
+	pin_code = models.IntegerField(null=True ,blank=True)
+	backlogs=models.IntegerField(default=0)
+	courses=models.ManyToManyField(Course,blank=True,null=True)
+	cgpa=models.CharField(max_length=200,default="""{"cgpa":["-"]}""")
+	rollno=models.CharField(max_length=200,null=True ,blank=True)
+	gender=models.TextField(default="N/A")
 	# department=models.CharField(max_length=200)
-	course=models.CharField(max_length=200)
-	hall=models.CharField(max_length=200)
-	aadhar=models.CharField(max_length=200)
-	status=models.CharField(max_length=200)
-	EAA=models.CharField(max_length=200)
-	adm_year=models.DateField()
-	nationality=models.CharField(max_length=200)
-	adm_nature=models.CharField(max_length=200)
-	inst_email=models.EmailField()
-	teams_pass=models.CharField(max_length=200)
-	mobile=models.CharField(max_length=200)
-	guardian_email=models.EmailField()
-	address=models.TextField()
-	location=models.CharField(max_length=200)
-	pin=models.CharField(max_length=200)
-	state=models.CharField(max_length=200)
-	cleared_sem_crd=models.FloatField()
-	sem_crd=models.FloatField()
-	cleared_tot_crd=models.FloatField()
-	tot_crd=models.FloatField
-	sgpa=models.CharField(max_length=200)
+	course=models.CharField(max_length=200,blank=True,default="B.Tech 4Y")
+	hall=models.CharField(max_length=200,default="N/A")
+	aadhar=models.CharField(max_length=200,null=True ,blank=True)
+	status=models.CharField(max_length=200,default="On-Roll")
+	EAA=models.CharField(max_length=200,null=True ,blank=True)
+	adm_year=models.DateField(auto_now=True)
+	nationality=models.CharField(max_length=200,default="Indian")
+	adm_nature=models.CharField(max_length=200,default="JEE")
+	inst_email=models.EmailField(null=True ,blank=True)
+	teams_pass=models.CharField(max_length=200,null=True ,blank=True)
+	mobile=models.CharField(max_length=200,default="N/A")
+	guardian_email=models.EmailField(null=True ,blank=True)
+	address=models.TextField(null=True ,blank=True)
+	location=models.CharField(max_length=200,null=True ,blank=True)
+	cleared_sem_crd=models.FloatField(default=0)
+	sem_crd=models.FloatField(default=0)
+	cleared_tot_crd=models.FloatField(default=0)
+	tot_crd=models.FloatField(default=0)
+	sgpa=models.CharField(max_length=200,default="""{"sgpa":["-"]}""")
+	sem=models.IntegerField(default=1)
+	feespaid=models.FloatField(default=0)
+	regdone=models.CharField(max_length=10,default="Yes")
 	def __str__(self):
 		return self.name
 	def getsgpa(self):
-		return json.load(self.sgpa)["sgpa"]
+		print(self.sgpa)
+		return json.loads(self.sgpa)["sgpa"]
+		# return [9]
 	def addsgpa(self,sg):
-		return json.dumps("{ 'sgpa': "+str(self.getsgpa()+[sg])+"}")
+       
+		return json.dumps("{ \"sgpa\": "+str(self.getsgpa()+[sg])+"}")
 	def getcgpa(self):
-		return json.load(self.sgpa)["cgpa"]
+		print(self.cgpa)
+		# return [9]
+		return json.loads(self.cgpa)["cgpa"]
 	def addcgpa(self,sg):
-		return json.dumps("{ 'cgpa': "+str(self.getcgpa()+[sg])+"}")
+		return json.dumps("{ \"cgpa\": "+str(self.getcgpa()+[sg])+"}")
+	class Meta:
+	  unique_together = ('rollno', 'adm_year',)
+class Fees(models.Model):
+	name=models.CharField(max_length=255)
+	type=models.CharField(max_length=200)#semster,institue,hmc
+	amount=models.FloatField()
+	sem=models.IntegerField()
+	
+	def __str__(self):
+		 return self.name+'_'+self.amount
+
+def totalFees(objs):
+	return objs.aggregate(models.Sum('amount'))
+
 	 
 class Notification(models.Model):
 	title=models.TextField()
