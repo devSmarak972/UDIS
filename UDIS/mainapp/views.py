@@ -12,9 +12,9 @@ def dashboard(request):
 	feedone=[]
 	students=[]
 	students=Student.objects.all()
-	
+	print(totalFees(Fees.objects.filter(sem=4)))
 	for student in students:
-		if student.feespaid==totalFees(Fees.objects.filter(sem=student.sem)):
+		if student.feespaid==totalFees(Fees.objects.filter(sem=student.sem))['amount__sum']:
 			feedone.append("Yes")
 		else:
 			feedone.append('No')
@@ -57,7 +57,7 @@ def profile(request,rollno):
 		"user":"Student",
 		"backlogs":0,
 		"courses":courses,
-        "course":student.course,
+		"course":student.course,
 		"cgpa":student.getcgpa()[-1],
 		"name":student.name,
 		"rollno":student.rollno,
@@ -126,6 +126,10 @@ def Fee(request):
 	totinstfee=100000
 	totHMCfee=100000
 	pending=20000
+	hmcfee=Fees.objects.all().filter(type="hmcfee")
+	instfee=Fees.objects.filter(type="instfee")
+	semfee=Fees.objects.all().filter(type="semfee")
+	print(hmcfee,instfee,semfee)
 	context ={
 		"user":"student",
 		"semfeepaid":semfeepaid,
@@ -135,7 +139,10 @@ def Fee(request):
 		"totsemfee":totsemfee,
 		"totinstfee":totinstfee,
 		"totHMCfee":totHMCfee,
-  "pending":pending,
+		"hmcfee":hmcfee,
+		"instfee":instfee,
+		"semfee":semfee,
+		"pending":pending,
 
 	}
 	# return response with template and context

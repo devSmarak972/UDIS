@@ -88,7 +88,7 @@ class Transaction(models.Model):
 	amount=models.CharField(max_length=200)
 	date=models.DateField()
 	def __str__(self):
-		return self.id+"_"+self.amount
+		return str(self.id)+"_"+str(self.amount)
 
 
 class Secretary(usermodel):
@@ -160,7 +160,7 @@ class FeeTransaction(models.Model):
 	year=models.IntegerField()
 	
 	def __str__(self):
-		return self.id+"_"+self.amount
+		return str(self.id)+"_"+str(self.amount)
 
 class Fees(models.Model):
 	name=models.CharField(max_length=255)
@@ -169,7 +169,7 @@ class Fees(models.Model):
 	sem=models.IntegerField()
 	
 	def __str__(self):
-		 return self.name+'_'+self.amount
+		 return self.name+'_'+str(self.amount)
 
 def totalFees(objs):
 	return objs.aggregate(models.Sum('amount'))
