@@ -86,9 +86,10 @@ class Transaction(models.Model):
 	id=models.BigAutoField(primary_key=True)
 	person=models.ForeignKey(Person, on_delete=models.CASCADE)
 	amount=models.CharField(max_length=200)
-	
+	date=models.DateField()
 	def __str__(self):
 		return self.id+"_"+self.amount
+
 
 class Secretary(usermodel):
 	mobile=models.CharField(max_length=200)
@@ -127,7 +128,10 @@ class Student(usermodel):
 	sgpa=models.CharField(max_length=200,default="""{"sgpa":["-"]}""")
 	sem=models.IntegerField(default=1)
 	feespaid=models.FloatField(default=0)
+	totalpaid=models.FloatField(default=0)
 	regdone=models.CharField(max_length=10,default="Yes")
+	def updatePaid(self,amt):
+		self.totalpaid+=amt
 	def __str__(self):
 		return self.name
 	def getsgpa(self):
@@ -135,7 +139,7 @@ class Student(usermodel):
 		return json.loads(self.sgpa)["sgpa"]
 		# return [9]
 	def addsgpa(self,sg):
-       
+	   
 		return json.dumps("{ \"sgpa\": "+str(self.getsgpa()+[sg])+"}")
 	def getcgpa(self):
 		print(self.cgpa)
@@ -145,6 +149,19 @@ class Student(usermodel):
 		return json.dumps("{ \"cgpa\": "+str(self.getcgpa()+[sg])+"}")
 	class Meta:
 	  unique_together = ('rollno', 'adm_year',)
+   
+class FeeTransaction(models.Model):
+	id=models.BigAutoField(primary_key=True)
+	student=models.OneToOneField(Student, on_delete=models.CASCADE)
+	amount=models.CharField(max_length=200)
+	datetime=models.DateTimeField()
+	status=models.CharField(max_length=200,default="Pending")
+	sem=models.IntegerField()
+	year=models.IntegerField()
+	
+	def __str__(self):
+		return self.id+"_"+self.amount
+
 class Fees(models.Model):
 	name=models.CharField(max_length=255)
 	type=models.CharField(max_length=200)#semster,institue,hmc

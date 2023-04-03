@@ -28,7 +28,7 @@
               </span>
               <div class="media-body">
                 <p class="mb-1">Pending Fee</p>
-                <h4 class="mb-0">34000</h4>
+                <h4 class="mb-0">{{pendingFees}}</h4>
               </div>
             </div>
           </div>
@@ -59,7 +59,7 @@
               </span>
               <div class="media-body">
                 <p class="mb-1">Total paid</p>
-                <h4 class="mb-0">364.50K</h4>
+                <h4 class="mb-0">{{totalpaid}}</h4>
               </div>
             </div>
           </div>
@@ -92,7 +92,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <h3>Pending Fees: ₹ {{pending}}</h3>
+            <h3>Pending Fees: ₹ {{pendingFees}}</h3>
             <div class="payment-form">
               <form>
                 <div class="mb-3">
@@ -125,35 +125,12 @@
             <h4 style="color: white">Institute Fees</h4>
           </div>
           <ul class="list-group list-group-flush">
+            {% for fee in instfees %}
             <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Alumni Subscription :</span
-              ><strong>₹2000</strong>
+              <span class="mb-0">{{fee.name}} :</span
+              ><strong>₹{{fee.amount}}</strong>
             </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Students Brotherhood Fund :</span
-              ><strong>₹200.0 </strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Medical Examination :</span
-              ><strong>₹200.0</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Student Welfare Fund :</span
-              ><strong>₹200.0</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Tuition Fee :</span><strong>₹100000.0</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Medical Registration :</span
-              ><strong>₹200.0</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Registration :</span><strong>₹400.0</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Gymkhana :</span><strong>₹600.0</strong>
-            </li>
+             {% endfor %}
           </ul>
         </div>
       </div>
@@ -166,35 +143,12 @@
             <h4 style="color: white">Semester Fees</h4>
           </div>
           <ul class="list-group list-group-flush">
+            {% for fee in semfees%}
             <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Alumni Subscription :</span
-              ><strong>₹2000</strong>
+              <span class="mb-0">{{fee.name}} :</span
+              ><strong>₹{{fee.amount}}</strong>
             </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Students Brotherhood Fund :</span
-              ><strong>₹200.0 </strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Medical Examination :</span
-              ><strong>₹200.0</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Student Welfare Fund :</span
-              ><strong>₹200.0</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Tuition Fee :</span><strong>₹100000.0</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Medical Registration :</span
-              ><strong>₹200.0</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Registration :</span><strong>₹400.0</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Gymkhana :</span><strong>₹600.0</strong>
-            </li>
+           {% endfor %}
           </ul>
         </div>
       </div>
@@ -207,35 +161,13 @@
             <h4 style="color: white">HMC Fees</h4>
           </div>
           <ul class="list-group list-group-flush">
+            {% for fee in hmcfees %}
             <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Alumni Subscription :</span
-              ><strong>₹2000</strong>
+              <span class="mb-0">{{fee.name}} :</span
+              ><strong>₹{{fee.amount}}</strong>
             </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Students Brotherhood Fund :</span
-              ><strong>₹200.0 </strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Medical Examination :</span
-              ><strong>₹200.0</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Student Welfare Fund :</span
-              ><strong>₹200.0</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Tuition Fee :</span><strong>₹100000.0</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Medical Registration :</span
-              ><strong>₹200.0</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Registration :</span><strong>₹400.0</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="mb-0">Gymkhana :</span><strong>₹600.0</strong>
-            </li>
+            {% endfor %}
+
           </ul>
         </div>
       </div>
@@ -261,15 +193,17 @@
                   </tr>
                 </thead>
                 <tbody>
+                  {% for trans in feetrans %}
                   <tr>
-                    <td><strong>01</strong></td>
-                    <td>07-02-2023 12:02 PM</td>
+                    
+                    <td><strong>{{trans.id}}</strong></td>
+                    <td>{{trans.datetime}}</td>
                     <td>
-                      <span class="badge light badge-success">Success</span>
+                      <span class="badge light {% if trans.status == "Success" %}badge-success {% elif trans.status == "Failed" %}badge-danger{% else %}badge-warning{% endif %}">{{trans.status}}</span>
                     </td>
-                    <td>Spring</td>
-                    <td>2022-2023</td>
-                    <td>₹ 140000</td>
+                    <td>{% if trans.sem|divisibleby:2 %}Spring{% else %}Autumn{% endif %}</td>
+                    <td>{{trans.year}}-{{trans.year+1}}</td>
+                    <td>₹ {{trans.amount}}</td>
                     <td>
                       <div class="print" style="margin-right: 10px">
                         <svg
@@ -295,6 +229,7 @@
                       </div>
                     </td>
                   </tr>
+                  {% endfor %}
                   <tr>
                     <td><strong>01</strong></td>
                     <td>07-02-2023 12:05 PM</td>
