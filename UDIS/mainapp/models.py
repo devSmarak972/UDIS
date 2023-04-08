@@ -1,22 +1,51 @@
+from .managers import CustomUserManager
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 import json
 
 
-class usermodel(models.Model):
+# class usermodel(AbstractUser):
+#     created_At = models.DateTimeField(null=True, blank=True, auto_now=True)
+#     primary_email = models.EmailField()
+#     name = models.CharField(max_length=200)
+#     department = models.TextField(default="Computer Science and Engineering")
+
+#     def get_derived_type(self):
+#         if self.derived_type == 'Secretary':
+#             return "secretary"
+#         elif self.derived_type == 'Student':
+#             return "student"
+
+# class Meta:
+# 	abstract = True
+
+
+class usermodel(AbstractUser):
+    username = None
+    email = models.EmailField(_("email address"), unique=True)
+
     created_At = models.DateTimeField(null=True, blank=True, auto_now=True)
-    primary_email = models.EmailField()
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=False)
     department = models.TextField(default="Computer Science and Engineering")
+    firstname = models.CharField(max_length=200, blank=True, null=True)
+    lastname = models.CharField(max_length=200, blank=True, null=True)
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+    derived_type = models.CharField(
+        max_length=200, default="Student", blank=True, null=True)
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.email
 
     def get_derived_type(self):
         if self.derived_type == 'Secretary':
             return "secretary"
         elif self.derived_type == 'Student':
             return "student"
-    # class Meta:
-    # 	abstract = True
 
 
 class Course(models.Model):
@@ -34,7 +63,8 @@ class Course(models.Model):
     session = models.IntegerField()  # starting year
     capacity = models.IntegerField(default=100, blank=True)  # starting year
     enrolled = models.IntegerField(default=0, blank=True)  # starting year
-    available = models.CharField(max_length=255,default="Available", blank=True)  # starting year
+    available = models.CharField(
+        max_length=255, default="Available", blank=True)  # starting year
     prerequisites = models.ManyToManyField(
         "self", related_name="prerequisites", blank=True, null=True)
     slot = models.CharField(max_length=255, default='', blank=True, null=True)
@@ -44,19 +74,19 @@ class Course(models.Model):
         return self.name
 
     def register(self):
+        print("registering")
         if self.enrolled == self.capacity:
             print("Course full")
             return False
         else:
             self.enrolled += 1
-        if self.enrolled>=0.8*self.capacity:
-            available="Filling Fast"
-        elif self.enrolled==self.capacity:
-            available="Filled"
-        else:
-            available="Available"
-        
-        
+            if self.enrolled >= 0.8*self.capacity:
+                self.available = "Filling Fast"
+            elif self.enrolled == self.capacity:
+                self.available = "Filled"
+            else:
+                self.available = "Available"
+            return True
 
     def getSlots(self):
         print(self.slot)
@@ -68,11 +98,11 @@ class Course(models.Model):
 
 class Publication(models.Model):
     name = models.TextField()
-    abstract = models.TextField()
-    url = models.CharField(max_length=200)
-    type = models.CharField(max_length=200)
-    place = models.TextField()
-    date = models.DateField()
+    abstract = models.TextField(blank=True,null=True)
+    url = models.CharField(max_length=200,blank=True,null=True)
+    type = models.CharField(max_length=200,default="Journal")
+    place = models.TextField(blank=True,null=True)
+    date = models.DateField(blank=True,null=True)
 
     def __str__(self):
         return self.name
@@ -91,11 +121,25 @@ class Experience(models.Model):
 class Professor(usermodel):
     # name=models.CharField(max_length=200)
     # department=models.CharField(max_length=200)
-    mobile = models.CharField(max_length=200,blank=True,null=True)
+    mobile = models.CharField(max_length=200, blank=True, null=True)
     courses = models.ManyToManyField(Course, blank=True, null=True)
-    education = models.ManyToManyField(Experience, related_name="education",blank=True,null=True)
-    workex = models.ManyToManyField(Experience, related_name="workexperience",blank=True,null=True)
-    publications = models.ManyToManyField(Publication,blank=True,null=True)
+    education = models.ManyToManyField(
+        Experience, related_name="education", blank=True, null=True)
+    workex = models.ManyToManyField(
+        Experience, related_name="workexperience", blank=True, null=True)
+    publications = models.ManyToManyField(Publication, blank=True, null=True)
+    # projects = models.ManyToManyField(Project, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Project(models.Model):
+    name = models.TextField()
+    desc = models.TextField()
+    url = models.CharField(max_length=200)
+    topic = models.CharField(max_length=200)
+    prof = models.ForeignKey(Professor, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -156,7 +200,7 @@ class Student(usermodel):
         Course, blank=True, null=True, related_name="appcourses")
     rejcourses = models.ManyToManyField(
         Course, blank=True, null=True, related_name="rejcourses")
-    cgpa = models.CharField(max_length=200, default="""{"cgpa":["-"]}""")
+    cgpa = models.CharField(max_length=200, default="9.9")
     rollno = models.CharField(max_length=200, null=True, blank=True)
     gender = models.TextField(default="N/A")
     # department=models.CharField(max_length=200)
@@ -192,20 +236,20 @@ class Student(usermodel):
 
     def getsgpa(self):
         print(self.sgpa)
-        return json.loads(self.sgpa)["sgpa"]
+        return self.cgpa.split(",")[-1]
         # return [9]
 
     def addsgpa(self, sg):
 
-        return json.dumps("{ \"sgpa\": "+str(self.getsgpa()+[sg])+"}")
+        return self.sgpa+","+str(sg)
 
     def getcgpa(self):
         print(self.cgpa)
         # return [9]
-        return json.loads(self.cgpa)["cgpa"]
+        return self.cgpa.split(",")[-1]
 
-    def addcgpa(self, sg):
-        return json.dumps("{ \"cgpa\": "+str(self.getcgpa()+[sg])+"}")
+    def addcgpa(self, cg):
+        return self.cgpa+","+str(cg)
 
     def enrollCourse(self, course):
         if course.register():
@@ -230,13 +274,17 @@ class FeeTransaction(models.Model):
     def __str__(self):
         return str(self.id)+"_"+str(self.amount)
 
+
 class subjectApplication(models.Model):
-    course=models.OneToOneField(Course,on_delete=models.CASCADE)
-    message=models.TextField(default="",blank=True,null=True)
-    student=models.OneToOneField(Student,blank=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    message = models.TextField(default="", blank=True, null=True)
+    student = models.ForeignKey(
+        Student, blank=True, on_delete=models.CASCADE)
+
     def __str__(self):
-        return self.message+'_'+self.id
-    
+        return self.message+'_'+str(self.id)
+
+
 class Fees(models.Model):
     name = models.CharField(max_length=255)
     type = models.CharField(max_length=200)  # semster,institue,hmc

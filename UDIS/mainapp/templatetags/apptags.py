@@ -14,6 +14,14 @@ def arr_contains(array, item):
         return True
     else:
         return False
+@register.filter
+def to_str(project):
+    str=""
+    array=project.professor_set.all()
+    for item in array:
+        str+=item.name+","
+    return str[:-2]
+
 
 
 @register.filter

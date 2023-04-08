@@ -13,7 +13,14 @@ urlpatterns=[
   path('feepayment',views.Fee),
   path('subreg',views.Subregistration),
   path('applysub/<str:subno>',views.applySubject),
-  # path('signup',views.register),
+  path('signup/<str:utype>',views.signUp),
+  path('addpub',views.addPublication),
+  # path('signin',views.signIn),
+  path('signin',views.signIn),
+  path('logout',views.logout_view),
+  path('registerstudent/<str:rollno>/<str:subno>',views.registerStudent),
+  path('rejectstudent/<str:rollno>/<str:subno>',views.rejectStudent),
+  
    ##### user related path##########################
   # path('login/', views.Login, name ='login'),
   # path('logout/', auth.LogoutView.as_view(template_name ='user/index.html'), name ='logout'),

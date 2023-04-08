@@ -394,7 +394,7 @@
                 <li class="nav-item">
                   <a class="nav-link" href="javascript:void(0);">
                     <p style="color: white; font-size: 1.1rem; margin: auto">
-                      Department of Computer Science and Engineering
+                      Department of {{user.user.department}}
                     </p>
                   </a>
                 </li>
@@ -547,8 +547,8 @@
                       <div class="header-info2 d-flex align-items-center">
                         <div class="d-flex align-items-center sidebar-info">
                           <div>
-                            <h4 class="mb-0">Anish Datta</h4>
-                            <span class="d-block text-end">Secretary</span>
+                            <h4 class="mb-0">{{user.user.name}}</h4>
+                            <span class="d-block text-end">{{user.utype}}</span>
                           </div>
                         </div>
                         <img
@@ -681,7 +681,7 @@
                         </svg>
                         <span class="ms-2">Settings </span>
                       </a>
-                      <a href="page-login.html" class="dropdown-item ai-icon">
+                      <a href="/logout" class="dropdown-item ai-icon">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="18"
@@ -732,6 +732,7 @@
                 <li><a href="/dashboard">Student Details</a></li>
                 <li><a href="/curriculum">Curriculum</a></li>
                 <li><a href="/feepayment">Fee Payment</a></li>
+                <li><a href="/subreg">Subject Registration</a></li>
               </ul>
             </li>
             {% comment %}

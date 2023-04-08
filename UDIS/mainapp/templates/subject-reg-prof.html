@@ -26,53 +26,6 @@
             </div>
           </div>
           <div class="cm-content-body form excerpt">
-            <div class="card-body">
-              <div class="row">
-
-                <div class="col-xl-3 col-sm-12">
-                  <select class="selectpicker w-100" data-live-search="true" placeholder="Select Department">
-                    {% for department in departments %}
-                    <option data-tokens="{{department}}">{{department}}</option>
-                    {% endfor %}
-                  </select>
-
-                </div>
-
-                    <div class="col-xl-3 col-sm-12">
-                  <select class="selectpicker w-100" data-live-search="true" placeholder="Select Slot">
-                    
-                    {% for slot in slots %}
-                    <option data-tokens="{{slot}}">{{slot}}</option>
-                    {% endfor %}
-                  </select>
-										</div>
-                    <div class="col-xl-3 col-sm-12">
-                  <select class="selectpicker w-100" data-live-search="true" placeholder="Select Availability">
-                    <option data-tokens="All">All</option>
-                    <option data-tokens="All">Available</option>
-                    <option data-tokens="All">Filling Fast</option>
-                    <option data-tokens="All">Filled</option>
-                  </select>
-										</div>
-                <div class="col-xl-3">
-                  <button
-                    class="btn btn-info"
-                    title="Click here to Search"
-                    type="button"
-                  >
-                    <i class="fa fa-search me-1"></i>Filter
-                  </button>
-                  <button
-                    class="btn btn-light"
-                    title="Click here to remove filter"
-                    type="button"
-                  >
-                    Remove Filter
-                  </button>
-                </div>
-              </div>
-
-            </div>
 
             <div class="card-body">
               <div class="table-responsive">
@@ -88,13 +41,12 @@
                       <th><strong>LTP</strong></th>
                       <th><strong>Credit</strong></th>
                       <th><strong>Faculty</strong></th>
-                      <th><strong>Prerequisites</strong></th>
-                      <th><strong>Status</strong></th>
+                      <th><strong>enrolled</strong></th>
                       <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for course in courses %}
+                    {% for course in profcourses %}
                     <tr>
                       <td><strong>{{course.subno}}</strong></td>
                       <td href="{{course.url}}">{{course.name}}</td>
@@ -103,42 +55,11 @@
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
                       <td>{{course|getProfs}}</td>
-                      <td><span class="badge light {% if regcourses|arr_contains:course %} badge-success {% elif appcourses|arr_contains:course %} badge-warning {% elif rejcourses|arr_contains:course %} badge-danger {% endif %}">
-                       {% if regcourses|arr_contains:course %} Accepted {% elif appcourses|arr_contains:course %} Pending {% elif rejcourses|arr_contains:course %} Rejected {% else %} - {% endif %}
+                      <td>{{course.enrolled}}/{{course.capacity}}</td>
 
 
                       </span></td>
-                      <td>
-                        <div>
-														<button type="button" class="btn btn-success light sharp" data-bs-toggle="modal" data-bs-target="#mailModal{{course.subno}}" aria-expanded="false">
-                              <i class="fas fa-envelope"></i>
-														</button>
-                             <div class="modal fade" id="mailModal{{course.subno}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Apply for {{course.name}}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                  </div>
-                                  <div class="modal-body">
-                                    <form method="POST" action="applysub/{{course.subno}}" id="applymsg{{course.subno}}" >
-                                          {% csrf_token %}
 
-                                      <div class="form-group">
-                                        <label for="message">Letter of Interest</label>
-                                        <textarea form="applymsg{{course.subno}}" type="text" class="form-control" id="message" name="message" rows="6"></textarea>
-                                      </div>
-                                    </form>
-                                  </div>
-                                  <div class="modal-footer" >
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" value="Submit" class="btn btn-primary" name="submit" form="applymsg{{course.subno}}" onsubmit="return false">Apply</button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-													</div>
-                      </td>
                     </tr>
                    {% endfor %}
                   </tbody>
@@ -173,7 +94,7 @@
         <div class="filter cm-content-box box-primary">
           <div class="content-title">
             <div class="cpa">
-              <i class="fa-solid fa-file-lines me-1"></i>Registration
+              <i class="fa-solid fa-file-lines me-1"></i>Registration Requests
             </div>
             <div class="tools">
               <a href="javascript:void(0);" class="expand SlideToolHeader"
@@ -189,28 +110,52 @@
                 >
                   <thead>
                     <tr>
-                      <th><strong>Slot</strong></th>
+                      <th><strong>Subno</strong></th>
                       <th><strong>Name</strong></th>
-                      <th><strong>Room no.</strong></th>
+                      <th><strong>Enrolled</strong></th>
                       <th><strong>LTP</strong></th>
                       <th><strong>Credit</strong></th>
-                      <th><strong>Faculty</strong></th>
+                      <th></th>
                       <!-- <th>Actions</th> -->
                     </tr>
                     
                   </thead>
 
                   <tbody>
-                  {% for course in regcourses%}
-                    <tr>
-                      <td>{{course.slot}}</td>
-                      <td>{{course.name}}</td>
-                      <td>{{course.room}}</td>
-                         <td>{{ course.LTP }}</td>
+                  {% for application in applications%}
+                    <tr data-bs-toggle="modal" data-bs-target="#msgModal">
+                      <td>{{application.course.subno}}</td>
+                      <td>{{application.course.name}}</td>
+                      <td>{{application.student.name}}</td>
+                         <td>{{ application.student.cgpa }}</td>
                       {% comment %} <td>{% if student.fees[ {{forloop.counter1}} ] %} Yes {% else %}No {% endif %}</td> {% endcomment %}
-                      <td>{{course.credits}}</td>
-                      <td>{{course|getProfs}}</td>
+                      <td>{{application.student.rollno}}</td>
+                      <td>
+                        <span class="d-flex justify-content-center">
+                            <a href="/registerstudent/{{application.student.rollno}}/{{application.course.subno}}" class="me-2 btn btn-primary shadow btn-xs sharp" data-bs-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-check"></i> </a>
+                            <a href="/rejectstudent/{{application.student.rollno}}/{{application.course.subno}}" class="btn btn-danger shadow btn-xs sharp" data-bs-toggle="tooltip" data-placement="top" title="btn-close"><i class="fas fa-times text-white"></i></a>
+                        </span>
+                      </td>
                     </tr>
+                    <div class="modal fade" id="msgModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Letter of Interest</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h1>{{application.student.name}}</h1>
+                                <h5>{{application.student.rollno}}</h5>
+                                <p>{{application.message}}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" onclick="location.href='/rejectstudent/{{application.student.rollno}}/{{application.course.subno}}';" class="btn btn-secondary" data-bs-dismiss="modal">Reject</button>
+                                <button type="button" onclick="location.href='/registerstudent/{{application.student.rollno}}/{{application.course.subno}}';" class="btn btn-primary" data-bs-dismiss="modal">Accept</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
                     {% endfor %}
       
                   </tbody>

@@ -1,3 +1,7 @@
+from django.shortcuts import redirect
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model, authenticate, login
 from django.shortcuts import render, redirect
 from .models import *
 import datetime
@@ -5,9 +9,12 @@ import datetime
 # import Http Response from django
 from django.shortcuts import render
 
+from .forms import *
+
 # create a function
 
 
+@login_required(login_url="/signin")
 def dashboard(request):
     # create a dictionary to pass
     # data to the template
@@ -20,72 +27,167 @@ def dashboard(request):
             feedone.append("Yes")
         else:
             feedone.append('No')
+    # print(request.user.__subclasses__)
+    user = request.user
+    print(user.name, user.derived_type)
     context = {
         "students": students,
         "fees": feedone,
+        "user": {"user": request.user, "utype": request.user.derived_type}
+
     }
+
     # return response with template and context
     return render(request, "dashboard.html", context)
 
 
+# @login_required(login_url="/signin")
 def research(request):
     # create a dictionary to pass
     # data to the template
+    
+    profs = Project.objects.all()
+    publ = Publication.objects.all()
+    projects = Project.objects.all()
+    
     context = {
-        "data": "some data",
-        "list": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        "profs": profs,
+        "publications": publ,
+        "projects":projects,
+
+        # "list": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     }
+    if request.user.is_authenticated:
+        context["user"]= {"user": request.user, "utype": request.user.derived_type}
+
     # return response with template and context
-    return render(request, "ProjectsPublications/research.html", context)
+    return render(request, "research.html", context)
 
 
+@login_required(login_url="/signin")
 def Subregistration(request):
-    student = Student.objects.filter(rollno="21CS30061")
-    regcourses = student[0].regcourses.all()
-    appcourses = student[0].appcourses.all()
-    rejcourses = student[0].rejcourses.all()
-    courses = Course.objects.all()
-    print(regcourses)
     slots = []
     departments = []
-    for course in courses:
-        slots += course.getSlots()
-        departments += [course.department]
+    regcourses = []
+    appcourses = []
+    rejcourses = []
+    print(request.user.derived_type)
+    if request.user.derived_type == "Student":
+        student = Student.objects.filter(email=request.user.email)
+        regcourses = student[0].regcourses.all()
+        appcourses = student[0].appcourses.all()
+        rejcourses = student[0].rejcourses.all()
+        courses = Course.objects.all()
+        for course in courses:
+            slots += course.getSlots()
+            departments += [course.department]
+        slots = set(slots)
+        slots = list(slots)
+        departments = set(departments)
+        departments = list(departments)
+        print(regcourses, appcourses, rejcourses)
+        context = {
+            "user": request.user.derived_type,
+            "regcourses": regcourses,
+            "courses": courses,
+            "slots": slots,
+            "departments": departments,
+            "rejcourses": rejcourses,
+            "appcourses": appcourses,
+        }
 
-    slots = set(slots)
-    slots = list(slots)
-    departments = set(departments)
-    departments = list(departments)
-    context = {
-        "user": "Secretary",
-        "regcourses": regcourses,
-        "courses": courses,
-        "slots": slots,
-        "departments": departments,
-        "rejcourses": rejcourses,
-        "appcourses": appcourses,
-    }
+    elif request.user.derived_type == "Professor":
+        prof = Professor.objects.filter(email=request.user.email)[0]
+        profcourses = prof.courses.all()
+        applications = subjectApplication.objects.all().filter(course__in=profcourses)
+        print(applications)
+        context = {
+            "user": request.user.derived_type,
+            "profcourses": profcourses,
+            "applications": applications
+
+        }
+    else:
+        courses = Course.objects.all()
+
+        for course in courses:
+            slots += course.getSlots()
+            departments += [course.department]
+        context = {
+            "user": request.user.derived_type,
+            "courses": courses,
+        }
+    context["user"] = {"user": request.user,
+                       "utype": request.user.derived_type}
+
     # return response with template and context
-    return render(request, "subject-reg.html", context)
+    if request.user.derived_type == "Student":
+        return render(request, "subject-reg.html", context)
+    elif request.user.derived_type == "Professor":
+        return render(request, "subject-reg-prof.html", context)
+    else:
+        return render(request, "subject-reg-sec.html", context)
 
 
-def applySubject(request, subno,rollno):
+def applySubject(request, subno):
     value = request.POST.get('message')
     # print(value,subno,request.POST)
     # data=json.loads(request.body)
 
-    dic=dict(request.POST.lists())
+    dic = dict(request.POST.lists())
     print(dic.get('message')[0])
-    course=Course.objects.filter(subno=subno)[-1]
-    student=Course.objects.filter(rollno=rollno)[-1]
-    sa = subjectApplication(course=course,message=dic.get('message')[0],student=student)
+    course = Course.objects.filter(subno=subno)[0]
+    # student = Course.objects.filter(rollno=requerollno)[-1]
+    student = Student.objects.get(email=request.user.email)
+    sa = subjectApplication(course=course, message=dic.get(
+        'message')[0], student=student)
     sa.save()
-    student.appcourses.add(course)
-    student.save()
-    
-    return redirect('/subreg')
+    if not student.appcourses.contains(course):
+        student.appcourses.add(course)
+        student.save()
+
+    return redirect("/subreg")
 
 
+def registerStudent(request, rollno, subno):
+
+    # value = request.POST.get('message')
+    # print(value,subno,request.POST)
+    # data=json.loads(request.body)
+    student = Student.objects.filter(rollno=rollno)[0]
+    course = Course.objects.filter(subno=subno)[0]
+    print(student, course)
+    if course.register():
+        student.appcourses.remove(course)
+        student.regcourses.add(course)
+        student.save()
+    else:
+        print("failed")
+    appl = subjectApplication.objects.filter(
+        course=course, student=student)
+    appl.delete()
+
+    return redirect("/subreg")
+
+
+def rejectStudent(request, rollno, subno):
+
+    # value = request.POST.get('message')
+    # print(value,subno,request.POST)
+    # data=json.loads(request.body)
+    student = Student.objects.filter(rollno=rollno)[0]
+    course = Course.objects.filter(subno=subno)[0]
+    print(student, course)
+    student.appcourses.remove(course)
+    student.rejcourses.add(course)
+    appl = subjectApplication.objects.filter(
+        course=course, student=student)
+    appl.delete()
+
+    return redirect("/subreg")
+
+
+@login_required(login_url="/signin")
 def calendar(request):
     # create a dictionary to pass
     # data to the template
@@ -93,10 +195,14 @@ def calendar(request):
         "user": "Secretary",
         "list": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     }
+    context["user"] = {"user": request.user,
+                       "utype": request.user.derived_type}
+
     # return response with template and context
     return render(request, "calendar.html", context)
 
 
+@login_required(login_url="/signin")
 def profile(request, rollno):
     # create a dictionary to pass
     # data to the template
@@ -143,10 +249,14 @@ def profile(request, rollno):
         "tot_crd": student.tot_crd,
         "sgpa": student.getsgpa()[-1]
     }
+    context["user"] = {"user": request.user,
+                       "utype": request.user.derived_type}
+
     # return response with template and context
     return render(request, "student-profile.html", context)
 
 
+@login_required(login_url="/signin")
 def curriculum(request):
     # create a dictionary to pass
     # data to the template
@@ -157,10 +267,14 @@ def curriculum(request):
         "user": "Secretary",
         "courses": courses,
     }
+    context["user"] = {"user": request.user,
+                       "utype": request.user.derived_type}
+
     # return response with template and context
     return render(request, "curriculum.html", context)
 
 
+@login_required(login_url="/signin")
 def cashregister(request):
     # create a dictionary to pass
     # data to the template
@@ -175,10 +289,14 @@ def cashregister(request):
         "balance": "₹"+str(total),
 
     }
+    context["user"] = {"user": request.user,
+                       "utype": request.user.derived_type}
+
     # return response with template and context
     return render(request, "cash-register.html", context)
 
 
+@login_required(login_url="/signin")
 def Fee(request):
     # create a dictionary to pass
     # data to the template
@@ -209,9 +327,161 @@ def Fee(request):
         "pending": pending,
 
     }
+    context["user"] = {"user": request.user,
+                       "utype": request.user.derived_type}
+
+
+
+
     # return response with template and context
     return render(request, "fee.html", context)
 
 
-def register(request):
-    return render(request, "register_student.html")
+def signUp(request, utype):
+    if request.user.is_authenticated:
+        return redirect('/')
+    if utype.lower() == "student":
+        utype = "Student"
+    elif utype.lower() == "secretary":
+        utype = "Secretary"
+    elif utype.lower() == "professor":
+        utype = "Professor"
+    else:
+        return redirect("/signup/student")
+
+    if request.method == 'POST':
+        dic = dict(request.POST.lists())
+        if utype == "Student":
+            email = dic.get('email')[0]
+            password1 = dic.get('password1')[0]
+            firstname = dic.get('firstname')[0]
+            lastname = dic.get('lastname')[0]
+            rollno = dic.get('rollno')[0]
+            mobile = dic.get('mobile')[0]
+            gender = dic.get('gender')[0]
+            address = dic.get('address')[0]
+            state = dic.get('state')[0]
+            location = dic.get('location')[0]
+            aadhar = dic.get('aadhar')[0]
+            pin_code = dic.get('pin')[0]
+            instemail = dic.get('instemail')[0]
+            a = Student.objects.create_user(email=email, password=password1, firstname=firstname, lastname=lastname, name=firstname+" "+lastname,
+                                            rollno=rollno, mobile=mobile, gender=gender, address=address, state=state, location=location, aadhar=aadhar, pin_code=pin_code, inst_email=instemail)
+
+            a.derived_type = "Student"
+            a.save()
+        elif utype == "Secretary":
+            email = dic.get('email')[0]
+            password1 = dic.get('password1')[0]
+            firstname = dic.get('firstname')[0]
+            lastname = dic.get('lastname')[0]
+            # rollno = dic.get('rollno')[0]
+            mobile = dic.get('mobile')[0]
+
+            a = Secretary.objects.create_user(email=email, password=password1, firstname=firstname, lastname=lastname, name=firstname+" "+lastname,
+                                              mobile=mobile, is_superuser=True, is_staff=True)
+
+            a.derived_type = "Secretary"
+            a.save()
+        if utype == "Professor":
+            email = dic.get('email')[0]
+            password1 = dic.get('password1')[0]
+            firstname = dic.get('firstname')[0]
+            lastname = dic.get('lastname')[0]
+            # rollno = dic.get('rollno')[0]
+            mobile = dic.get('mobile')[0]
+            a = Professor.objects.create_user(email=email, password=password1, firstname=firstname, lastname=lastname, name=firstname+" "+lastname,
+                                              mobile=mobile, is_superuser=True, is_staff=True)
+
+            a.derived_type = "Professor"
+            a.save()
+
+            print(password1, email)
+            user = authenticate(email=email, password=password1)
+            print(user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            return redirect('/')
+    if utype == "Professor":
+        return render(request, "signup_prof.html", {"utype": utype})
+    elif utype == "Secretary":
+        return render(request, "signup_prof.html", {"utype": utype})
+    else:
+        return render(request, "signup.html", {"utype": utype})
+
+    # return render(request, "signup.html")
+
+
+def signIn(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+    # if utype.lower() == "student":
+    #     utype = "Student"
+    # elif utype.lower() == "secretary":
+    #     utype = "Secretary"
+    # elif utype.lower() == "professor":
+    #     utype = "Professor"
+    # else:
+    #     return redirect("/signin/student")
+
+    if request.method == 'POST':
+        dic = dict(request.POST.lists())
+        email = dic.get('email')[0]
+        password1 = dic.get('password1')[0]
+        print(password1, email)
+        user = authenticate(email=email, password=password1)
+        print(user)
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        return redirect('/')
+    return render(request, "signin.html")
+
+    # form=CustomUserCreationForm()
+    # context={
+    # 	"user":user,
+    # 	"form":form
+    # }
+
+
+def addPublication(request):
+
+    # if utype.lower() == "student":
+    #     utype = "Student"
+    # elif utype.lower() == "secretary":
+    #     utype = "Secretary"
+    # elif utype.lower() == "professor":
+    #     utype = "Professor"
+    # else:
+    #     return redirect("/signin/student")
+
+    if request.method == 'POST':
+        dic = dict(request.POST.lists())
+        name = dic.get('name')[0]
+        place = dic.get('name')[0]
+        date = dic.get('name')[0]
+        abstract = dic.get('name')[0]
+        professor = Professor.object.filter(
+            name__in=dic.get('professor')[0].split(","))
+        pub = Publication.objects.create(
+            name=name, place=place, date=date, abstract=abstract, professor=professor)
+        pub.save()
+    return redirect("/research")
+
+    # form=CustomUserCreationForm()
+    # context={
+    # 	"user":user,
+    # 	"form":form
+    # }
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')
+
+# class SignInView(LoginView):
+
+#     template_name = 'path/to/my_template.html'
+
+#     def form_valid(self, form):
+#         # Form is valid, do whatever you need.
+#         login(self.request, form.get_user())
+#         response = HttpResponseRedirect(self.get_success_url())
+#         return response
