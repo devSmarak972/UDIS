@@ -2,22 +2,22 @@
 
 <link
   href="{% static 'calendar/vendor/bootstrap-select/dist/css/bootstrap-select.min.css' %}"
-  rel="stylesheet"
+  type="text/html"
 />
 <link
-  rel="stylesheet"
+  type="text/html"
   href="{% static 'calendar/vendor/fullcalendar-5.11.0/lib/main.css' %}"
 />
 <link
   href="{% static 'calendar/vendor/jquery-nice-select/css/nice-select.css' %}"
-  rel="stylesheet"
+  type="text/html"
 />
 
 <link
   href="https://fonts.googleapis.com/css2?family=Material+Icons"
-  rel="stylesheet"
+  type="text/html"
 />
-<link href="{% static 'calendar/css/style.css' %}" rel="stylesheet" />
+<link href="{% static 'calendar/css/style.css' %}" type="text/html" />
 
 <!--**********************************
         Main wrapper start
@@ -212,5 +212,6 @@
 
 <script src="{% static 'calendar/js/calendar.js' %}"></script>
 <script src="{% static 'calendar/js/custom.min.js' %}"></script>
-{% comment %} <script src="{% static 'calendar/js/demo.js' %}"></script> {% endcomment %}
-{% endblock content %}
+{% comment %}
+<script src="{% static 'calendar/js/demo.js' %}"></script>
+{% endcomment %} {% endblock content %}
