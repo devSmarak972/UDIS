@@ -1,5 +1,5 @@
-{% extends "base.html" %}{% load static %} {% load apptags %} {% block content
-%}
+{% extends "base.html" %}{% load static %} {% load apptags %}
+{% block content %}
 <!--*******************
         Preloader end
     ********************-->
@@ -7,9 +7,7 @@
 <!--**********************************
             Content body start
         ***********************************-->
-{% comment %}
-<link href="{% static 'secretary/css/style.css' %}" rel="stylesheet" /> {%
-endcomment %}
+{% comment %} <link href="{% static 'secretary/css/style.css' %}" type="text/html" /> {% endcomment %}
 
 <div class="content-body">
   <div class="container-fluid">
@@ -30,41 +28,32 @@ endcomment %}
           <div class="cm-content-body form excerpt">
             <div class="card-body">
               <div class="row">
+
                 <div class="col-xl-3 col-sm-12">
-                  <select
-                    class="selectpicker w-100"
-                    data-live-search="true"
-                    placeholder="Select Department"
-                  >
+                  <select class="selectpicker w-100" data-live-search="true" placeholder="Select Department">
                     {% for department in departments %}
                     <option data-tokens="{{department}}">{{department}}</option>
                     {% endfor %}
                   </select>
+
                 </div>
 
-                <div class="col-xl-3 col-sm-12">
-                  <select
-                    class="selectpicker w-100"
-                    data-live-search="true"
-                    placeholder="Select Slot"
-                  >
+                    <div class="col-xl-3 col-sm-12">
+                  <select class="selectpicker w-100" data-live-search="true" placeholder="Select Slot">
+                    
                     {% for slot in slots %}
                     <option data-tokens="{{slot}}">{{slot}}</option>
                     {% endfor %}
                   </select>
-                </div>
-                <div class="col-xl-3 col-sm-12">
-                  <select
-                    class="selectpicker w-100"
-                    data-live-search="true"
-                    placeholder="Select Availability"
-                  >
+										</div>
+                    <div class="col-xl-3 col-sm-12">
+                  <select class="selectpicker w-100" data-live-search="true" placeholder="Select Availability">
                     <option data-tokens="All">All</option>
                     <option data-tokens="All">Available</option>
                     <option data-tokens="All">Filling Fast</option>
                     <option data-tokens="All">Filled</option>
                   </select>
-                </div>
+										</div>
                 <div class="col-xl-3">
                   <button
                     class="btn btn-info"
@@ -82,6 +71,7 @@ endcomment %}
                   </button>
                 </div>
               </div>
+
             </div>
 
             <div class="card-body">
@@ -113,111 +103,52 @@ endcomment %}
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
                       <td>{{course|getProfs}}</td>
-                      <td>
-                        <span
-                          class="badge light {% if regcourses|arr_contains:course %} badge-success {% elif appcourses|arr_contains:course %} badge-warning {% elif rejcourses|arr_contains:course %} badge-danger {% endif %}"
-                        >
-                          {% if regcourses|arr_contains:course %} Accepted {%
-                          elif appcourses|arr_contains:course %} Pending {% elif
-                          rejcourses|arr_contains:course %} Rejected {% else %}
-                          - {% endif %}
-                        </span>
-                      </td>
+                      <td><span class="badge light {% if regcourses|arr_contains:course %} badge-success {% elif appcourses|arr_contains:course %} badge-warning {% elif rejcourses|arr_contains:course %} badge-danger {% endif %}">
+                       {% if regcourses|arr_contains:course %} Accepted {% elif appcourses|arr_contains:course %} Pending {% elif rejcourses|arr_contains:course %} Rejected {% else %} - {% endif %}
+
+
+                      </span></td>
                       <td>
                         <div>
-                          <button
-                            type="button"
-                            class="btn btn-success light sharp"
-                            data-bs-toggle="modal"
-                            data-bs-target="#mailModal{{course.subno}}"
-                            aria-expanded="false"
-                          >
-                            <i class="fas fa-envelope"></i>
-                          </button>
-                          <div
-                            class="modal fade"
-                            id="mailModal{{course.subno}}"
-                            tabindex="-1"
-                            aria-labelledby="exampleModalLabel"
-                            aria-hidden="true"
-                          >
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5
-                                    class="modal-title"
-                                    id="exampleModalLabel"
-                                  >
-                                    Apply for {{course.name}}
-                                  </h5>
-                                  <button
-                                    type="button"
-                                    class="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                  ></button>
-                                </div>
-                                <div class="modal-body">
-                                  <form
-                                    method="POST"
-                                    action="applysub/{{course.subno}}"
-                                    id="applymsg{{course.subno}}"
-                                  >
-                                    {% csrf_token %}
+														<button type="button" class="btn btn-success light sharp" data-bs-toggle="modal" data-bs-target="#mailModal{{course.subno}}" aria-expanded="false">
+                              <i class="fas fa-envelope"></i>
+														</button>
+                             <div class="modal fade" id="mailModal{{course.subno}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Apply for {{course.name}}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <form method="POST" action="applysub/{{course.subno}}" id="applymsg{{course.subno}}" >
+                                          {% csrf_token %}
 
-                                    <div class="form-group">
-                                      <label for="message"
-                                        >Letter of Interest</label
-                                      >
-                                      <textarea
-                                        form="applymsg{{course.subno}}"
-                                        type="text"
-                                        class="form-control"
-                                        id="message"
-                                        name="message"
-                                        rows="6"
-                                      ></textarea>
-                                    </div>
-                                  </form>
-                                </div>
-                                <div class="modal-footer">
-                                  <button
-                                    type="button"
-                                    class="btn btn-secondary"
-                                    data-bs-dismiss="modal"
-                                  >
-                                    Close
-                                  </button>
-                                  <button
-                                    type="submit"
-                                    value="Submit"
-                                    class="btn btn-primary"
-                                    name="submit"
-                                    form="applymsg{{course.subno}}"
-                                    onsubmit="return false"
-                                  >
-                                    Apply
-                                  </button>
+                                      <div class="form-group">
+                                        <label for="message">Letter of Interest</label>
+                                        <textarea form="applymsg{{course.subno}}" type="text" class="form-control" id="message" name="message" rows="6"></textarea>
+                                      </div>
+                                    </form>
+                                  </div>
+                                  <div class="modal-footer" >
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" value="Submit" class="btn btn-primary" name="submit" form="applymsg{{course.subno}}" onsubmit="return false">Apply</button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
+													</div>
                       </td>
                     </tr>
-                    {% endfor %}
+                   {% endfor %}
                   </tbody>
                 </table>
-                <div
-                  class="d-flex align-items-center justify-content-xl-between flex-wrap justify-content-center"
-                >
+                <div class="d-flex align-items-center justify-content-xl-between flex-wrap justify-content-center">
                   <!-- <span>Page 1 of 4, showing 2 records out of 8 total, starting on record 1, ending on 2</span> -->
                   <nav aria-label="Page navigation example">
                     <ul class="pagination mb-2 mb-sm-0">
                       <li class="page-item">
-                        <a class="page-link" href="#"
-                          ><i class="fa-solid fa-angle-left"></i
-                        ></a>
+                        <a class="page-link" href="#"><i class="fa-solid fa-angle-left"></i></a>
                       </li>
                       <li class="page-item">
                         <a class="page-link" href="#">1</a>
@@ -229,9 +160,7 @@ endcomment %}
                         <a class="page-link" href="#">3</a>
                       </li>
                       <li class="page-item">
-                        <a class="page-link" href="#"
-                          ><i class="fa-solid fa-angle-right"></i
-                        ></a>
+                        <a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a>
                       </li>
                     </ul>
                   </nav>
@@ -268,25 +197,22 @@ endcomment %}
                       <th><strong>Faculty</strong></th>
                       <!-- <th>Actions</th> -->
                     </tr>
+                    
                   </thead>
 
                   <tbody>
-                    {% for course in regcourses%}
+                  {% for course in regcourses%}
                     <tr>
                       <td>{{course.slot}}</td>
                       <td>{{course.name}}</td>
                       <td>{{course.room}}</td>
-                      <td>{{ course.LTP }}</td>
-                      {% comment %}
-                      <td>
-                        {% if student.fees[ {{forloop.counter1}} ] %} Yes {%
-                        else %}No {% endif %}
-                      </td>
-                      {% endcomment %}
+                         <td>{{ course.LTP }}</td>
+                      {% comment %} <td>{% if student.fees[ {{forloop.counter1}} ] %} Yes {% else %}No {% endif %}</td> {% endcomment %}
                       <td>{{course.credits}}</td>
                       <td>{{course|getProfs}}</td>
                     </tr>
                     {% endfor %}
+      
                   </tbody>
                 </table>
                 <div
@@ -326,4 +252,5 @@ endcomment %}
   </div>
 </div>
 
+ 
 {% endblock content %}

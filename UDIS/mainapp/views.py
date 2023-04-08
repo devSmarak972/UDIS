@@ -213,7 +213,7 @@ def profile(request, rollno):
 
     print(today.year, rollno)
     student = Student.objects.get(rollno=rollno)
-    courses = student.courses.all()
+    courses = student.regcourses.all()
 
     print(student)
     context = {
