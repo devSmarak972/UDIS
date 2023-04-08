@@ -30,7 +30,7 @@
               <div class="row">
 
                 <div class="col-xl-3 col-sm-12">
-                  <select class="selectpicker w-100" data-live-search="true" placeholder="Select Department">
+                  <select class="selectpicker selectdep w-100" data-live-search="true" placeholder="Select Department">
                     {% for department in departments %}
                     <option data-tokens="{{department}}">{{department}}</option>
                     {% endfor %}
@@ -39,7 +39,7 @@
                 </div>
 
                     <div class="col-xl-3 col-sm-12">
-                  <select class="selectpicker w-100" data-live-search="true" placeholder="Select Slot">
+                  <select class="selectpicker selectslot w-100" data-live-search="true" placeholder="Select Slot">
                     
                     {% for slot in slots %}
                     <option data-tokens="{{slot}}">{{slot}}</option>
@@ -47,23 +47,23 @@
                   </select>
 										</div>
                     <div class="col-xl-3 col-sm-12">
-                  <select class="selectpicker w-100" data-live-search="true" placeholder="Select Availability">
+                  <select class="selectpicker selectavl w-100" data-live-search="true" placeholder="Select Availability">
                     <option data-tokens="All">All</option>
-                    <option data-tokens="All">Available</option>
-                    <option data-tokens="All">Filling Fast</option>
-                    <option data-tokens="All">Filled</option>
+                    <option data-tokens="Available">Available</option>
+                    <option data-tokens="Filling">Filling Fast</option>
+                    <option data-tokens="Filled">Filled</option>
                   </select>
 										</div>
                 <div class="col-xl-3">
                   <button
-                    class="btn btn-info"
+                    class="btn btn-info addfilter"
                     title="Click here to Search"
                     type="button"
                   >
                     <i class="fa fa-search me-1"></i>Filter
                   </button>
                   <button
-                    class="btn btn-light"
+                    class="btn btn-light rmfilter"
                     title="Click here to remove filter"
                     type="button"
                   >
@@ -78,6 +78,7 @@
               <div class="table-responsive">
                 <table
                   class="table table-bordered table-striped table-condensed flip-content"
+                  id="allcourse"
                 >
                   <thead>
                     <tr>
@@ -95,7 +96,7 @@
                   </thead>
                   <tbody>
                     {% for course in courses %}
-                    <tr>
+                    <tr department="{{course.department}}" slot="{{course.slot}}" avl="{{course.available}}">
                       <td><strong>{{course.subno}}</strong></td>
                       <td href="{{course.url}}">{{course.name}}</td>
                       <td>{{course.slot}}</td>
@@ -251,6 +252,34 @@
     </div>
   </div>
 </div>
+<script>
+$(document).ready(function(){
+  $(".addfilter").on("click", function() {
+    var dep = $(".selectdep .filter-option-inner-inner").text().toLowerCase();
+    var slot = $(".selectslot .filter-option-inner-inner").text().toLowerCase();
+    var avl = $(".selectavl .filter-option-inner-inner").text().toLowerCase();
+    console.log(dep,slot,avl)
+    var i=0
+     $("#allcourse tr").css("display","none");
+    var fil=$("#allcourse tr").filter(function() {
+      i++;
+      if(i==1)return true
+      console.log(this)
+department=$(this).attr('department').toLowerCase();
+slotit=$(this).attr('slot').toLowerCase();
+availibility=$(this).attr('avl').toLowerCase();
+    console.log(department,slotit,availibility)
+    console.log(department.includes(dep),slotit.includes(slot))
+if (avl==="all")
+return department.includes(dep)&&slotit.includes(slot)
+else
+return department.includes(dep)&&slotit.includes(slot)&& availibility===avl;
+    }).css("display","table-row");
 
+  })
+
+
+});
+</script>
  
 {% endblock content %}

@@ -86,6 +86,8 @@ class Course(models.Model):
                 self.available = "Filled"
             else:
                 self.available = "Available"
+            self.save()
+
             return True
 
     def getSlots(self):
@@ -98,11 +100,11 @@ class Course(models.Model):
 
 class Publication(models.Model):
     name = models.TextField()
-    abstract = models.TextField(blank=True,null=True)
-    url = models.CharField(max_length=200,blank=True,null=True)
-    type = models.CharField(max_length=200,default="Journal")
-    place = models.TextField(blank=True,null=True)
-    date = models.DateField(blank=True,null=True)
+    abstract = models.TextField(blank=True, null=True)
+    url = models.CharField(max_length=200, blank=True, null=True)
+    type = models.CharField(max_length=200, default="Journal")
+    place = models.TextField(blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return self.name

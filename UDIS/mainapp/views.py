@@ -308,9 +308,9 @@ def Fee(request):
     totinstfee = 100000
     totHMCfee = 100000
     pending = 20000
-    hmcfee = Fees.objects.all().filter(type="hmcfee")
+    hmcfee = Fees.objects.filter(type="hmcfee")
     instfee = Fees.objects.filter(type="instfee")
-    semfee = Fees.objects.all().filter(type="semfee")
+    semfee = Fees.objects.filter(type="semfee")
     print(hmcfee, instfee, semfee)
     context = {
         "user": "secretary",
