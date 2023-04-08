@@ -1921,21 +1921,24 @@ textarea.form-control-lg {
 .form-select {
   display: block;
   width: 100%;
+  height: 100%;
   padding: 0.6875rem 3.75rem 0.6875rem 1.25rem;
   -moz-padding-start: calc(1.25rem - 3px);
   font-size: 0.875rem;
+  /* border: solid; */
   font-weight: 400;
   line-height: 1.5;
   color: #717579;
-  background-color: #E6EBEE;
+  background-color: #ffffff;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 1.25rem center;
   background-size: 16px 12px;
   border: 1px solid #D5DFE7;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  appearance: none; }
+  appearance: none;
+}
   @media (prefers-reduced-motion: reduce) {
     .form-select {
       transition: none; } }
@@ -27524,8 +27527,8 @@ body > * {
   content: '';
   display: none; }
 
-.form-select {
-  padding: 0; }
+/* .form-select {
+  padding: 0; } */
 
 .bootstrap-select.countrypicker {
   background-color: #fff;

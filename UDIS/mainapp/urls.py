@@ -11,6 +11,8 @@ urlpatterns=[
   path('curriculum',views.curriculum),
   path('cashregister',views.cashregister),
   path('feepayment',views.Fee),
+  path('subreg',views.Subregistration),
+  path('applysub/<str:subno>',views.applySubject),
   # path('signup',views.register),
    ##### user related path##########################
   # path('login/', views.Login, name ='login'),
