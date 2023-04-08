@@ -1,5 +1,5 @@
-{% extends "base.html" %}{% load static %} {% load apptags %} {% block content
-%}
+{% extends "base.html" %}{% load static %} {% load apptags %}
+{% block content %}
 <!--*******************
         Preloader end
     ********************-->
@@ -7,9 +7,7 @@
 <!--**********************************
             Content body start
         ***********************************-->
-{% comment %}
-<link href="{% static 'secretary/css/style.css' %}" rel="stylesheet" /> {%
-endcomment %}
+{% comment %} <link href="{% static 'secretary/css/style.css' %}" type="text/html" /> {% endcomment %}
 
 <div class="content-body">
   <div class="container-fluid">
@@ -47,59 +45,21 @@ endcomment %}
                   />
                 </div>
                 <div class="col-xl-3">
-                  <div
-                    class="dropdown bootstrap-select default-select from-select w-100 mb-xl-0 mb-3 wide"
-                  >
-                    <select
-                      class="default-select from-select w-100 mb-xl-0 mb-3 wide"
-                      aria-label="Default select example"
-                      tabindex="null"
-                    >
-                      <option selected="">Select Semester</option>
-                      <option value="1">Semester 1</option>
-                      <option value="2">Semester 2</option>
-                      <option value="3">Semester 3</option>
-                      <option value="4">Semester 4</option>
-                      <option value="5">Semester 5</option>
-                      <option value="6">Semester 6</option>
-                      <option value="7">Semester 7</option>
-                      <option value="8">Semester 8</option>
-                      <option value="9">Semester 9</option>
-                      <option value="10">Semester 10</option></select
-                    ><button
-                      type="button"
-                      tabindex="-1"
-                      class="btn dropdown-toggle btn-light"
-                      data-bs-toggle="dropdown"
-                      role="combobox"
-                      aria-owns="bs-select-2"
-                      aria-haspopup="listbox"
-                      aria-expanded="false"
-                      title="Select Status"
-                    >
-                      <div class="filter-option">
-                        <div class="filter-option-inner">
-                          <div class="filter-option-inner-inner">
-                            Select Status
-                          </div>
-                        </div>
-                      </div>
-                    </button>
-                    <div class="dropdown-menu">
-                      <div
-                        class="inner show"
-                        role="listbox"
-                        id="bs-select-2"
-                        tabindex="-1"
-                      >
-                        <ul
-                          class="dropdown-menu inner show"
-                          role="presentation"
-                        ></ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+											<div class="dropdown bootstrap-select default-select from-select w-100 mb-xl-0 mb-3 wide"><select class="default-select from-select w-100 mb-xl-0 mb-3 wide" aria-label="Default select example" tabindex="null">
+												<option selected="">Select Semester</option>
+												<option value="1">Semester 1</option>
+												<option value="2">Semester 2</option>
+												<option value="3">Semester 3</option>
+												<option value="4">Semester 4</option>
+												<option value="5">Semester 5</option>
+												<option value="6">Semester 6</option>
+												<option value="7">Semester 7</option>
+												<option value="8">Semester 8</option>
+												<option value="9">Semester 9</option>
+												<option value="10">Semester 10</option>
+
+											</select><button type="button" tabindex="-1" class="btn dropdown-toggle btn-light" data-bs-toggle="dropdown" role="combobox" aria-owns="bs-select-2" aria-haspopup="listbox" aria-expanded="false" title="Select Status"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">Select Status</div></div> </div></button><div class="dropdown-menu "><div class="inner show" role="listbox" id="bs-select-2" tabindex="-1"><ul class="dropdown-menu inner show" role="presentation"></ul></div></div></div> 
+										</div>
                 <!-- <div class="col-xl-3">
 											<input type="date" name="datepicker" class=" form-control mb-xl-0 mb-3">
 										</div> -->
@@ -180,23 +140,17 @@ endcomment %}
                     </tr>
                   </thead>
                   <tbody>
-                    {% for student in students%}
-                    <tr
-                      onclick="window.location='student-profile/{{student.rollno}}';"
-                    >
+                  {% for student in students%}
+                    <tr onclick="window.location='student-profile/{{student.rollno}}';">
                       <td>{{student.rollno}}</td>
                       <td>{{student.name}}</td>
                       <td>{{student.sem}}th Semester</td>
-                      <td>{{ fees|at_index:forloop.counter0 }}</td>
-                      {% comment %}
-                      <td>
-                        {% if student.fees[ {{forloop.counter1}} ] %} Yes {%
-                        else %}No {% endif %}
-                      </td>
-                      {% endcomment %}
+                         <td>{{ fees|at_index:forloop.counter0 }}</td>
+                      {% comment %} <td>{% if student.fees[ {{forloop.counter1}} ] %} Yes {% else %}No {% endif %}</td> {% endcomment %}
                       <td>{{student.regdone}}</td>
                     </tr>
                     {% endfor %}
+      
                   </tbody>
                 </table>
                 <div
