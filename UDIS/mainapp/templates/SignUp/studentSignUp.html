@@ -212,15 +212,15 @@
               <div class="invalid-feedback">Enter your state</div>
             </div>
             <div class="form-floating">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="floatingTown"
-                  placeholder="town"
-                />
-                <label for="floatingTown">City or Town</label>
-                <div class="invalid-feedback">Enter your address</div>
-              </div>
+              <input
+                type="text"
+                class="form-control"
+                id="floatingTown"
+                placeholder="town"
+              />
+              <label for="floatingTown">City or Town</label>
+              <div class="invalid-feedback">Enter your address</div>
+            </div>
           </div>
           <div class="row-int">
             <div class="form-floating">
@@ -283,7 +283,7 @@
           .querySelectorAll(".step")
           [n].querySelectorAll("input, select");
         let valid = 1;
-        form.forEach((input) => {
+        form.forEach(input => {
           if (!input.checkValidity()) {
             valid = 0;
             if (input.classList.replace("is-valid", "is-invalid")) {
@@ -312,7 +312,7 @@
         // This function will display the specified tab of the form...
         var x = document.getElementsByClassName("step");
         const inputs = x[n].querySelectorAll("input, select");
-        inputs.forEach((input) => {
+        inputs.forEach(input => {
           input.required = true;
         });
         x[n].style.display = "block";

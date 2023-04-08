@@ -1,10 +1,12 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} {% load static %} 
+{% load apptags %}
+{% block content %}
 <div class="content-body" style="min-height: 871px">
   <div class="container-fluid">
     <!-- Row -->
     <div class="row">
       <div class="col-xl-12">
-        {% if user == "secretary" %}
+        {% if user.utype == "Secretary" %}
         <div class="mb-3">
           <a href="content-add.html" class="btn btn-primary">Add Course</a>
         </div>
@@ -48,10 +50,11 @@
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
-                    {% endif %} {% endfor %}
+                    {% endif %} 
+                    {% endfor %}
                   </tbody>
                 </table>
               </div>
@@ -73,14 +76,14 @@
                     </tr>
                   </thead>
                   <tbody>
-                    {% for course in courses %} {% if course.sem == 1 %}
+                    {% for course in courses %} {% if course.sem == 2 %}
                     <tr>
                       <td><strong>{{course.subno}}</strong></td>
                       <td href="{{course.url}}">{{course.name}}</td>
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
                     {% endif %} {% endfor %}
@@ -129,7 +132,7 @@
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
                     {% endif %} {% endfor %}
@@ -161,7 +164,7 @@
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
                     {% endif %} {% endfor %}
@@ -210,7 +213,7 @@
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
                     {% endif %} {% endfor %}
@@ -242,7 +245,7 @@
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
                     {% endif %} {% endfor %}
@@ -291,7 +294,7 @@
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
                     {% endif %} {% endfor %}
@@ -323,7 +326,7 @@
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
                     {% endif %} {% endfor %}
@@ -372,7 +375,7 @@
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
                     {% endif %} {% endfor %}
@@ -404,7 +407,7 @@
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
                     {% endif %} {% endfor %}
@@ -453,7 +456,7 @@
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
                     {% endif %} {% endfor %}
@@ -485,7 +488,7 @@
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
                     {% endif %} {% endfor %}
@@ -533,7 +536,7 @@
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
                     {% endif %} {% endfor %}
@@ -565,7 +568,7 @@
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
                     {% endif %} {% endfor %}
@@ -613,7 +616,7 @@
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
                     {% endif %} {% endfor %}
@@ -645,7 +648,7 @@
                       <td>{{course.type}}</td>
                       <td>{{course.LTP}}</td>
                       <td>{{course.credits}}</td>
-                      <td>{{course.faculty}}</td>
+                      <td>{{course|getProfs}}</td>
                       <td></td>
                     </tr>
                     {% endif %} {% endfor %}
