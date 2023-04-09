@@ -232,6 +232,10 @@ class Student(usermodel):
 
     def updatePaid(self, amt):
         self.totalpaid += amt
+        self.feespaid+=amt
+        self.save()
+    # def updatePaid(self, amt):
+    #     self.totalpaid += amt
 
     def __str__(self):
         return self.name
@@ -243,7 +247,9 @@ class Student(usermodel):
 
     def addsgpa(self, sg):
 
-        return self.sgpa+","+str(sg)
+        self.sgpa=self.sgpa+","+str(sg)
+        self.save()
+    
 
     def getcgpa(self):
         print(self.cgpa)
@@ -251,14 +257,17 @@ class Student(usermodel):
         return self.cgpa.split(",")[-1]
 
     def addcgpa(self, cg):
-        return self.cgpa+","+str(cg)
+        self.cgpa=self.cgpa+","+str(cg)
+        self.save()
 
     def enrollCourse(self, course):
         if course.register():
             self.courses.add(course)
+            self.save()
             return True
         else:
             return False
+     
 
     class Meta:
         unique_together = ('rollno', 'adm_year',)
@@ -266,9 +275,9 @@ class Student(usermodel):
 
 class FeeTransaction(models.Model):
     id = models.BigAutoField(primary_key=True)
-    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
     amount = models.CharField(max_length=200)
-    datetime = models.DateTimeField()
+    datetime = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=200, default="Pending")
     sem = models.IntegerField()
     year = models.IntegerField()

@@ -28,7 +28,7 @@
               </span>
               <div class="media-body">
                 <p class="mb-1">Pending Fee</p>
-                <h4 class="mb-0">{{pendingFees}}</h4>
+                <h4 class="mb-0">{{pending}}</h4>
               </div>
             </div>
           </div>
@@ -59,7 +59,7 @@
               </span>
               <div class="media-body">
                 <p class="mb-1">Total paid</p>
-                <h4 class="mb-0">{{totalpaid}}</h4>
+                <h4 class="mb-0">{{totfeepaid}}</h4>
               </div>
             </div>
           </div>
@@ -92,17 +92,19 @@
             ></button>
           </div>
           <div class="modal-body">
-            <h3>Pending Fees: ₹ {{pendingFees}}</h3>
+            <h3>Pending Fees: ₹ {{pending}}</h3>
             <div class="payment-form">
-              <form>
+              <form action="/payfee" id="payfee" method="POST">
+                {% csrf_token %}
                 <div class="mb-3">
                   <input
                     type="text"
+                    name='amount'
                     class="form-control input-default"
                     placeholder="Enter amount"
                   />
                 </div>
-                <button type="submit" class="btn btn-primary">Pay</button>
+                <button type="submit" form="payfee" class="btn btn-primary">Pay</button>
               </form>
             </div>
           </div>
@@ -125,7 +127,7 @@
             <h4 style="color: white">Institute Fees</h4>
           </div>
           <ul class="list-group list-group-flush">
-            {% for fee in instfees %}
+            {% for fee in instfee %}
             <li class="list-group-item d-flex justify-content-between">
               <span class="mb-0">{{fee.name}} :</span
               ><strong>₹{{fee.amount}}</strong>
@@ -143,7 +145,7 @@
             <h4 style="color: white">Semester Fees</h4>
           </div>
           <ul class="list-group list-group-flush">
-            {% for fee in semfees%}
+            {% for fee in semfee %}
             <li class="list-group-item d-flex justify-content-between">
               <span class="mb-0">{{fee.name}} :</span
               ><strong>₹{{fee.amount}}</strong>
@@ -161,7 +163,7 @@
             <h4 style="color: white">HMC Fees</h4>
           </div>
           <ul class="list-group list-group-flush">
-            {% for fee in hmcfees %}
+            {% for fee in hmcfee %}
             <li class="list-group-item d-flex justify-content-between">
               <span class="mb-0">{{fee.name}} :</span
               ><strong>₹{{fee.amount}}</strong>
@@ -337,7 +339,7 @@
               </span>
               <div class="media-body">
                 <p class="mb-1">Amount Received</p>
-                <h4 class="mb-0">₹1,34,000</h4>
+                <h4 class="mb-0">₹{{deptotal}}</h4>
               </div>
             </div>
           </div>
@@ -368,7 +370,7 @@
               </span>
               <div class="media-body">
                 <p class="mb-1">Total Students paid</p>
-                <h4 class="mb-0">170 /300</h4>
+                <h4 class="mb-0">{{stupaid}} /{{totalstu}}</h4>
               </div>
             </div>
           </div>
@@ -558,6 +560,68 @@
                   </tr>
                 </thead>
                 <tbody>
+                  {% for trans in feetrans %}
+                    <tr>
+                    <td><strong>{{trans.id}}</strong></td>
+                    <td>{{trans.student.rollno}}</td>
+                    <td>{{trans.student.name}}</td>
+                    <td>{{trans.datetime}}</td>
+                    <td>₹ {{trans.amount}}</td>
+                    <td>
+                      <span class="badge light {% if trans.status == "Success" %}badge-success {% elif trans.status == "Failed" %}badge-danger{% else %}badge-warning{% endif %}">{{trans.status}}</span>
+                    </td>
+                    <td>{% if trans.sem|divisibleby:2 %} Spring{% else %}Autumn{% endif %}</td>
+                    <td>{{year}}-{{year|add:1}}</td>
+                    <td>
+                      <div class="dropdown">
+                        <button
+                          type="button"
+                          class="btn btn-success light sharp"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <svg
+                            width="20px"
+                            height="20px"
+                            viewBox="0 0 24 24"
+                            version="1.1"
+                          >
+                            <g
+                              stroke="none"
+                              stroke-width="1"
+                              fill="none"
+                              fill-rule="evenodd"
+                            >
+                              <rect x="0" y="0" width="24" height="24"></rect>
+                              <circle
+                                fill="#000000"
+                                cx="5"
+                                cy="12"
+                                r="2"
+                              ></circle>
+                              <circle
+                                fill="#000000"
+                                cx="12"
+                                cy="12"
+                                r="2"
+                              ></circle>
+                              <circle
+                                fill="#000000"
+                                cx="19"
+                                cy="12"
+                                r="2"
+                              ></circle>
+                            </g>
+                          </svg>
+                        </button>
+                        <div class="dropdown-menu" style="">
+                          <a class="dropdown-item" href="/confirmpay/{{trans.id}}">Confirm</a>
+                          <a class="dropdown-item" href="/denypay/{{trans.id}}">Deny</a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
                   <tr>
                     <td><strong>01</strong></td>
                     <td>21CS30061</td>

@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model, authenticate, login
 from django.shortcuts import render, redirect
 from .models import *
 import datetime
+
 # Create your views here.
 # import Http Response from django
 from django.shortcuts import render
@@ -45,20 +46,21 @@ def dashboard(request):
 def research(request):
     # create a dictionary to pass
     # data to the template
-    
+
     profs = Project.objects.all()
     publ = Publication.objects.all()
     projects = Project.objects.all()
-    
+
     context = {
         "profs": profs,
         "publications": publ,
-        "projects":projects,
+        "projects": projects,
 
         # "list": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     }
     if request.user.is_authenticated:
-        context["user"]= {"user": request.user, "utype": request.user.derived_type}
+        context["user"] = {"user": request.user,
+                           "utype": request.user.derived_type}
 
     # return response with template and context
     return render(request, "research.html", context)
@@ -130,7 +132,7 @@ def Subregistration(request):
 
 
 def applySubject(request, subno):
-    value = request.POST.get('message')
+    # value = request.POST.get('message')
     # print(value,subno,request.POST)
     # data=json.loads(request.body)
 
@@ -221,7 +223,7 @@ def profile(request, rollno):
         "backlogs": 0,
         "courses": courses,
         "course": student.course,
-        "cgpa": student.getcgpa()[-1],
+        "cgpa": student.getcgpa(),
         "name": student.name,
         "rollno": student.rollno,
         "gender": student.gender,
@@ -234,7 +236,7 @@ def profile(request, rollno):
         "EAA": student.EAA,
         "adm_year": student.adm_year,
         "adm_nature": student.adm_nature,
-        "primary_email": student.primary_email,
+        "primary_email": student.email,
         "inst_email": student.inst_email,
         "teams_pass": student.teams_pass,
         "mobile": student.mobile,
@@ -247,7 +249,7 @@ def profile(request, rollno):
         "sem_crd": student.sem_crd,
         "cleared_tot_crd": student.cleared_sem_crd,
         "tot_crd": student.tot_crd,
-        "sgpa": student.getsgpa()[-1]
+        "sgpa": student.getsgpa()
     }
     context["user"] = {"user": request.user,
                        "utype": request.user.derived_type}
@@ -300,41 +302,124 @@ def cashregister(request):
 def Fee(request):
     # create a dictionary to pass
     # data to the template
-    total = 200000
+    hmcfee = Fees.objects.filter(type="hmcfee")
+    instfee = Fees.objects.filter(type="instfee")
+    semfee = Fees.objects.filter(type="semfee")
+    context = {
+        "hmcfee": hmcfee,
+        "semfee": semfee,
+        "instfee": instfee,
+    }
+    if request.user.derived_type == "Student":
+        student = Student.objects.filter(email=request.user.email)[0]
+        total = student.totalpaid
+        feespaid = student.feespaid
+        totalfee = Fees.objects.filter(sem=student.sem)
+        totalfee = sum([fee.amount for fee in totalfee])
+        print(totalfee)
+        pending = totalfee-feespaid
+        feetrans = FeeTransaction.objects.filter(student=student)
+        print(feetrans)
+        context = {
+            "totfeepaid": total,
+            "hmcfee": hmcfee,
+            "instfee": instfee,
+            "semfee": semfee,
+            "pending": pending,
+            "feetrans": feetrans
+
+        }
+    if request.user.derived_type == "Secretary":
+        secretary = Secretary.objects.filter(email=request.user.email)[0]
+        today = datetime.date.today()
+        year = today.year
+        deptotal = FeeTransaction.objects.filter(year=int(year))
+        depamt = sum([float(fee.amount) for fee in deptotal])
+        students = Student.objects.filter(department=secretary.department)
+        count = 0
+        for student in students:
+            feespaid = student.feespaid
+            totalfee = Fees.objects.filter(sem=student.sem)
+            totalfee = sum([fee.amount for fee in totalfee])
+            pending = totalfee-feespaid
+            print(pending)
+            if pending <= 0:
+                count += 1
+
+        context = {
+            # "totfeepaid": total,
+            "hmcfee": hmcfee,
+            "instfee": instfee,
+            "semfee": semfee,
+            "pending": pending,
+            # "feetrans": feetrans,
+            "stupaid": count,
+            "totalstu": len(students),
+            "deptotal": depamt,
+            "feetrans": deptotal,
+            "year": year
+
+
+        }
+
+    # total = 200000
     semfeepaid = 50000
     instfeepaid = 50000
     HMCfeepaid = 50000
     totsemfee = 100000
     totinstfee = 100000
     totHMCfee = 100000
-    pending = 20000
-    hmcfee = Fees.objects.filter(type="hmcfee")
-    instfee = Fees.objects.filter(type="instfee")
-    semfee = Fees.objects.filter(type="semfee")
-    print(hmcfee, instfee, semfee)
-    context = {
-        "user": "secretary",
-        "semfeepaid": semfeepaid,
-        "instfeepaid": instfeepaid,
-        "HMCfeepaid": HMCfeepaid,
-        "totfeepaid": total,
-        "totsemfee": totsemfee,
-        "totinstfee": totinstfee,
-        "totHMCfee": totHMCfee,
-        "hmcfee": hmcfee,
-        "instfee": instfee,
-        "semfee": semfee,
-        "pending": pending,
+    # pending = 20000
 
-    }
+    print(hmcfee, instfee, semfee)
+
     context["user"] = {"user": request.user,
                        "utype": request.user.derived_type}
 
-
-
-
     # return response with template and context
     return render(request, "fee.html", context)
+
+
+def payfees(request):
+    dic = dict(request.POST.lists())
+    print(dic.get('amount')[0])
+    student = Student.objects.filter(email=request.user.email)[0]
+    # student.updatePaid(float(dic.get('amount')[0]))
+    # student = Course.objects.filter(rollno=requerollno)[-1]
+    today = datetime.date.today()
+    year = today.year
+    sa = FeeTransaction(student=student, amount=dic.get(
+        'amount')[0], sem=student.sem, year=year)
+    sa.save()
+
+    return redirect("/feepayment")
+def confirmpay(request,transid):
+    # dic = dict(request.POST.lists())
+    # print(dic.get('amount')[0])
+    sa = FeeTransaction.objects.filter(id=transid)[0]
+    sa.status="Success"
+    
+    student =sa.student
+    student.updatePaid(float(sa.amount))
+    sa.save()
+    student.save()
+    # student.updatePaid(float(dic.get('amount')[0]))
+    # student = Course.objects.filter(rollno=requerollno)[-1]
+    # today = datetime.date.today()
+    # year = today.year
+    # sa.save()
+
+    return redirect("/feepayment")
+def denypay(request,transid):
+    sa = FeeTransaction.objects.filter(id=transid)[0]
+    sa.status = "Failed"
+    
+    student =sa.student
+    student.updatePaid(float(sa.amount))
+    sa.save()
+    student.save()
+
+    return redirect("/feepayment")
 
 
 def signUp(request, utype):
