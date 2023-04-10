@@ -1,7 +1,5 @@
-/*
-    Table of Contents
 
-    Name                 : FINLAB
+   /* Name                 : FINLAB
     Author               : DexignLab
     Author Portfolio     : https://themeforest.net/user/dexignlab/portfolio
     
@@ -32281,3 +32279,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
       color: #fff; }
 
 /*# sourceMappingURL=style.css.map */
+
+.card{
+  box-shadow: 0 0 10px #00000015 !important;
+}

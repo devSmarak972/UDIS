@@ -42,6 +42,8 @@
       href="https://fonts.googleapis.com/css2?family=Material+Icons"
       rel="stylesheet"
     />
+          <script src="{% static 'common/js/jquery-3.6.4.min.js' %}"></script>
+
     <!-- Style css -->
     <link href="{% static 'secretary/css/style.css' %}" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -456,6 +458,27 @@
                       style="height: 380px"
                     >
                       <ul class="timeline">
+                        {% for notif in notifications %}
+                        <li>
+                          <div class="timeline-panel">
+                            <div class="media me-2">
+                              <img
+                                alt="image"
+                                width="50"
+                                src="{% static 'secretary/images/anonuser.jpg' %}"
+                              />
+                            </div>
+                            <div class="media-body">
+                              <h6 class="mb-1">
+                                {{notif.title}}
+                              </h6>
+                              <small class="d-block"
+                                >{{notif.date}}</small
+                              >
+                            </div>
+                          </div>
+                        </li>
+                        {% endfor %}
                         <li>
                           <div class="timeline-panel">
                             <div class="media me-2">
@@ -757,6 +780,7 @@
               </ul>
             </li>
             {% endcomment %}
+           {% if user.utype == "Secretary" %}
             <li>
               <a
                 class="has-arrow"
@@ -771,6 +795,7 @@
                 <li><a href="/cashregister">Cashbook</a></li>
               </ul>
             </li>
+            {% endif %}
             <li>
               <a
                 class="has-arrow"
@@ -787,7 +812,7 @@
                 <li><a href="">Details</a></li>
               </ul>
             </li>
-            <li>
+            {% comment %} <li>
               <a
                 class="has-arrow"
                 href="javascript:void(0);"
@@ -801,7 +826,7 @@
                 <li><a href="./email-inbox.html">Professor</a></li>
                 <li><a href="./email-read.html">General</a></li>
               </ul>
-            </li>
+            </li> {% endcomment %}
 
             {% comment %}
             <li>
@@ -833,9 +858,9 @@
             Sidebar end
         ***********************************-->
 
-      <script src="{% static 'common/js/jquery-3.6.4.min.js' %}"></script>
       {% block content %}{% endblock content %}
     </div>
+<script src="{% static 'cashregister/js/swiper-bundle.min.js' %}"/>
 
     <script src="{% static 'secretary/vendor/global/global.min.js' %}"></script>
     <script src="{% static 'secretary/vendor/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>

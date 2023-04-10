@@ -1,3 +1,4 @@
 env
 *.pyc
-Backend\UDIS\mainapp\migrations
+UDIS/db.sqlite3
+UDIS/mainapp/migrations

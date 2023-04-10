@@ -12,12 +12,14 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    justify-content: flex-start;
+    gap: 2rem;
+    padding-bottom: 2rem !important;
 }
 
 .projects, .publications {
     width: 100%;
-    margin-top: 3rem;
+    margin-top: 0rem;
     background-color: antiquewhite;
     background: #eee;
     font-family: 'Poppins', sans-serif;
@@ -57,7 +59,8 @@
     /* width: calc(100% + 40px); */
     text-align: left;
     color: white;
-    padding: 0.5rem 2rem;
+    padding: 1rem 2rem;
+    margin-bottom: 0 !important;
     font-size: 1.75rem;
 }
 
@@ -82,6 +85,12 @@
     gap: 10px;
     border-radius: 15px;
     background-color: aliceblue;
+}
+
+.swiper-button-next span, .swiper-button-prev span{
+    background-color: transparent !important;
+    color: #00273a !important;
+    font-weight: 700 !important;
 }
 
 .swiper-slide .professor {

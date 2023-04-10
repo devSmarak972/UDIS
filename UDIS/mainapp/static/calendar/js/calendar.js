@@ -87,6 +87,15 @@ document.addEventListener("DOMContentLoaded", function () {
         start: "2020-09-28",
       },
     ],
+
+    drop: function (date, jsEvent, ui, resourceId) {
+      console.log(date);
+      $.get("/addEvent/"+date.date.toISOString()+"/"+date.draggedEl.innerText, (data, status) => {
+        console.log(data);
+      });
+
+    },
+
   });
 
   calendar.render();

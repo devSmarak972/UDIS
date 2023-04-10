@@ -1,14 +1,5 @@
 {% extends "base.html" %}{% load static %} {% load apptags %}
 {% block content %}
-<!--*******************
-        Preloader end
-    ********************-->
-
-<!--**********************************
-            Content body start
-        ***********************************-->
-{% comment %} <link href="{% static 'secretary/css/style.css' %}" type="text/html" /> {% endcomment %}
-
 <div class="content-body">
   <div class="container-fluid">
     <!-- Row -->
@@ -258,6 +249,15 @@ $(document).ready(function(){
     var dep = $(".selectdep .filter-option-inner-inner").text().toLowerCase();
     var slot = $(".selectslot .filter-option-inner-inner").text().toLowerCase();
     var avl = $(".selectavl .filter-option-inner-inner").text().toLowerCase();
+    if(dep === "select department"){
+      dep = ""
+    }
+    if(slot === "select slot"){
+      slot = ""
+    }
+    if(avl === "select availability"){
+      avl = "all"
+    }
     console.log(dep,slot,avl)
     var i=0
      $("#allcourse tr").css("display","none");
@@ -278,8 +278,19 @@ return department.includes(dep)&&slotit.includes(slot)&& availibility===avl;
 
   })
 
-
+  var rmbutton = $(".rmfilter")
+  rmbutton.click(function() {
+    $(".selectavl").val("default").selectpicker("refresh")
+    $(".selectdep").val("default").selectpicker("refresh")
+    $(".selectslot").val("default").selectpicker("refresh")
+    $(".addfilter").click()
+  })
 });
+
+
+
 </script>
+
+
  
 {% endblock content %}

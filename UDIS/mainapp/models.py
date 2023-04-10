@@ -118,6 +118,14 @@ class Experience(models.Model):
 
     def __str__(self):
         return self.organisation+" "+self.type
+class Event(models.Model):
+    title = models.CharField(max_length=200)
+    startDate = models.DateTimeField()
+    endDate = models.DateTimeField(null=True)
+    type = models.CharField(max_length=200,default="")
+
+    def __str__(self):
+        return self.title
 
 
 class Professor(usermodel):
