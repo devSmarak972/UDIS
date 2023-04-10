@@ -21,6 +21,9 @@ def to_str(project):
     for item in array:
         str+=item.name+","
     return str[:-2]
+@register.filter
+def multiply(a,b):
+    return a*b
 
 
 

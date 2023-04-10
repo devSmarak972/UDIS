@@ -148,30 +148,37 @@ class Project(models.Model):
 
 
 class Item(models.Model):
+    id=models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     count = models.IntegerField()
+    location=models.TextField(default="",blank=True)
     expenditure = models.CharField(max_length=200)
-
+    
+    def add(self,num,price):
+        self.expenditure+=num*price
     def __str__(self):
         return self.name
 
-
-class Order(models.Model):
-    item = models.CharField(max_length=200)
-    qty = models.IntegerField()
-    price = models.FloatField()
-    status = models.CharField(max_length=200)  # confirmed,recieved
-
-    def __str__(self):
-        return self.item
 
 
 class Person(models.Model):
     name = models.CharField(max_length=200)
     email = models.EmailField()
-
+    organisation=models.TextField(default="")
     def __str__(self):
         return self.name
+class Order(models.Model):
+    id=models.AutoField(primary_key=True)
+    item = models.CharField(max_length=200)
+    qty = models.IntegerField()
+    price = models.FloatField()
+    status = models.CharField(max_length=200,default="Pending")  # confirmed,recieved
+    date=models.DateField(auto_now_add=True)
+    seller=models.ForeignKey(Person,on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.item
+
 
 
 class Transaction(models.Model):
@@ -179,6 +186,8 @@ class Transaction(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     amount = models.CharField(max_length=200)
     date = models.DateField()
+    
+    type=models.CharField(max_length=255,default="received")#received or paid
 
     def __str__(self):
         return str(self.id)+"_"+str(self.amount)
@@ -197,11 +206,11 @@ class Student(usermodel):
     pin_code = models.IntegerField(null=True, blank=True)
     backlogs = models.IntegerField(default=0)
     regcourses = models.ManyToManyField(
-        Course, blank=True, null=True, related_name="regcourses")
+        Course, blank=True,  related_name="regcourses")
     appcourses = models.ManyToManyField(
-        Course, blank=True, null=True, related_name="appcourses")
+        Course, blank=True, related_name="appcourses")
     rejcourses = models.ManyToManyField(
-        Course, blank=True, null=True, related_name="rejcourses")
+        Course, blank=True,  related_name="rejcourses")
     cgpa = models.CharField(max_length=200, default="9.9")
     rollno = models.CharField(max_length=200, null=True, blank=True)
     gender = models.TextField(default="N/A")

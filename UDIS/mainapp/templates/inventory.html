@@ -15,201 +15,26 @@
                 <thead>
                   <tr>
                     <th style="width: 80px"><strong>#</strong></th>
-                    <th><strong>Roll no.</strong></th>
+                    {% comment %} <th><strong>item no.</strong></th> {% endcomment %}
                     <th><strong>Name</strong></th>
-                    <th><strong>Date</strong></th>
-                    <th><strong>Amount</strong></th>
-                    <th><strong>Status</strong></th>
-                    <th><strong>Semester</strong></th>
-                    <th><strong>Session</strong></th>
+                    <th><strong>Count</strong></th>
+                    <th><strong>Expenditure</strong></th>
+                    <th><strong>Location</strong></th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  
+                  {% for item in items %}
                     <tr>
-                    <td><strong>1</strong></td>
-                    <td>21CS30004</td>
-                    <td>ad ad</td>
-                    <td></td>
-                    <td>₹ 10000</td>
-                    <td>
-                      <span class="badge light badge-success">Confirmed</span>
-                    </td>
-                    <td> Spring</td>
-                    <td>2023-2024</td>
-                    <td>
-                      <div class="dropdown">
-                        <button type="button" class="btn btn-success light sharp" data-bs-toggle="dropdown" aria-expanded="false">
-                          <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                              <rect x="0" y="0" width="24" height="24"></rect>
-                              <circle fill="#000000" cx="5" cy="12" r="2"></circle>
-                              <circle fill="#000000" cx="12" cy="12" r="2"></circle>
-                              <circle fill="#000000" cx="19" cy="12" r="2"></circle>
-                            </g>
-                          </svg>
-                        </button>
-                        <div class="dropdown-menu" style="">
-                          <a class="dropdown-item" href="#">Confirm</a>
-                          <a class="dropdown-item" href="#">Deny</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  
-                    <tr>
-                    <td><strong>2</strong></td>
-                    <td>21CS30004</td>
-                    <td>ad ad</td>
-                    <td></td>
-                    <td>₹ 10000</td>
-                    <td>
-                      <span class="badge light badge-success">Confirmed</span>
-                    </td>
-                    <td> Spring</td>
-                    <td>2023-2024</td>
-                    <td>
-                      <div class="dropdown">
-                        <button type="button" class="btn btn-success light sharp" data-bs-toggle="dropdown" aria-expanded="false">
-                          <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                              <rect x="0" y="0" width="24" height="24"></rect>
-                              <circle fill="#000000" cx="5" cy="12" r="2"></circle>
-                              <circle fill="#000000" cx="12" cy="12" r="2"></circle>
-                              <circle fill="#000000" cx="19" cy="12" r="2"></circle>
-                            </g>
-                          </svg>
-                        </button>
-                        <div class="dropdown-menu" style="">
-                          <a class="dropdown-item" href="#">Confirm</a>
-                          <a class="dropdown-item" href="#">Deny</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  
-                    <tr>
-                    <td><strong>3</strong></td>
-                    <td>21CS30004</td>
-                    <td>ad ad</td>
-                    <td></td>
-                    <td>₹ 1000</td>
-                    <td>
-                      <span class="badge light badge-success">Confirmed</span>
-                    </td>
-                    <td> Spring</td>
-                    <td>2023-2024</td>
-                    <td>
-                      <div class="dropdown">
-                        <button type="button" class="btn btn-success light sharp" data-bs-toggle="dropdown" aria-expanded="false">
-                          <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                              <rect x="0" y="0" width="24" height="24"></rect>
-                              <circle fill="#000000" cx="5" cy="12" r="2"></circle>
-                              <circle fill="#000000" cx="12" cy="12" r="2"></circle>
-                              <circle fill="#000000" cx="19" cy="12" r="2"></circle>
-                            </g>
-                          </svg>
-                        </button>
-                        <div class="dropdown-menu" style="">
-                          <a class="dropdown-item" href="#">Confirm</a>
-                          <a class="dropdown-item" href="#">Deny</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  
-                  <tr>
-                    <td><strong>01</strong></td>
-                    <td>21CS30061</td>
-                    <td>Smarak Kanjilal</td>
-                    <td>01 August 2020 ,12:05 pm</td>
-                    <td>₹ 30000</td>
-                    <td>
-                      <span class="badge light badge-success">Confirmed</span>
-                    </td>
-                    <td>Spring</td>
-                    <td>2022-2023</td>
-                    <td>
-                      <div class="dropdown">
-                        <button type="button" class="btn btn-success light sharp" data-bs-toggle="dropdown" aria-expanded="false">
-                          <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                              <rect x="0" y="0" width="24" height="24"></rect>
-                              <circle fill="#000000" cx="5" cy="12" r="2"></circle>
-                              <circle fill="#000000" cx="12" cy="12" r="2"></circle>
-                              <circle fill="#000000" cx="19" cy="12" r="2"></circle>
-                            </g>
-                          </svg>
-                        </button>
-                        <div class="dropdown-menu" style="">
-                          <a class="dropdown-item" href="#">Confirm</a>
-                          <a class="dropdown-item" href="#">Deny</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><strong>01</strong></td>
-                    <td>21CS30061</td>
-                    <td>Smarak Kanjilal</td>
-                    <td>01 August 2020 ,12:05 pm</td>
-                    <td>₹ 30000</td>
-                    <td>
-                      <span class="badge light badge-danger">Failed</span>
-                    </td>
-                    <td>Spring</td>
-                    <td>2022-2023</td>
-                    <td>
-                      <div class="dropdown">
-                        <button type="button" class="btn btn-success light sharp" data-bs-toggle="dropdown" aria-expanded="false">
-                          <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                              <rect x="0" y="0" width="24" height="24"></rect>
-                              <circle fill="#000000" cx="5" cy="12" r="2"></circle>
-                              <circle fill="#000000" cx="12" cy="12" r="2"></circle>
-                              <circle fill="#000000" cx="19" cy="12" r="2"></circle>
-                            </g>
-                          </svg>
-                        </button>
-                        <div class="dropdown-menu" style="">
-                          <a class="dropdown-item" href="#">Confirm</a>
-                          <a class="dropdown-item" href="#">Deny</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><strong>01</strong></td>
-                    <td>21CS30061</td>
-                    <td>Smarak Kanjilal</td>
-                    <td>01 August 2020 ,12:05 pm</td>
-                    <td>₹ 30000</td>
-                    <td>
-                      <span class="badge light badge-warning">Pending</span>
-                    </td>
-                    <td>Spring</td>
-                    <td>2022-2023</td>
-                    <td>
-                      <div class="dropdown">
-                        <button type="button" class="btn btn-success light sharp" data-bs-toggle="dropdown" aria-expanded="false">
-                          <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                              <rect x="0" y="0" width="24" height="24"></rect>
-                              <circle fill="#000000" cx="5" cy="12" r="2"></circle>
-                              <circle fill="#000000" cx="12" cy="12" r="2"></circle>
-                              <circle fill="#000000" cx="19" cy="12" r="2"></circle>
-                            </g>
-                          </svg>
-                        </button>
-                        <div class="dropdown-menu" style="">
-                          <a class="dropdown-item" href="#">Confirm</a>
-                          <a class="dropdown-item" href="#">Deny</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
+                      <td>{{item.id}}</td>
+                      <td>{{item.name}}</td>
+                      <td>{{item.count}}</td>
+                      <td>{{item.location}}</td>
+                      <td>{{item.expenditure}}</td>
+                      {% comment %} <td>{{item.id}}</td> {% endcomment %}
+                    </tr>
+                  {% endfor %}
+                                    
                 </tbody>
               </table>
             </div>
