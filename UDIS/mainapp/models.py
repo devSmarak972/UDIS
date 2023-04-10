@@ -312,9 +312,9 @@ def totalFees(objs):
 
 class Notification(models.Model):
     title = models.TextField()
-    content = models.TextField()
+    content = models.TextField(blank=True,null=True)
     date = models.DateField(auto_now=True)
-    sender = models.OneToOneField(
+    sender = models.ForeignKey(
         usermodel, related_name="sender", on_delete=models.CASCADE)
     receiver = models.ManyToManyField(usermodel, related_name="receiver")
 
