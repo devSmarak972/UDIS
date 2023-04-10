@@ -17,7 +17,7 @@
   href="https://fonts.googleapis.com/css2?family=Material+Icons"
   rel="stylesheet"
 />
-<link href="{% static 'calendar/css/style.css' %}" rel="stylesheet" />
+{% comment %} <link href="{% static 'calendar/css/style.css' %}" rel="stylesheet" /> {% endcomment %}
 
 <!--**********************************
         Main wrapper start
@@ -30,8 +30,8 @@
       <div class="col-xl-3 col-xxl-4">
         <div class="card">
           <div class="card-body">
-            <h4 class="card-intro-title">{{user}} Calendar</h4>
-
+            <h4 class="card-intro-title">{{user.utype}} Calendar</h4>
+            
             <div class="">
               <div id="external-events" class="my-3">
                 <p>Drag and drop your event or click in the calendar</p>
@@ -203,15 +203,133 @@
 <!--**********************************
             Header start-->
 
-<script src="{% static 'calendar/vendor/global/global.min.js' %}"></script>
+{% comment %} <script src="{% static 'calendar/vendor/global/global.min.js' %}"></script> {% endcomment %}
 <script src="{% static 'calendar/vendor/moment/moment.min.js' %}"></script>
 
 <script src="{% static 'calendar/vendor/fullcalendar-5.11.0/lib/main.js' %}"></script>
 <script src="{% static 'calendar/vendor/jquery-nice-select/js/jquery.nice-select.min.js' %}"></script>
 <script src="{% static 'calendar/vendor/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
 
-<script src="{% static 'calendar/js/calendar.js' %}"></script>
-<script src="{% static 'calendar/js/custom.min.js' %}"></script>
+{% comment %} <script src="{% static 'calendar/js/calendar.js' %}"></script> {% endcomment %}
+{% comment %} <script src="{% static 'calendar/js/custom.min.js' %}"></script> {% endcomment %}
 {% comment %}
 <script src="{% static 'calendar/js/demo.js' %}"></script>
-{% endcomment %} {% endblock content %}
+{% endcomment %} 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  var Calendar = FullCalendar.Calendar;
+  var Draggable = FullCalendar.Draggable;
+
+  var containerEl = document.getElementById("external-events");
+  var calendarEl = document.getElementById("calendar");
+
+  // initialize the external events
+  // -----------------------------------------------------------------
+
+  new Draggable(containerEl, {
+    itemSelector: ".external-event",
+    eventData: function (eventEl) {
+      return {
+        title: eventEl.innerText,
+      };
+    },
+  });
+  var events=[]
+  // initialize the calendar
+  // -----------------------------------------------------------------
+  var getevents=async ()=>{
+     await $.get("/getEvents", (data, status) => {
+        console.log(data);
+        events=data
+      });
+      return events
+    }
+
+    getevents().then((events)=>{
+      console.log(events);
+      var calendar = new Calendar(calendarEl, {
+        headerToolbar: {
+          left: "prev,next today",
+          center: "title",
+          right: "dayGridMonth,timeGridWeek,timeGridDay",
+        },
+        initialDate: "2023-03-27",
+        navLinks: true, // can click day/week names to navigate views
+        editable: true,
+        droppable: true, // this allows things to be dropped onto the calendar
+        dayMaxEvents: true,
+        events:events,
+        
+    
+        drop: function (date, jsEvent, ui, resourceId) {
+          console.log(date);
+          $.get("/addEvent/"+date.date.toISOString()+"/"+date.draggedEl.innerText, (data, status) => {
+            console.log(data);
+          });
+    
+        },
+    
+      });
+  calendar.render();
+  });
+});
+     {% comment %} events: [
+      {
+        title: "All Day Event",
+        start: "2020-09-01",
+      },
+      {
+        title: "Long Event",
+        start: "2020-09-07",
+        end: "2020-09-10",
+      },
+      {
+        groupId: 999,
+        title: "Repeating Event",
+        start: "2020-09-09T16:00:00",
+      },
+      {
+        groupId: 999,
+        title: "Repeating Event",
+        start: "2020-09-16T16:00:00",
+      },
+      {
+        title: "Conference",
+        start: "2020-09-11",
+        end: "2020-09-13",
+      },
+      {
+        title: "Meeting",
+        start: "2020-09-12T10:30:00",
+        end: "2020-09-12T12:30:00",
+      },
+      {
+        title: "Lunch",
+        start: "2020-09-12T12:00:00",
+      },
+      {
+        title: "Meeting",
+        start: "2020-09-12T14:30:00",
+      },
+      {
+        title: "Some event",
+        start: "2020-09-12T17:30:00",
+      },
+      {
+        title: "Event",
+        start: "2020-09-12T20:00:00",
+      },
+      {
+        title: "Conference",
+        start: "2020-09-13T07:00:00",
+      },
+      {
+        title: "Click for Google",
+        url: "http://google.com/",
+        start: "2020-09-28",
+      },
+    ], {% endcomment %}
+</script>
+
+
+{% endblock content %}

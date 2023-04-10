@@ -25,6 +25,8 @@ urlpatterns = [
     path('logout', views.logout_view),
     path('registerstudent/<str:rollno>/<str:subno>', views.registerStudent),
     path('rejectstudent/<str:rollno>/<str:subno>', views.rejectStudent),
+    path('addEvent/<str:date>/<str:text>', views.addEvent),
+    path('getEvents', views.getEvents),
 
     ##### user related path##########################
     # path('login/', views.Login, name ='login'),
