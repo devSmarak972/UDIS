@@ -30,14 +30,14 @@ def dashboard(request):
 			feedone.append('No')
 	# print(request.user.__subclasses__)
 	user = request.user
-	notif=Notification.objects.filter(receiver=request.user)
-	
+	notif = Notification.objects.filter(receiver=request.user)
+
 	print(user.name, user.derived_type)
 	context = {
 		"students": students,
 		"fees": feedone,
 		"user": {"user": request.user, "utype": request.user.derived_type},
-		"notifications":notif,
+		"notifications": notif,
 	}
 
 	# return response with template and context
@@ -122,7 +122,7 @@ def Subregistration(request):
 		context = {
 			"user": request.user.derived_type,
 			"profcourses": courses,
-			"applications":applications
+			"applications": applications
 		}
 	context["user"] = {"user": request.user,
 					   "utype": request.user.derived_type}
@@ -149,7 +149,8 @@ def applySubject(request, subno):
 	sa = subjectApplication(course=course, message=dic.get(
 		'message')[0], student=student)
 	sa.save()
-	n=Notification.objects.create(sender=request.user,title=student.name+ "requested for subject "+ course.name)
+	n = Notification.objects.create(
+		sender=request.user, title=student.name + "requested for subject " + course.name)
 	n.receiver.set(course.professor_set.all())
 	n.receiver.add(*Secretary.objects.all())
 	n.save()
@@ -290,14 +291,19 @@ def cashregister(request):
 	# create a dictionary to pass
 	# data to the template
 	total = 200000
-	transactions = [{"type": "paid", "person": "Arun Biswas", "organisation": "Premium Woodworks Ltd", "contact": "arun143@gmail.com", "amount": "₹50000", "date": "March 30, 2023"}, {"type": "received", "person": "Viswanath Thakur", "organisation": "Alice Corporation",
-																																													   "contact": "vsthakur@gmail.com", "amount": "₹100000", "date": "March 31, 2023"}, {"type": "received", "person": "Viswanath Thakur", "organisation": "Premium Woodworks Ltd", "contact": "arun143@gmail.com", "amount": "₹50000", "date": "March 30, 2023"},]
+	transactions=Transaction.objects.all()
+	received = sum(float(i.amount)
+				   for i in transactions if i.type == "received")
+	paid = sum(float(i.amount) for i in transactions if i.type == "paid")
+	total = total+received-paid
+	order = Order.objects.all()
 	context = {
 		"user": "Secretary",
 		"transactions": transactions,
-		"expenditure": "₹"+str(sum(float(i["amount"][1:]) for i in transactions if i["type"] == "paid")),
-		"received": "₹"+str(sum(float(i["amount"][1:]) for i in transactions if i["type"] == "received")),
+		"expenditure": "₹"+str(paid),
+		"received": "₹"+str(received),
 		"balance": "₹"+str(total),
+		"orders": order
 
 	}
 	context["user"] = {"user": request.user,
@@ -306,19 +312,14 @@ def cashregister(request):
 	# return response with template and context
 	return render(request, "cash-register.html", context)
 
+
 @login_required(login_url="/signin")
 def inventory(request):
 	# create a dictionary to pass
 	# data to the template
-	total = 200000
-	transactions = [{"type": "paid", "person": "Arun Biswas", "organisation": "Premium Woodworks Ltd", "contact": "arun143@gmail.com", "amount": "₹50000", "date": "March 30, 2023"}, {"type": "received", "person": "Viswanath Thakur", "organisation": "Alice Corporation",
-																																													   "contact": "vsthakur@gmail.com", "amount": "₹100000", "date": "March 31, 2023"}, {"type": "received", "person": "Viswanath Thakur", "organisation": "Premium Woodworks Ltd", "contact": "arun143@gmail.com", "amount": "₹50000", "date": "March 30, 2023"},]
+	item = Item.objects.all()
 	context = {
-		"user": "Secretary",
-		"transactions": transactions,
-		"expenditure": "₹"+str(sum(float(i["amount"][1:]) for i in transactions if i["type"] == "paid")),
-		"received": "₹"+str(sum(float(i["amount"][1:]) for i in transactions if i["type"] == "received")),
-		"balance": "₹"+str(total),
+		"items":item
 
 	}
 	context["user"] = {"user": request.user,
@@ -326,7 +327,6 @@ def inventory(request):
 
 	# return response with template and context
 	return render(request, "inventory.html", context)
-
 
 
 @login_required(login_url="/signin")
@@ -424,13 +424,15 @@ def payfees(request):
 	sa.save()
 
 	return redirect("/feepayment")
-def confirmpay(request,transid):
+
+
+def confirmpay(request, transid):
 	# dic = dict(request.POST.lists())
 	# print(dic.get('amount')[0])
 	sa = FeeTransaction.objects.filter(id=transid)[0]
-	sa.status="Success"
-	
-	student =sa.student
+	sa.status = "Success"
+
+	student = sa.student
 	student.updatePaid(float(sa.amount))
 	sa.save()
 	student.save()
@@ -441,11 +443,13 @@ def confirmpay(request,transid):
 	# sa.save()
 
 	return redirect("/feepayment")
-def denypay(request,transid):
+
+
+def denypay(request, transid):
 	sa = FeeTransaction.objects.filter(id=transid)[0]
 	sa.status = "Failed"
-	
-	student =sa.student
+
+	student = sa.student
 	student.updatePaid(float(sa.amount))
 	sa.save()
 	student.save()
