@@ -228,15 +228,18 @@
                       </div>
                     </li>
                     <li class="name-first-letter">Students</li>
+                    {% for notif in notifications %}
                     <li>
                       <div class="d-flex bd-highlight">
                         <div class="img_cont primary">SK</div>
                         <div class="user_info">
-                          <span>Smarak Kanjilal</span>
-                          <p>Fee payment completed</p>
+                          <span>{{notif.sender.name}}</span>
+                          <p>{{notif.title}}</p>
+                          <p>{{notif.date}}</p>
                         </div>
                       </div>
                     </li>
+                    {% endfor %}
                     <li>
                       <div class="d-flex bd-highlight">
                         <div class="img_cont info">NR</div>
