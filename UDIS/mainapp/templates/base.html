@@ -758,7 +758,7 @@
               <ul aria-expanded="false">
                 <li><a href="/dashboard">Student Details</a></li>
                 <li><a href="/curriculum">Curriculum</a></li>
-                {% if user.utype == "Professor" %}
+                {% if user.utype != "Professor" %}
                 <li><a href="/feepayment">Fee Payment</a></li>
                 {% endif %}
                 <li><a href="/subreg">Subject Registration</a></li>
