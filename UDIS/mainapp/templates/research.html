@@ -1,0 +1,151 @@
+{%extends 'base.html' %} {% load static %}
+{% load apptags %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'publications/css/research.css' %}" />
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
+/>
+<div class="content-body">
+  <div class="container-fluid">
+    <div class="projects-publications">
+      <div class="projects">
+        <div class="projects_heading">
+          <h1>Research Projects</h1>
+          {% comment %} <button type="button" data-bs-toggle="modal" data-bs-target="#pubModal">Add Publication</button> {% endcomment %}
+
+        </div>
+        <!-- Swiper -->
+        <div class="swiper-container">
+          <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+          {% for project in projects %}
+              <div class="swiper-slide">
+                {% comment %} <img src="http://cse.iitkgp.ac.in/~animeshm/mypic.jpg" /> {% endcomment %}
+                <span class="professor">{{project.prof.name}}</span>
+                <span class="project-name">{{project.name}}</span>
+                <p class="project-description text-center">
+                  {{project.desc}}
+                </p>
+              </div>
+              {% endfor %}
+
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="publications">
+        <div class="publications_heading">
+          <h1>Publications</h1>
+          {% comment %} <button>Add Publication</button> {% endcomment %}
+        </div>
+                  <div class="modal fade" id="pubModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add a Publication</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form action="/addpub" method="POST" id="addpub">
+                    <div class="mb-3">Name</label>
+                      <input type="text" class="form-control" id="name" placeholder="Name of Publication">
+                    </div>
+                    <div class="mb-3">type</label>
+                      <input type="text" class="form-control" id="type" placeholder="Name of Publication">
+                    </div>
+                    <div class="mb-3">Publication Place</label>
+                      <input type="text" class="form-control" id="place" placeholder="Name of Publication">
+                    </div>
+                    <div class="mb-3">Date</label>
+                      <input type="date" class="form-control" id="date" placeholder="Name of Publication">
+                    </div>
+                    <div class="mb-3">
+                      <label for="abstract" class="form-label">Abstract</label>
+                      <textarea class="form-control" id="abstract" rows="3"></textarea>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" form="addpub" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- Swiper -->
+        <div class="swiper-container">
+          <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+              {% for publication in publications %}
+              <div class="swiper-slide">
+                <span class="publication-name"
+                  >{{publication.name}}</span
+                >
+                <span class="authors"
+                  >{{publication|to_str}}</span
+                >
+                <span class="publication-type">{{publication.type}}</span>
+                <span class="publication-place"
+                  >{{publication.place}}
+                </span>
+                <span class="publication-date"
+                  >{{publication.date}}
+                </span>
+                <a class="publication-link" href="{{publication.url}}">Link</a>
+              </div>
+            {% endfor %}
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+<!-- Initialize Swiper -->
+<script>
+  var swiper = new Swiper(".mySwiper", {
+    slidesPerView: 1,
+    spaceBetween: 10,
+    cssMode: true,
+    mousewheel: true,
+    keyboaard: true,
+    autoplay: {
+      delay: 7000,
+      disableOnInteraction: false,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    breakpoints: {
+      768: {
+        slidesPerView: 2,
+        spaceBetween: 40,
+      },
+      1024: {
+        slidesPerView: 3,
+        spaceBetween: 50,
+      },
+    },
+  });
+</script>
+<script src="" async defer></script>
+{% endblock content %}

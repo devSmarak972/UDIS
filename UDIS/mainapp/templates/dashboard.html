@@ -1,0 +1,279 @@
+{% extends "base.html" %}{% load static %} {% load apptags %}
+{% block content %}
+<!--*******************
+        Preloader end
+    ********************-->
+
+<!--**********************************
+            Content body start
+        ***********************************-->
+{% comment %} <link href="{% static 'secretary/css/style.css' %}" type="text/html" /> {% endcomment %}
+
+<div class="content-body">
+  <div class="container-fluid">
+    <!-- Row -->
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="filter cm-content-box box-primary">
+          <div class="content-title">
+            <div class="cpa">
+              <i class="fa-sharp fa-solid fa-filter me-2"></i>Filter
+            </div>
+            <div class="tools">
+              <a href="javascript:void(0);" class="expand SlideToolHeader"
+                ><i class="fal fa-angle-down"></i
+              ></a>
+            </div>
+          </div>
+          <div class="cm-content-body form excerpt">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-xl-3">
+                  <input
+                    type="text"
+                    class="form-control mb-xl-0 mb-3"
+                    id="name"
+                    placeholder="Name"
+                  />
+                </div>
+                <div class="col-xl-3">
+                  <input
+                    type="text"
+                    class="form-control mb-xl-0 mb-3"
+                    id="rollno"
+                    placeholder="Roll No."
+                  />
+                </div>
+                <div class="col-xl-3">
+                    <select class="selectpicker selectavl w-100 semester" data-live-search="true" placeholder="Select Semester">
+                      <option data-tokens="1 one" value="1">Semester 1</option>
+                      <option data-tokens="2 two" value="2">Semester 2</option>
+                      <option data-tokens="3 three" value="3">Semester 3</option>
+                      <option data-tokens="4 four" value="4">Semester 4</option>
+                      <option data-tokens="5 five" value="5">Semester 5</option>
+                      <option data-tokens="6 six" value="6">Semester 6</option>
+                      <option data-tokens="7 seven" value="7">Semester 7</option>
+                      <option data-tokens="8 eight" value="8">Semester 8</option>
+                      <option data-tokens="9 nine" value="9">emester 9</option>
+                      <option data-tokens="10 ten" value="10">Semester 10</option>
+                    </select>
+                </div>
+                <div class="col-xl-3">
+                  <button
+                    class="btn btn-info addfilter"
+                    title="Click here to Search"
+                    type="button"
+                  >
+                    <i class="fa fa-search me-1"></i>Filter
+                  </button>
+                  <button
+                    class="btn btn-light rmfilter"
+                    title="Click here to remove filter"
+                    type="button"
+                    style="margin-left: 20px;"
+                     
+                  >
+                    Remove Filter
+                  </button>
+                </div>
+              </div>
+
+              <div class="row" style="padding: 20px">
+                <div class="form-check col-md-2">
+                  <input
+                    class="form-check-input registered"
+                    type="checkbox"
+                    value=""
+                    checked
+                    id="flexCheckDefault"
+                  />
+                  <label class="form-check-label" for="flexCheckDefault">
+                    Registered
+                  </label>
+                </div>
+                <div class="form-check col">
+                  <input
+                    class="form-check-input fee-payment"
+                    type="checkbox"
+                    value=""
+                    id="flexCheckChecked"
+                  />
+                  <label class="form-check-label" for="flexCheckChecked">
+                    Fee payment
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <a href="content-add.html" class="btn btn-primary">Add Student</a>
+        </div>
+        <div class="filter cm-content-box box-primary">
+          <div class="content-title">
+            <div class="cpa">
+              <i class="fa-solid fa-file-lines me-1"></i>Student List
+            </div>
+            <div class="tools">
+              <a href="javascript:void(0);" class="expand SlideToolHeader"
+                ><i class="fal fa-angle-down"></i
+              ></a>
+            </div>
+          </div>
+          <div class="cm-content-body form excerpt">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table
+                  class="student-table table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th>Roll No.</th>
+                      <th>Name</th>
+                      <th>Semester</th>
+                      <th>Fee Payment</th>
+                      <th>Registered</th>
+                      <!-- <th>Actions</th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for student in students%}
+                    <tr rollno="{{student.rollno}}" name="{{student.name}}" sem="{{student.sem}}" fees="{{ fees|at_index:forloop.counter0 }}" regdone="{{student.regdone}}" onclick="window.location='student-profile/{{student.rollno}}';">
+                      <td>{{student.rollno}}</td>
+                      <td>{{student.name}}</td>
+                      <td>Semester {{student.sem}}</td>
+                         <td>{{ fees|at_index:forloop.counter0 }}</td>
+                      {% comment %} <td>{% if student.fees[ {{forloop.counter1}} ] %} Yes {% else %}No {% endif %}</td> {% endcomment %}
+                      <td>{{student.regdone}}</td>
+                    </tr>
+                    {% endfor %}
+      
+                  </tbody>
+                </table>
+                <div
+                  class="d-flex align-items-center justify-content-xl-between flex-wrap justify-content-center"
+                >
+                  <!-- <span>Page 1 of 4, showing 2 records out of 8 total, starting on record 1, ending on 2</span> -->
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination mb-2 mb-sm-0">
+                      <li class="page-item">
+                        <a class="page-link" href="#"
+                          ><i class="fa-solid fa-angle-left"></i
+                        ></a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#"
+                          ><i class="fa-solid fa-angle-right"></i
+                        ></a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $(".addfilter").click(function(){
+      var name = $("#name").val().toLowerCase()
+      var rollno = $("#rollno").val().toLowerCase()
+      var semester = $(".semester .filter-option-inner-inner").text().toLowerCase()
+      var registered = $(".registered").is(":checked")?"yes":"no"
+      var fees = $(".fee-payment").is(":checked")?"yes":"no"
+
+      if(semester === "select semester"){
+        semester = ""
+      }
+      else{
+        var substrings = semester.split(" ")
+        semester = substrings[1]
+      }
+      console.log(name, rollno, semester, registered, fees)
+
+      var i = 0;
+      $(".student-table tr").css("display", "none")
+      var fil = $(".student-table tr").filter(function() {
+        i++;
+        if(i===1){
+          return true;
+        }
+        
+        var Name = $(this).attr('name').toLowerCase()
+        var Rollno = $(this).attr('rollno').toLowerCase()
+        var Semester = $(this).attr('sem').toLowerCase()
+        var Fees = $(this).attr('fees').toLowerCase()
+        var Regdone = $(this).attr('regdone').toLowerCase()
+        console.log(this)
+        console.log(Name, name, Regdone, registered)
+        console.log(Name.includes(name), Rollno.includes(rollno), Semester.includes(semester), Fees.includes(fees),  Regdone.includes(registered))
+        console.log(Name, Rollno, Semester, Fees, Regdone)
+        return (Name.includes(name) && Rollno.includes(rollno) && Semester.includes(semester) && Fees.includes(fees) && Regdone.includes(registered))
+      }).css("display", "table-row")      
+    })
+  })
+</script>
+
+<script>
+  console.log("!#!#!")
+  $(document).ready(function() {    
+    $(".rmfilter").click(function() {
+      console.log("!!!!")
+      $("#name").val("")
+      $("#rollno").val("")
+      $(".semester").val("default").selectpicker("refresh")      
+      $(".registered").prop("checked", true);
+      $(".fee-payment").prop("checked", false);
+      $(".addfilter").click()
+    })
+  })
+</script>
+
+<!--**********************************
+            Content body end
+        ***********************************-->
+<!--**********************************
+					Footer start
+				***********************************-->
+
+<!--**********************************
+            Footer end
+        ***********************************-->
+
+<!--**********************************
+           Support ticket button start
+        ***********************************-->
+
+<!--**********************************
+           Support ticket button end
+        ***********************************-->
+<!--**********************************
+        Main wrapper end
+    ***********************************-->
+<!--**********************************
+		Modal
+***********************************-->
+
+<!--**********************************
+	Modal
+***********************************-->
+
+<!--**********************************
+        Scripts
+    ***********************************-->
+<!-- Required vendors -->
+{% endblock content %}

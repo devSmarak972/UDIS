@@ -1,0 +1,298 @@
+{% extends "base.html" %}{% load static %} {% load apptags %}
+{% block content %}
+
+<div class="content-body">
+  <div class="container-fluid">
+    <!-- Row -->
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="filter cm-content-box box-primary">
+          <div class="content-title">
+            <div class="cpa">
+              <i class="fa-sharp fa-solid fa-filter me-2"></i>Select Subjects
+            </div>
+            <div class="tools">
+              <a href="javascript:void(0);" class="expand SlideToolHeader"
+                ><i class="fal fa-angle-down"></i
+              ></a>
+            </div>
+          </div>
+          <div class="cm-content-body form excerpt">
+            <div class="card-body">
+              <div class="row">
+
+                <div class="col-xl-3 col-sm-12">
+                  <select class="selectpicker selectdep w-100" data-live-search="true" placeholder="Select Department">
+                    {% for department in departments %}
+                    <option data-tokens="{{department}}">{{department}}</option>
+                    {% endfor %}
+                  </select>
+
+                </div>
+
+                    <div class="col-xl-3 col-sm-12">
+                  <select class="selectpicker selectslot w-100" data-live-search="true" placeholder="Select Slot">
+                    
+                    {% for slot in slots %}
+                    <option data-tokens="{{slot}}">{{slot}}</option>
+                    {% endfor %}
+                  </select>
+										</div>
+                    <div class="col-xl-3 col-sm-12">
+                  <select class="selectpicker selectavl w-100" data-live-search="true" placeholder="Select Availability">
+                    <option data-tokens="All">All</option>
+                    <option data-tokens="Available">Available</option>
+                    <option data-tokens="Filling">Filling Fast</option>
+                    <option data-tokens="Filled">Filled</option>
+                  </select>
+										</div>
+                <div class="col-xl-3">
+                  <button
+                    class="btn btn-info addfilter"
+                    title="Click here to Search"
+                    type="button"
+                  >
+                    <i class="fa fa-search me-1"></i>Filter
+                  </button>
+                  <button
+                    class="btn btn-light rmfilter"
+                    title="Click here to remove filter"
+                    type="button"
+                  >
+                    Remove Filter
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="card-body">
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                  id="allcourse"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Slot</strong></th>
+                      <th><strong>Room no.</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th><strong>Status</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %}
+                    <tr department="{{course.department}}" slot="{{course.slot}}" avl="{{course.available}}">
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.slot}}</td>
+                      <td>{{course.room}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td><span class="badge light {% if regcourses|arr_contains:course %} badge-success {% elif appcourses|arr_contains:course %} badge-warning {% elif rejcourses|arr_contains:course %} badge-danger {% endif %}">
+                       {% if regcourses|arr_contains:course %} Accepted {% elif appcourses|arr_contains:course %} Pending {% elif rejcourses|arr_contains:course %} Rejected {% else %} - {% endif %}
+
+
+                      </span></td>
+                      <td>
+                        <div>
+														<button type="button" class="btn btn-success light sharp" data-bs-toggle="modal" data-bs-target="#mailModal{{course.subno}}" aria-expanded="false">
+                              <i class="fas fa-envelope"></i>
+														</button>
+                             <div class="modal fade" id="mailModal{{course.subno}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Apply for {{course.name}}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <form method="POST" action="applysub/{{course.subno}}" id="applymsg{{course.subno}}" >
+                                          {% csrf_token %}
+
+                                      <div class="form-group">
+                                        <label for="message">Letter of Interest</label>
+                                        <textarea form="applymsg{{course.subno}}" type="text" class="form-control" id="message" name="message" rows="6"></textarea>
+                                      </div>
+                                    </form>
+                                  </div>
+                                  <div class="modal-footer" >
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" value="Submit" class="btn btn-primary" name="submit" form="applymsg{{course.subno}}" onsubmit="return false">Apply</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+													</div>
+                      </td>
+                    </tr>
+                   {% endfor %}
+                  </tbody>
+                </table>
+                <div class="d-flex align-items-center justify-content-xl-between flex-wrap justify-content-center">
+                  <!-- <span>Page 1 of 4, showing 2 records out of 8 total, starting on record 1, ending on 2</span> -->
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination mb-2 mb-sm-0">
+                      <li class="page-item">
+                        <a class="page-link" href="#"><i class="fa-solid fa-angle-left"></i></a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter cm-content-box box-primary">
+          <div class="content-title">
+            <div class="cpa">
+              <i class="fa-solid fa-file-lines me-1"></i>Registration
+            </div>
+            <div class="tools">
+              <a href="javascript:void(0);" class="expand SlideToolHeader"
+                ><i class="fal fa-angle-down"></i
+              ></a>
+            </div>
+          </div>
+          <div class="cm-content-body form excerpt">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th><strong>Slot</strong></th>
+                      <th><strong>Name</strong></th>
+                      <th><strong>Room no.</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <!-- <th>Actions</th> -->
+                    </tr>
+                    
+                  </thead>
+
+                  <tbody>
+                  {% for course in regcourses%}
+                    <tr>
+                      <td>{{course.slot}}</td>
+                      <td>{{course.name}}</td>
+                      <td>{{course.room}}</td>
+                         <td>{{ course.LTP }}</td>
+                      {% comment %} <td>{% if student.fees[ {{forloop.counter1}} ] %} Yes {% else %}No {% endif %}</td> {% endcomment %}
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                    </tr>
+                    {% endfor %}
+      
+                  </tbody>
+                </table>
+                <div
+                  class="d-flex align-items-center justify-content-xl-between flex-wrap justify-content-center"
+                >
+                  <!-- <span>Page 1 of 4, showing 2 records out of 8 total, starting on record 1, ending on 2</span> -->
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination mb-2 mb-sm-0">
+                      <li class="page-item">
+                        <a class="page-link" href="#"
+                          ><i class="fa-solid fa-angle-left"></i
+                        ></a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#"
+                          ><i class="fa-solid fa-angle-right"></i
+                        ></a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+  $(".addfilter").on("click", function() {
+    var dep = $(".selectdep .filter-option-inner-inner").text().toLowerCase();
+    var slot = $(".selectslot .filter-option-inner-inner").text().toLowerCase();
+    var avl = $(".selectavl .filter-option-inner-inner").text().toLowerCase();
+    if(dep === "select department"){
+      dep = ""
+    }
+    if(slot === "select slot"){
+      slot = ""
+    }
+    if(avl === "select availability"){
+      avl = "all"
+    }
+    console.log(dep,slot,avl)
+    var i=0
+     $("#allcourse tr").css("display","none");
+    var fil=$("#allcourse tr").filter(function() {
+      i++;
+      if(i==1)return true
+      console.log(this)
+department=$(this).attr('department').toLowerCase();
+slotit=$(this).attr('slot').toLowerCase();
+availibility=$(this).attr('avl').toLowerCase();
+    console.log(department,slotit,availibility)
+    console.log(department.includes(dep),slotit.includes(slot))
+if (avl==="all")
+return department.includes(dep)&&slotit.includes(slot)
+else
+return department.includes(dep)&&slotit.includes(slot)&& availibility===avl;
+    }).css("display","table-row");
+
+  })
+
+  var rmbutton = $(".rmfilter")
+  rmbutton.click(function() {
+    $(".selectavl").val("default").selectpicker("refresh")
+    $(".selectdep").val("default").selectpicker("refresh")
+    $(".selectslot").val("default").selectpicker("refresh")
+    $(".addfilter").click()
+  })
+});
+
+
+
+</script>
+
+
+ 
+{% endblock content %}

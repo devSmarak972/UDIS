@@ -1,0 +1,665 @@
+{% extends "base.html" %} {% load static %} 
+{% load apptags %}
+{% block content %}
+<div class="content-body" style="min-height: 871px">
+  <div class="container-fluid">
+    <!-- Row -->
+    <div class="row">
+      <div class="col-xl-12">
+        {% if user.utype == "Secretary" %}
+        <div class="mb-3">
+          <a href="content-add.html" class="btn btn-primary">Add Course</a>
+        </div>
+        {% endif %}
+        <div class="filter cm-content-box box-primary">
+          <div class="content-title">
+            <div class="cpa">
+              <i class="fa-solid fa-file-lines me-1"></i>First Year UG
+              Curriculum
+            </div>
+            <div class="tools">
+              <a href="javascript:void(0);" class="expand SlideToolHeader"
+                ><i class="fal fa-angle-down"></i
+              ></a>
+            </div>
+          </div>
+          <div class="cm-content-body form excerpt">
+            <div class="card-body">
+              <h2>Semester 1</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 1 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} 
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <h2>Semester 2</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 2 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="filter cm-content-box box-primary">
+          <div class="content-title">
+            <div class="cpa">
+              <i class="fa-solid fa-file-lines me-1"></i>Second Year UG
+              Curriculum
+            </div>
+            <div class="tools">
+              <a href="javascript:void(0);" class="expand SlideToolHeader"
+                ><i class="fal fa-angle-down"></i
+              ></a>
+            </div>
+          </div>
+          <div class="cm-content-body form excerpt">
+            <div class="card-body">
+              <h2>Semester 3</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 3 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <h2>Semester 4</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 4 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="filter cm-content-box box-primary">
+          <div class="content-title">
+            <div class="cpa">
+              <i class="fa-solid fa-file-lines me-1"></i>Third Year UG
+              Curriculum
+            </div>
+            <div class="tools">
+              <a href="javascript:void(0);" class="expand SlideToolHeader"
+                ><i class="fal fa-angle-down"></i
+              ></a>
+            </div>
+          </div>
+          <div class="cm-content-body form excerpt">
+            <div class="card-body">
+              <h2>Semester 5</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 5 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <h2>Semester 6</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 6 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="filter cm-content-box box-primary">
+          <div class="content-title">
+            <div class="cpa">
+              <i class="fa-solid fa-file-lines me-1"></i>Fourth Year B.Tech
+              Curriculum
+            </div>
+            <div class="tools">
+              <a href="javascript:void(0);" class="expand SlideToolHeader"
+                ><i class="fal fa-angle-down"></i
+              ></a>
+            </div>
+          </div>
+          <div class="cm-content-body form excerpt">
+            <div class="card-body">
+              <h2>Semester 7</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 7 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <h2>Semester 8</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 8 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="filter cm-content-box box-primary">
+          <div class="content-title">
+            <div class="cpa">
+              <i class="fa-solid fa-file-lines me-1"></i>Fourth Year Dual Degree
+              Curriculum
+            </div>
+            <div class="tools">
+              <a href="javascript:void(0);" class="expand SlideToolHeader"
+                ><i class="fal fa-angle-down"></i
+              ></a>
+            </div>
+          </div>
+          <div class="cm-content-body form excerpt">
+            <div class="card-body">
+              <h2>Semester 7</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 7 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <h2>Semester 8</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 8 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="filter cm-content-box box-primary">
+          <div class="content-title">
+            <div class="cpa">
+              <i class="fa-solid fa-file-lines me-1"></i>Fifth Year Dual Degree
+              Curriculum
+            </div>
+            <div class="tools">
+              <a href="javascript:void(0);" class="expand SlideToolHeader"
+                ><i class="fal fa-angle-down"></i
+              ></a>
+            </div>
+          </div>
+          <div class="cm-content-body form excerpt">
+            <div class="card-body">
+              <h2>Semester 9</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 9 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <h2>Semester 10</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 10 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="filter cm-content-box box-primary">
+          <div class="content-title">
+            <div class="cpa">
+              <i class="fa-solid fa-file-lines me-1"></i>UG Electives
+            </div>
+            <div class="tools">
+              <a href="javascript:void(0);" class="expand SlideToolHeader"
+                ><i class="fal fa-angle-down"></i
+              ></a>
+            </div>
+          </div>
+          <div class="cm-content-body form excerpt">
+            <div class="card-body">
+              <h2>Autumn Semester</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 13 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <h2>Spring Semester</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 14 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="filter cm-content-box box-primary">
+          <div class="content-title">
+            <div class="cpa">
+              <i class="fa-solid fa-file-lines me-1"></i>PG Electives
+            </div>
+            <div class="tools">
+              <a href="javascript:void(0);" class="expand SlideToolHeader"
+                ><i class="fal fa-angle-down"></i
+              ></a>
+            </div>
+          </div>
+          <div class="cm-content-body form excerpt">
+            <div class="card-body">
+              <h2>Autumn Semester</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 15 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <h2>Spring Semester</h2>
+              <div class="table-responsive">
+                <table
+                  class="table table-bordered table-striped table-condensed flip-content"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 80px"><strong>Subno</strong></th>
+                      <th><strong>Subject Name</strong></th>
+                      <th><strong>Subject Type</strong></th>
+                      <th><strong>LTP</strong></th>
+                      <th><strong>Credit</strong></th>
+                      <th><strong>Faculty</strong></th>
+                      <th><strong>Prerequisites</strong></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for course in courses %} {% if course.sem == 16 %}
+                    <tr>
+                      <td><strong>{{course.subno}}</strong></td>
+                      <td href="{{course.url}}">{{course.name}}</td>
+                      <td>{{course.type}}</td>
+                      <td>{{course.LTP}}</td>
+                      <td>{{course.credits}}</td>
+                      <td>{{course|getProfs}}</td>
+                      <td></td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

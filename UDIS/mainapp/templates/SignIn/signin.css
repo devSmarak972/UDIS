@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #00273a;
+    background-image: url("https://www.iitkgpfoundation.org/images/vault/287.jpg");
+    background-attachment: fixed;
+    background-position-y: center;
+    background-position-x: center;
+    background-size: cover;
+}
+
+.login-form h1{
+    font-size: 24px;
+}
+
+.login-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    max-width: calc(100vw - 2rem);
+    border-radius: 20px;
+    padding: 2rem;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 20px #00000083;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-form button{
+    background-color: #00273a;
+    border-radius: 10px;
+    border: 2px solid #00273a;
+}
+
+.login-form h1{
+    margin-bottom: 1rem;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.logo-img{
+    width: 50px;
+    display: block;
+    height: 100%;
+}
+
+.login-form .logo span{
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+a{
+    color: #00273a;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-floating,
+.form-floating input {
+    border-radius: 15px !important;
+    width: 300px;
+}
+
+.form-floating::before {
+    height: 0 !important;
+}

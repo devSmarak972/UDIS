@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+body{
+    font-family: 'Poppins', sans-serif;
+    color: #00273a;
+    background-image: url("https://www.iitkgpfoundation.org/images/vault/287.jpg");
+    background-attachment: fixed;
+    background-position-y: center;
+    background-position-x: center;
+    background-size: cover;
+}
+#signUpForm {
+    width: 500px;
+    background-color: #ffffff;
+    margin: 40px auto;
+    padding: 40px;
+    box-shadow: 0px 6px 18px rgb(0 0 0 / 9%);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#signUpForm .form-header {
+    gap: 5px;
+    text-align: center;
+    font-size: .9em;
+}
+#signUpForm .form-header #stepIndicator {
+    position: relative;
+    flex: 1;
+    padding: 10px 20px 30px 20px;
+    font-size: 16px;
+    color: #b2b2b2;
+}
+#signUpForm .form-header #stepIndicator.active {
+    font-weight: 700;
+    color: #00273a;
+}
+#signUpForm .form-header #stepIndicator.finish {
+    font-weight: 500;
+    color: #00273a;
+}
+#signUpForm .form-header #stepIndicator::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    z-index: 9;
+    width: 20px;
+    height: 20px;
+    background-color: #cceeff;
+    border-radius: 50%;
+    border: 3px solid #ecf5f4;
+}
+#signUpForm .form-header #stepIndicator.active::before {
+    background-color: #70cfff;
+    border: 3px solid #d5f9f6;
+}
+#signUpForm .form-header #stepIndicator.finish::before {
+    background-color: #00679a;
+    border: 3px solid #70cfff;
+}
+#signUpForm .form-header #stepIndicator::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 8px;
+    width: 100%;
+    height: 3px;
+    background-color: #f3f3f3;
+}
+#signUpForm .form-header #stepIndicator.active::after {
+    background-color: #70cfff;
+}
+#signUpForm .form-header #stepIndicator.finish::after {
+    background-color: #00679a;
+}
+#signUpForm .form-header #stepIndicator:last-child:after {
+    display: none;
+}
+#signUpForm input {
+    padding: 15px 20px;
+    width: 100%;
+    font-size: 1em;
+    border-radius: 5px;
+}
+#signUpForm input:focus {
+    border: 1px solid #00679a;
+    outline: 0;
+}
+#signUpForm input.invalid {
+    border: 1px solid #ffaba5;
+}
+#signUpForm .step {
+  display: none;
+  margin-top: 10px;
+}
+#signUpForm .form-footer{
+    overflow:auto;
+    gap: 20px;
+}
+#signUpForm .form-footer button{
+    background-color: #00273a;
+    background-color: #00273a !important;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 10px;
+    flex: 1;
+    margin-top: 5px;
+    transition: all 0.3s ease;
+}
+#signUpForm .form-footer button:hover {
+  opacity: 0.8;
+}
+
+#signUpForm .form-footer #prevBtn {
+    background-color: #fff;
+    color: white;
+}
+
+
+
+.step{
+    width: 300px;
+}
+
+.step2, .step3{
+    width: 400px;
+}
+
+.signup-form{
+    height: 100vh;
+    width: 500px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.logo-img{
+    width: 50px;
+    display: block;
+    height: 100%;
+}
+
+.logo span{
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+.form-floating{
+    margin-bottom: 10px;
+}
+
+.form-floating,
+.form-floating input {
+    border-radius: 15px !important;
+    /* width: 300px; */
+}
+
+.form-floating, .form-floating select{
+    border-radius: 15px !important;
+    /* width: 300px; */
+}
+
+.form-floating::before {
+    height: 0 !important;
+}
+
+.form-floating input{
+    padding: 1.5rem 0.75rem 0.5rem !important;
+}
+
+.signup-type{
+    font-weight: 500;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.row-inp{
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    flex-basis: auto;
+    flex-grow: 1;
+}
+
+.row-inp .form-floating{
+    flex-grow: 1;
+    flex-basis: 0;
+}
