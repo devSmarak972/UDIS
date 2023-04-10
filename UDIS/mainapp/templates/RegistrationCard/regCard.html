@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./regCard.css" />
+  </head>
+  <body>
+    <div class="heading">
+      <div class="logo">
+        <img
+          class="logo-img"
+          src="https://www.logolynx.com/images/logolynx/0a/0ade42c723d39d5765f3934a62a12b70.jpeg"
+          alt="iitkgp-logo"
+        />
+        <span>UDIS</span>
+      </div>
+      <div class="mid-text">
+        <span class="span1">Provisional Registration Card</span>
+        <span class="span2">Indian Institute of Technology Kharagpur</span>
+        <span class="span3"
+          >Semester: 4
+        </span><span class="span3"
+        >Computer Science and Engineering
+      </span>
+        <span class="span4"
+          >Date of Registration: 01/01/23</span
+        >
+      </div>
+      <div class="student-details">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+          alt=""
+        />
+        <span>Anish Datta</span>
+        <span>21CS30006</span>
+      </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Registration Details</h4>
+        </div>
+        <div class="col-xl-12 col-lg-12 col-sm-12">
+          <div class="card" style="margin-bottom: 0">
+            <div class="card-body pb-0" style="padding: 10px 0; margin: auto">
+              <h4>Performance Upto Previous Semester</h4>
+            </div>
+            <div class="card-footer pt-0 pb-0 text-center">
+              <div class="row">
+                <div class="col-4 pt-3 pb-3 border-end">
+                  <h3 class="mb-1 text-primary">
+                    {{cleared_sem_crd}}/{{sem_crd}}
+                  </h3>
+                  <span>Semester Credits</span>
+                </div>
+                <div class="col-4 pt-3 pb-3 border-end">
+                  <h3 class="mb-1 text-primary">
+                    {{cleared_tot_crd}}/{{tot_crd}}
+                  </h3>
+                  <span>Total credits</span>
+                </div>
+                <div class="col-4 pt-3 pb-3">
+                  <h3 class="mb-1 text-primary">{{sgpa}}</h3>
+                  <span>SGPA</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="">
+          <a href="content-add.html" class="btn btn-primary mx-4">Download</a>
+        </div>
+        <div class="card-body" style="padding-top: 1rem">
+          <div class="table-responsive">
+            <table class="table table-responsive-md">
+              <thead>
+                <tr>
+                  <th style="width: 80px"><strong>Subno</strong></th>
+                  <th><strong>Subject Name</strong></th>
+                  <th><strong>Subject Type</strong></th>
+                  <th><strong>LTP</strong></th>
+                  <th><strong>Credit</strong></th>
+                  <th><strong>Faculty</strong></th>
+                  <th><strong>status</strong></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in courses %}
+                <tr>
+                  <td><strong>{{item.subno}}</strong></td>
+                  <td href="{{item.url}}">{{item.name}}</td>
+                  <td>{{item.type}}</td>
+                  <td>{{item.LTP}}</td>
+                  <td>{{item.credits}}</td>
+                  <td>{{item.faculty}}</td>
+                  {% comment %}
+                  <td>
+                    <div class="dropdown">
+                      <button
+                        type="button"
+                        class="btn btn-success light sharp"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <svg
+                          width="20px"
+                          height="20px"
+                          viewBox="0 0 24 24"
+                          version="1.1"
+                        >
+                          <g
+                            stroke="none"
+                            stroke-width="1"
+                            fill="none"
+                            fill-rule="evenodd"
+                          >
+                            <rect x="0" y="0" width="24" height="24"></rect>
+                            <circle
+                              fill="#000000"
+                              cx="5"
+                              cy="12"
+                              r="2"
+                            ></circle>
+                            <circle
+                              fill="#000000"
+                              cx="12"
+                              cy="12"
+                              r="2"
+                            ></circle>
+                            <circle
+                              fill="#000000"
+                              cx="19"
+                              cy="12"
+                              r="2"
+                            ></circle>
+                          </g>
+                        </svg>
+                      </button>
+                      <div class="dropdown-menu" style="">
+                        <a class="dropdown-item" href="#">Edit</a>
+                        <a class="dropdown-item" href="#">Delete</a>
+                      </div>
+                    </div>
+                  </td>
+                  {% endcomment %}
+                  <td>
+                    <span
+                      class="badge light {% if item.status == 'Registered' %} badge-success {% endif %}"
+                      >{{item.status}}</span
+                    >
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    <div></div>
+
+    <script src="" async defer></script>
+  </body>
+</html>

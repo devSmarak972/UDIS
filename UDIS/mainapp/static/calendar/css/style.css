@@ -1,5 +1,3 @@
-/*
-    Table of Contents
 
     Name                 : FINLAB
     Author               : DexignLab
@@ -32281,3 +32279,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
       color: #fff; }
 
 /*# sourceMappingURL=style.css.map */
+
+.card{
+  box-shadow: 0 0 10px #00000015 !important;
+}

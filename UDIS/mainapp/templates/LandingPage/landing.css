@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #00273a;
+    background-image: url("https://www.iitkgpfoundation.org/images/vault/287.jpg");
+    background-attachment: fixed;
+    background-position-y: center;
+    background-position-x: center;
+    background-size: cover;
+}
+
+.landing-page {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 650px;
+    max-width: calc(100vw - 2rem);
+    border-radius: 20px;
+    padding: 2rem;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 20px #00000083;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 1rem 0;
+}
+
+.logo-img {
+    width: 50px;
+    display: block;
+    height: 100%;
+}
+
+.logo span {
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+
+.desc {
+    text-align: center;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.users{
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+}
+
+.select-user{
+    font-weight: 500;
+    font-size: 1.3rem;
+    margin: 2rem 0 1rem;
+}
+
+.icon{
+    width: 100px;
+    height: 100px;
+    border: 2px solid rgb(213, 213, 213);
+    padding: 1rem;
+    border-radius: 50%;
+}
+
+.icon img{
+    width: 100%;
+    filter: invert(10%) sepia(93%) saturate(1072%) hue-rotate(169deg) brightness(96%) contrast(102%);
+}
+
+.user-name{
+    display: block;
+    width: 100px;
+    text-align: center;
+    margin: 1rem 0;
+    font-weight: 00;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #00273a;
+}
+
+.user-box{    
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.user-box .icon, .user-box .user-name{
+    transition: all 0.3s ease;
+}
+
+.user-box:hover .icon{
+    border: 2px solid #5196e8;
+}
+
+.user-box:hover .user-name{
+    color: #5196e8;
+}
