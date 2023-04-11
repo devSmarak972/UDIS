@@ -21,6 +21,17 @@ def to_str(project):
     for item in array:
         str+=item.name+","
     return str[:-2]
+
+@register.filter
+def prereq(course):
+    str=""
+    print(course.name)
+    array=course.prerequisites.all()
+    print(array)
+    for item in array:
+        str+=item.subno+","
+    return str[:-1]
+
 @register.filter
 def multiply(a,b):
     return a*b

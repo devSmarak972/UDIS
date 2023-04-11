@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+    color: #00273a;
+}
+
+.heading{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    background-color: #dcf3ff;
+    padding: 0.5rem 1rem;
+    border-bottom: 6px solid #00273a;
+}
+
+.logo img{
+    width: 75px;
+}
+
+.student-details img{
+    width: 100px;
+}
+
+.logo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo span{
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+.mid-text{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+}
+
+.mid-text span{
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+.mid-text .span3{
+    font-weight: 400;
+}
+
+.mid-text .span2{
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.student-details{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.student-details span{
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+table{
+    background-color:  #efefef;
+    border-radius: 15px;
+}
+
+td, th{
+    padding: 0.3rem 0.5rem !important;
+    text-align: center;
+}
+
+.semester-grades{
+    display: flex;
+    width:45%;
+    min-width:500px;
+    flex-direction: column;
+    gap: 5px;
+    box-shadow: 0 0 10px #c8c8c8 !important;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.semesters{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 80%;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.semester-grades span{
+    margin-left: 5px;
+    font-weight: 500;
+}
+
+.content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.net-grade{
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    margin: 2rem;
+    box-shadow: 0 0 20px #c2c2c2 !important;
+    border-radius: 15px;
+    justify-content: center;
+    height: fit-content;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.download-gc{
+    padding: 0.5rem 1rem;
+    background-color: #00273a;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}

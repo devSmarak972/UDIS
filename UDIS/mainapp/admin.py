@@ -21,6 +21,7 @@ admin.site.register(Fees)
 admin.site.register(FeeTransaction)
 admin.site.register(subjectApplication)
 admin.site.register(Project)
+admin.site.register(Grades)
 
 
 class CustomUserAdmin(UserAdmin):

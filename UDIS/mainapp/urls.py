@@ -27,6 +27,7 @@ urlpatterns = [
     path('rejectstudent/<str:rollno>/<str:subno>', views.rejectStudent),
     path('addEvent/<str:date>/<str:text>', views.addEvent),
     path('getEvents', views.getEvents),
+    path('gradecard/<str:rollno>/<str:name>', views.gradeCard),
     path('addOrder/<int:id>', views.addOrder),
     path('deleteOrder/<int:id>', views.deleteOrder),
 
