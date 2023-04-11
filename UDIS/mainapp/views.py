@@ -238,7 +238,7 @@ def addOrder(request, id):
 	item.save()
 	order.save()
 
-	return JsonResponse(item,safe=False)
+	return JsonResponse({"item":item.item},safe=False)
 
 
 def deleteOrder(request, id):
