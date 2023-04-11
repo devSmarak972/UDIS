@@ -458,8 +458,8 @@ def Fee(request):
 	}
 	if request.user.derived_type == "Student":
 		student = Student.objects.filter(email=request.user.email)[0]
-		total = student.totalpaid
-		feespaid = student.feespaid
+		total = float(student.totalpaid)
+		feespaid = float(student.feespaid)
 		totalfee = Fees.objects.filter(sem=student.sem)
 		totalfee = sum([fee.amount for fee in totalfee])
 		print(totalfee)
