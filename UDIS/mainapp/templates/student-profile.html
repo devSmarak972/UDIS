@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} {% load static %} {%laod apptags %}{% block content %}
 
 <link href="{% static 'secretary/css/style.css' %}" rel="stylesheet" />
 
@@ -98,7 +98,7 @@
             </div>
           </div>
           <div class="">
-            <a href="content-add.html" class="btn btn-primary mx-4">Download</a>
+            <a href="" class="btn btn-primary mx-4 download-profile">Download</a>
           </div>
           <div class="card-body" style="padding-top: 1rem">
             <div class="table-responsive">
@@ -123,7 +123,8 @@
                     <td>{{item.type}}</td>
                     <td>{{item.LTP}}</td>
                     <td>{{item.credits}}</td>
-                    <td>{{item.faculty}}</td>
+                    <td>{{item|getProfs}}</td>
+                    <td>On-Roll</td>
                     {% comment %}
                     <td>
                       <div class="dropdown">
