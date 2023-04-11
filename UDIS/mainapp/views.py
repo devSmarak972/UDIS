@@ -177,6 +177,36 @@ def addEvent(request, date, text):
     return HttpResponse("<div>"+text+" "+date+"</div>")
 
 
+def addOrder(request, id):
+    # value = request.POST.get('message')
+    # print(value,subno,request.POST)
+    # data=json.loads(request.body)
+    print(id)
+    order = Order.objects.filter(id=id)[0]
+    order.status = "Confirmed"
+    item = Item.objects.get_or_create(name=order.item)[0]
+    item.add(order.qty, order.price)
+    item.incCount(order.qty)
+    item.save()
+    order.save()
+
+    return JsonResponse(item,safe=False)
+
+
+def deleteOrder(request, id):
+    # value = request.POST.get('message')
+    # print(value,subno,request.POST)
+    # data=json.loads(request.body)
+
+    print(id)
+    order = Order.objects.filter(id=id)[0]
+    # order.status="Confirmed"
+    order.delete()
+    # item=Item.objects.get_or_create(name=order.item)
+    # item.add(order.qty,order.price)
+
+    return JsonResponse(order, safe=False)
+
 def getEvents(request):
     # value = request.POST.get('message')
     # print(value,subno,request.POST)

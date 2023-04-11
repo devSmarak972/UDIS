@@ -27,6 +27,8 @@ urlpatterns = [
     path('rejectstudent/<str:rollno>/<str:subno>', views.rejectStudent),
     path('addEvent/<str:date>/<str:text>', views.addEvent),
     path('getEvents', views.getEvents),
+    path('addOrder/<int:id>', views.addOrder),
+    path('deleteOrder/<int:id>', views.deleteOrder),
 
     ##### user related path##########################
     # path('login/', views.Login, name ='login'),

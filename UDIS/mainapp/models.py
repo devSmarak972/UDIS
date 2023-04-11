@@ -158,12 +158,16 @@ class Project(models.Model):
 class Item(models.Model):
     id=models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    count = models.IntegerField()
+    count = models.IntegerField(default=0)
     location=models.TextField(default="",blank=True)
-    expenditure = models.CharField(max_length=200)
+    expenditure = models.FloatField(default=0)
     
     def add(self,num,price):
         self.expenditure+=num*price
+        self.save()
+    def incCount(self,qty):
+        self.count+=qty
+        self.save()
     def __str__(self):
         return self.name
 

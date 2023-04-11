@@ -1021,19 +1021,25 @@ Item                            </th>
                                 >
                                   <a
                                     class="dropdown-item"
-                                    href="javascript:void(0);"
-                                    >Delete</a
+                                    href="/addOrder/{{order.id}}"
+                                    >Confirm</a
                                   >
                                   <a
                                     class="dropdown-item"
-                                    href="javascript:void(0);"
-                                    >Edit</a
+                                    href="/deleteOrder/{{order.id}}"
+                                    >Delete</a
                                   >
                                 </div>
                               </div>
                             </td>
                           </tr>
                           {% endfor %}
+                                              <tr class="odd">
+                            <td></td>
+                    </tr>         
+                    <tr class="odd">
+                            <td></td>
+                    </tr>  
                         </tbody>
                       </table>
                       <div
