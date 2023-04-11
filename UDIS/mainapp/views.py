@@ -221,6 +221,9 @@ def addEvent(request, date, text):
 	# data=json.loads(request.body)
 	print(date, text)
 	event = Event.objects.create(title=text, startDate=date)
+	n=Notification.objects.create(sender=request.user,title="Added a new event :"+event.title)
+	n.receiver.set(Student.objects.all())
+	n.receiver.add(*Professor.objects.all())
 
 	return HttpResponse("<div>"+text+" "+date+"</div>")
 
@@ -539,7 +542,11 @@ def payfees(request):
 	sa = FeeTransaction(student=student, amount=dic.get(
 		'amount')[0], sem=student.sem, year=year)
 	sa.save()
-
+	n = Notification.objects.create(
+		sender=request.user, title=student.name + " paid " + str(sa.amount))
+	n.receiver.set(Secretary.objects.all())
+	n.save()
+	# n.receiver.add(*Secretary.objects.all())
 	return redirect("/feepayment")
 
 
@@ -553,6 +560,10 @@ def confirmpay(request, transid):
 	student.updatePaid(float(sa.amount))
 	sa.save()
 	student.save()
+	n = Notification.objects.create(
+		sender=request.user, title="Payment of " + str(sa.amount)+" confirmed")
+	n.receiver.set(Student.objects.all())
+	n.save()
 	# student.updatePaid(float(dic.get('amount')[0]))
 	# student = Course.objects.filter(rollno=requerollno)[-1]
 	# today = datetime.date.today()
