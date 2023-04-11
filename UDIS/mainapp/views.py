@@ -237,8 +237,8 @@ def addOrder(request, id):
 	item.incCount(order.qty)
 	item.save()
 	order.save()
-
-	return JsonResponse({"item":item.name},safe=False)
+	return redirect("/cashregister")
+	# return JsonResponse({"item":item.name},safe=False)
 
 
 def deleteOrder(request, id):
@@ -252,8 +252,9 @@ def deleteOrder(request, id):
 	order.delete()
 	# item=Item.objects.get_or_create(name=order.item)
 	# item.add(order.qty,order.price)
+	return redirect("/cashregister")
 
-	return JsonResponse(order, safe=False)
+	# return JsonResponse(order, safe=False)
 
 def getEvents(request):
 	# value = request.POST.get('message')
