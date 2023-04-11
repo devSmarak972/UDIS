@@ -368,7 +368,7 @@ def profile(request, rollno):
 		"state": student.state,
 		"cleared_sem_crd": student.cleared_sem_crd,
 		"sem_crd": student.sem_crd,
-		"cleared_tot_crd": student.cleared_sem_crd,
+		"cleared_tot_crd": student.cleared_tot_crd,
 		"tot_crd": student.tot_crd,
 		"sgpa": student.getsgpa()
 	}
