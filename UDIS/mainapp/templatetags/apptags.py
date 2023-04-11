@@ -7,6 +7,10 @@ register = template.Library()
 def at_index(array, index):
     return array[index]
 
+@register.filter
+def getCgpa(student):
+    return student.getcgpa()
+
 
 @register.filter
 def arr_contains(array, item):

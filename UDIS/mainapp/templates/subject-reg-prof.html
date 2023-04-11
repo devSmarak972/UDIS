@@ -127,7 +127,7 @@
                       <td>{{application.course.subno}}</td>
                       <td>{{application.course.name}}</td>
                       <td>{{application.student.name}}</td>
-                         <td>{{ application.student.cgpa }}</td>
+                         <td>{{ application.student|getCgpa }}</td>
                       {% comment %} <td>{% if student.fees[ {{forloop.counter1}} ] %} Yes {% else %}No {% endif %}</td> {% endcomment %}
                       <td>{{application.student.rollno}}</td>
                       <td>

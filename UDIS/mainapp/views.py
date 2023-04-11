@@ -38,7 +38,7 @@ def dashboard(request):
 		"fees": feedone,
 		"user": {"user": request.user, "utype": request.user.derived_type},
 	}
-	notif = Notification.objects.filter(receiver=request.user)
+	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
 	context["notifications"] = notif
 
 	if request.user.derived_type == "Student":
@@ -86,7 +86,7 @@ def gradeCard(request,rollno,name):
 		"CGPA":student.getcgpa(),
 		
 	}
-	notif = Notification.objects.filter(receiver=request.user)
+	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
 	context["notifications"] = notif
 
 	# if request.user.derived_type == "Student":
@@ -115,7 +115,7 @@ def research(request):
 	if request.user.is_authenticated:
 		context["user"] = {"user": request.user,
 						   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user)
+	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
 	context["notifications"] = notif
 	# return response with template and context
 	return render(request, "research.html", context)
@@ -179,7 +179,7 @@ def Subregistration(request):
 		}
 	context["user"] = {"user": request.user,
 					   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user)
+	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
 	context["notifications"] = notif
 	# return response with template and context
 	if request.user.derived_type == "Student":
@@ -323,7 +323,7 @@ def calendar(request):
 	}
 	context["user"] = {"user": request.user,
 					   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user)
+	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
 	context["notifications"] = notif
 	# return response with template and context
 	return render(request, "calendar.html", context)
@@ -378,7 +378,7 @@ def profile(request, rollno):
 	}
 	context["user"] = {"user": request.user,
 					   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user)
+	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
 	context["notifications"] = notif
 	# return response with template and context
 	return render(request, "student-profile.html", context)
@@ -397,9 +397,10 @@ def curriculum(request):
 	}
 	context["user"] = {"user": request.user,
 					   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user)
+	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
 	context["notifications"] = notif
 	# return response with template and context
+ 
 	return render(request, "curriculum.html", context)
 
 
@@ -425,7 +426,7 @@ def cashregister(request):
 	}
 	context["user"] = {"user": request.user,
 					   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user)
+	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
 	context["notifications"] = notif
 	# return response with template and context
 	return render(request, "cash-register.html", context)
@@ -442,7 +443,7 @@ def inventory(request):
 	}
 	context["user"] = {"user": request.user,
 					   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user)
+	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
 	context["notifications"] = notif
 	# return response with template and context
 	return render(request, "inventory.html", context)
@@ -468,7 +469,8 @@ def Fee(request):
 		totalfee = sum([fee.amount for fee in totalfee])
 		print(totalfee)
 		pending = totalfee-feespaid
-		feetrans = FeeTransaction.objects.filter(student=student)
+		feetrans = FeeTransaction.objects.filter(
+			student=student).order_by('-datetime')
 		print(feetrans)
 		context = {
 			"totfeepaid": total,
@@ -481,9 +483,11 @@ def Fee(request):
 		}
 	if request.user.derived_type == "Secretary":
 		secretary = Secretary.objects.filter(email=request.user.email)[0]
+		
 		today = datetime.date.today()
 		year = today.year
-		deptotal = FeeTransaction.objects.filter(year=int(year))
+		deptotal = FeeTransaction.objects.filter(
+			year=int(year)).order_by('-datetime')
 		depamt = sum([float(fee.amount) for fee in deptotal])
 		students = Student.objects.filter(department=secretary.department)
 		count = 0
@@ -525,7 +529,7 @@ def Fee(request):
 
 	context["user"] = {"user": request.user,
 					   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user)
+	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
 	context["notifications"] = notif
 	# return response with template and context
 	return render(request, "fee.html", context)
