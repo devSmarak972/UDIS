@@ -512,7 +512,8 @@
                     <td>{{item.type}}</td>
                     <td>{{item.LTP}}</td>
                     <td>{{item.credits}}</td>
-                    <td>{{item.faculty}}</td>
+                    <td>{{item|getProfs}}</td>
+                    <td>On-Roll</td>
                     {% comment %}
                     <td>
                       <div class="dropdown">
