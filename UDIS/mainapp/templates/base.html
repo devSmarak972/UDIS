@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load apptags %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -719,6 +720,25 @@
                 {% endif %}
                 <li><a href="/subreg">Subject Registration</a></li>
               </ul>
+
+                              {% if user.utype != "Student" %}
+                <li>
+              <a
+                class="has-arrow"
+                href="javascript:void(0);"
+                aria-expanded="false"
+              >
+                {% comment %} <i class="material-icons-outlined">dashboard</i> {% endcomment %}
+                <span class="nav-text">Courses</span>
+              </a>
+                <ul aria-expanded="false">
+                  {% for course in courses%}
+                <li><a href="/attendance/{{course.subno}}/{{course|getdate}}">{{course.name}}</a></li>
+                {% endfor %}
+                </ul>
+              </li>
+              {% endif %}
+
             </li>
             {% comment %}
             <li>

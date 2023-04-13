@@ -130,7 +130,6 @@ class Event(models.Model):
 	def __str__(self):
 		return self.title
 
-
 class Professor(usermodel):
 	# name=models.CharField(max_length=200)
 	# department=models.CharField(max_length=200)
@@ -352,3 +351,13 @@ class Notification(models.Model):
 
 	def __str__(self):
 		return self.title
+
+
+class Attendance(models.Model):
+	date = models.DateField()
+	student = models.ManyToManyField(Student,null=True,related_name="student")
+	present=models.BooleanField(null=True)
+	course=models.ForeignKey(Course,on_delete=models.CASCADE)
+	def __str__(self):
+		return self.course.name+"_"+str(self.date)
+

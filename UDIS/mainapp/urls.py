@@ -30,6 +30,10 @@ urlpatterns = [
     path('gradecard/<str:rollno>/<str:name>', views.gradeCard),
     path('addOrder/<int:id>', views.addOrder),
     path('deleteOrder/<int:id>', views.deleteOrder),
+    path('attendance/<str:subno>/<str:date>', views.attendance),
+    path('markPresent/<str:date>/<str:subno>', views.markPresent),
+    path('markAbsent/<str:date>/<str:subno>', views.markAbsent),
+    path('markGrade/<str:subno>/<str:graderecv>/<str:date>', views.markGrade),
 
     ##### user related path##########################
     # path('login/', views.Login, name ='login'),

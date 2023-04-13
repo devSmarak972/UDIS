@@ -38,57 +38,64 @@ def dashboard(request):
 		"fees": feedone,
 		"user": {"user": request.user, "utype": request.user.derived_type},
 	}
-	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
+	notif = Notification.objects.filter(
+		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
-
+	courses = Course.objects.all()
+	context["courses"] = courses
 	if request.user.derived_type == "Student":
 		student = Student.objects.filter(email=request.user.email)[0]
 		return redirect("/student-profile/"+str(student.rollno))
 	# return response with template and context
 	return render(request, "dashboard.html", context)
+
+
 @login_required(login_url="/signin")
-def gradeCard(request,rollno,name):
+def gradeCard(request, rollno, name):
 	# create a dictionary to pass
 	# data to the template
-	student=Student.objects.filter(name=name,rollno=rollno)[0]
-	grades=student.grades_set.all()
+	student = Student.objects.filter(name=name, rollno=rollno)[0]
+	grades = student.grades_set.all()
 	print(grades)
-	gsemwise=[]
-	for i in range(1,student.sem+1):
-	# grades.filter()
-		gsem=grades.filter(course__sem=i)
+	gsemwise = []
+	for i in range(1, student.sem+1):
+		# grades.filter()
+		gsem = grades.filter(course__sem=i)
 		print(gsem)
 		sg = student.sgpa
 		cg = student.cgpa
-		sg=sg.split(",")
-		cg=cg.split(",")
-		if len(sg)<student.sem:
-			sg=9.9
+		sg = sg.split(",")
+		cg = cg.split(",")
+		if len(sg) < student.sem:
+			sg = 9.9
 		else:
-			sg=sg[i-1]
-		if len(cg)<student.sem:
-			cg=9.9
+			sg = sg[i-1]
+		if len(cg) < student.sem:
+			cg = 9.9
 		else:
-			cg=cg[i-1]			
-		gsemwise.append({"sem":i,"gsem":gsem,"SGPA":sg,"CGPA":cg})
-		
-	# for card in 
+			cg = cg[i-1]
+		gsemwise.append({"sem": i, "gsem": gsem, "SGPA": sg, "CGPA": cg})
+
+	# for card in
+	print(gsemwise)
 	context = {
 		# "students": students,
 		# "fees": feedone,
 		"user": {"user": request.user, "utype": request.user.derived_type},
-		"rollno":rollno,
-		"name":name,
-		"gsemwise":gsemwise,
-		"sem":student.sem,
-		"tot_cred_taken":student.tot_crd,
-		"tot_cred_cleared":student.cleared_tot_crd,
-		"CGPA":student.getcgpa(),
-		
-	}
-	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
-	context["notifications"] = notif
+		"rollno": rollno,
+		"name": name,
+		"gsemwise": gsemwise,
+		"sem": student.sem,
+		"tot_cred_taken": student.tot_crd,
+		"tot_cred_cleared": student.cleared_tot_crd,
+		"CGPA": student.getcgpa(),
 
+	}
+	notif = Notification.objects.filter(
+		receiver=request.user).order_by("-date")
+	context["notifications"] = notif
+	courses = Course.objects.all()
+	context["courses"] = courses
 	# if request.user.derived_type == "Student":
 	#     student = Student.objects.filter(email=request.user.email)[0]
 	#     return redirect("/student-profile/"+str(student.rollno))
@@ -115,8 +122,11 @@ def research(request):
 	if request.user.is_authenticated:
 		context["user"] = {"user": request.user,
 						   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
+	notif = Notification.objects.filter(
+		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
+	courses = Course.objects.all()
+	context["courses"] = courses
 	# return response with template and context
 	return render(request, "research.html", context)
 
@@ -179,8 +189,11 @@ def Subregistration(request):
 		}
 	context["user"] = {"user": request.user,
 					   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
+	notif = Notification.objects.filter(
+		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
+	courses = Course.objects.all()
+	context["courses"] = courses
 	# return response with template and context
 	if request.user.derived_type == "Student":
 		return render(request, "subject-reg.html", context)
@@ -221,7 +234,8 @@ def addEvent(request, date, text):
 	# data=json.loads(request.body)
 	print(date, text)
 	event = Event.objects.create(title=text, startDate=date)
-	n=Notification.objects.create(sender=request.user,title="Added a new event :"+event.title)
+	n = Notification.objects.create(
+		sender=request.user, title="Added a new event :"+event.title)
 	n.receiver.set(Student.objects.all())
 	n.receiver.add(*Professor.objects.all())
 
@@ -258,6 +272,7 @@ def deleteOrder(request, id):
 	return redirect("/cashregister")
 
 	# return JsonResponse(order, safe=False)
+
 
 def getEvents(request):
 	# value = request.POST.get('message')
@@ -323,8 +338,11 @@ def calendar(request):
 	}
 	context["user"] = {"user": request.user,
 					   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
+	notif = Notification.objects.filter(
+		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
+	courses = Course.objects.all()
+	context["courses"] = courses
 	# return response with template and context
 	return render(request, "calendar.html", context)
 
@@ -378,8 +396,11 @@ def profile(request, rollno):
 	}
 	context["user"] = {"user": request.user,
 					   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
+	notif = Notification.objects.filter(
+		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
+	courses = Course.objects.all()
+	context["courses"] = courses
 	# return response with template and context
 	return render(request, "student-profile.html", context)
 
@@ -397,10 +418,13 @@ def curriculum(request):
 	}
 	context["user"] = {"user": request.user,
 					   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
+	notif = Notification.objects.filter(
+		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
+	courses = Course.objects.all()
+	context["courses"] = courses
 	# return response with template and context
- 
+
 	return render(request, "curriculum.html", context)
 
 
@@ -426,8 +450,11 @@ def cashregister(request):
 	}
 	context["user"] = {"user": request.user,
 					   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
+	notif = Notification.objects.filter(
+		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
+	courses = Course.objects.all()
+	context["courses"] = courses
 	# return response with template and context
 	return render(request, "cash-register.html", context)
 
@@ -443,8 +470,11 @@ def inventory(request):
 	}
 	context["user"] = {"user": request.user,
 					   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
+	notif = Notification.objects.filter(
+		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
+	courses = Course.objects.all()
+	context["courses"] = courses
 	# return response with template and context
 	return render(request, "inventory.html", context)
 
@@ -483,7 +513,7 @@ def Fee(request):
 		}
 	if request.user.derived_type == "Secretary":
 		secretary = Secretary.objects.filter(email=request.user.email)[0]
-		
+
 		today = datetime.date.today()
 		year = today.year
 		deptotal = FeeTransaction.objects.filter(
@@ -529,8 +559,12 @@ def Fee(request):
 
 	context["user"] = {"user": request.user,
 					   "utype": request.user.derived_type}
-	notif = Notification.objects.filter(receiver=request.user).order_by("-date")	
+	notif = Notification.objects.filter(
+		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
+	courses = Course.objects.all()
+	context["courses"] = courses
+
 	# return response with template and context
 	return render(request, "fee.html", context)
 
@@ -724,10 +758,169 @@ def addPublication(request):
 	# }
 
 
+def addPublication(request):
+
+	# if utype.lower() == "student":
+	#     utype = "Student"
+	# elif utype.lower() == "secretary":
+	#     utype = "Secretary"
+	# elif utype.lower() == "professor":
+	#     utype = "Professor"
+	# else:
+	#     return redirect("/signin/student")
+
+	if request.method == 'POST':
+		dic = dict(request.POST.lists())
+		name = dic.get('name')[0]
+		place = dic.get('name')[0]
+		date = dic.get('name')[0]
+		abstract = dic.get('name')[0]
+		professor = Professor.object.filter(
+			name__in=dic.get('professor')[0].split(","))
+		pub = Publication.objects.create(
+			name=name, place=place, date=date, abstract=abstract, professor=professor)
+		pub.save()
+	return redirect("/research")
+
+	# form=CustomUserCreationForm()
+	# context={
+	# 	"user":user,
+	# 	"form":form
+	# }
+
+
+def markPresent(request, date, subno):
+	today = datetime.date.today()
+	print(today.year)
+	date = datetime.datetime.strptime(date, '%B %d, %Y')
+	student_list = request.GET.getlist('student')
+
+	print(student_list)
+	students = Student.objects.filter(rollno__in=student_list)
+	print("students", students)
+
+	course = Course.objects.get(subno=subno, session=today.year-1)
+	attendance = Attendance.objects.filter(date=date, course=course)[0]
+	attpresent = Attendance.objects.get(date=date, course=course, present=True)
+	attabsent = Attendance.objects.get(date=date, course=course, present=False)
+
+	attpresent.student.add(*students)
+	attabsent.student.remove(*students)
+	attendance.student.remove(*students)
+
+	attendance.save()
+	attpresent.save()
+	attabsent.save()
+	urldate = datetime.datetime.strftime(date, "%d-%m-%Y")
+
+	return redirect("/attendance/"+subno+"/"+urldate)
+
+
+
+def markAbsent(request, date, subno):
+	today = datetime.date.today()
+	print(today.year)
+	date = datetime.datetime.strptime(date, '%B %d, %Y')
+	student_list = request.GET.getlist('student')
+	students = Student.objects.filter(rollno__in=student_list)
+	course = Course.objects.get(subno=subno, session=today.year-1)
+	attendance = Attendance.objects.filter(date=date, course=course)[0]
+	attpresent = Attendance.objects.get(date=date, course=course, present=True)
+	attabsent = Attendance.objects.get(date=date, course=course, present=False)
+	attpresent.student.remove(*students)
+	attabsent.student.add(*students)
+	attendance.student.remove(*students)
+
+	attendance.save()
+	attpresent.save()
+	attabsent.save()
+	urldate = datetime.datetime.strftime(date, "%d-%m-%Y")
+
+	return redirect("/attendance/"+subno+"/"+urldate)
+def markGrade(request, subno,graderecv,date):
+	date = datetime.datetime.strptime(date, '%B %d, %Y')
+	student_list = request.GET.getlist('student')
+	students = Student.objects.filter(rollno__in=student_list)
+	course = Course.objects.filter(subno=subno)[0]
+	print(student_list)
+	grade=Grades.objects.get_or_create(course=course,grade=graderecv)
+	print(grade[0])
+	grade[0].student.add(*students)
+	grade[0].save()
+	grade=Grades.objects.filter(course=course,grade=graderecv)
+	# print()
+	gradeobjs=Grades.objects.filter(course=course)
+	gradeobjs=gradeobjs.difference(grade)
+	print(gradeobjs)
+	for grades in gradeobjs:
+	 
+		stu=grades.student.all()
+		print(stu)
+		stu=stu.difference(students) 
+		print(stu)
+		grades.student.set(stu)
+		grades.save()
+	urldate = datetime.datetime.strftime(date, "%d-%m-%Y")
+
+	return redirect("/attendance/"+subno+"/"+urldate)
+	# form=CustomUserCreationForm()
+	# context={
+	# 	"user":user,
+	# 	"form":form
+	# }
+
+
 def logout_view(request):
 	logout(request)
 	return redirect('/')
 
+
+def attendance(request, subno, date):
+
+	# today = datetime.date.today()
+	# print(today.year)
+
+	today = datetime.datetime.strptime(date, '%d-%m-%Y')
+
+	course = Course.objects.filter(subno=subno, session__in=[
+								   today.year, today.year-1])[0]
+	courses = Course.objects.all()
+	students = Student.objects.filter(regcourses=course.id)
+	print(students)
+	attendances = Attendance.objects.filter(date=today, course=course)
+	# print(attendance[0].student)
+	if len(attendances) == 0:
+		attendance = Attendance.objects.create(date=today, course=course)
+		attpresent = Attendance.objects.create(
+			date=today, course=course, present=True)
+		attabsent = Attendance.objects.create(
+			date=today, course=course, present=False)
+		attendance.student.add(*students)
+		attendance.save()
+		print(students,attendance.student)
+		# attendance = [attendance]
+	elif sum([len(att.student.all()) for att in attendances])<len(students):
+		ats=att[0].student.all()
+		for att in attendances:
+			ats=ats.union(att.student.all())
+		attendances[0].student.add(*(students.difference(ats)))
+		attendances[0].save()
+	else:
+		attendance = attendances
+		print(attendances[0].student.all())
+	att = Attendance.objects.filter(date=today, course=course)
+	context = {
+		"attendance": att,
+		"courses": courses,
+		"date": today.strftime("%B %d, %Y"),
+		"course": course,
+		"students":students
+
+	}
+
+	context["courses"] = Course.objects.all()
+
+	return render(request, "attendance.html", context)
 # class SignInView(LoginView):
 
 #     template_name = 'path/to/my_template.html'

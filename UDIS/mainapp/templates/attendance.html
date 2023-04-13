@@ -1,0 +1,201 @@
+{% extends "base.html" %} {% load static %} 
+{% load apptags %}
+{% block content %}
+<div class="content-body" style="min-height: 871px">
+  <div class="container-fluid">
+    <!-- Row -->
+    <div class="row">
+      <div class="col-xl-12">
+            <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Attendance Record</h4>
+                                <h5 class="text-align-center"><a class="btn " href="/attendance/{{course.subno}}/{{date|prevDate}}" style="font-size:1.5rem">&lt</a>   {{date}}   <a class="btn" style="font-size:1.5rem" href="/attendance/{{course.subno}}/{{date|nextDate}}">&gt</a></h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="">
+
+                                <a href="/markPresent/{{date}}/{{course.subno}}?student" class="present btn btn-primary mb-3">Mark Present</a>
+                                <a href="/markAbsent/{{date}}/{{course.subno}}?student" class="absent btn btn-primary mb-3">Mark Absent</a>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-responsive-md">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:50px;">
+													<div class="form-check custom-checkbox checkbox-success check-lg me-3">
+														<input type="checkbox" class="form-check-input" id="checkAll" required="">
+														<label class="form-check-label" for="checkAll"></label>
+													</div>
+												</th>
+                                                <th>Roll no.</th>
+                                                <th>Name</th>
+                                                <th>Attendance</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for entry in attendance %}
+                                            {% for student in entry|getStudents %}
+                                            <tr>
+                                                <td>
+													<div class="form-check custom-checkbox checkbox-success check-lg me-3">
+														<input type="checkbox" class="form-check-input" id="{{student.rollno}}" required="">
+														<label class="form-check-label" for="{{student.rollno}}"></label>
+													</div>
+												</td>
+                                                <td><strong>{{student.rollno}}</strong></td>
+                                                <td>{{student.name}}</td>
+
+                                                <td>
+                                                    {% if entry.present == None %}
+                                                    <span class="badge light badge-warning">Unmarked</span>
+                                                    {% elif entry.present == True %}
+                                                    <span class="badge light badge-success">Present</span>
+                                                    {% else %}
+                                                    <span class="badge light badge-danger">Absent</span>
+                                                    {% endif %}
+
+                                                </td>
+                                                <td>
+													<div class="d-flex">
+														<a href="/markPresent/{{entry.date}}/{{entry.course.subno}}?student={{student.rollno}}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-check"></i></a>
+														<a href="/markAbsent/{{entry.date}}/{{entry.course.subno}}?student={{student.rollno}}" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-times"></i></a>
+													</div>
+												</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12">
+            <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Grades</h4>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="table-responsive">
+                                    <table class="table table-responsive-md">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Roll no.</th>
+                                                <th>Name</th>
+                                                <th>Grade</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for student in students %}
+                                            <tr>
+                                                {% comment %} <td>
+													<div class="form-check custom-checkbox checkbox-success check-lg me-3">
+														<input type="checkbox" class="form-check-input" id="{{student.rollno}}" required="">
+														<label class="form-check-label" for="{{student.rollno}}"></label>
+													</div>
+												</td> {% endcomment %}
+                                                <td><strong>{{student.rollno}}</strong></td>
+                                                <td>{{student.name}}</td>
+
+                                                <td>
+                                                    {% if student|grade:course == "EX" %}
+                                                    <span class="badge light badge-success">EX</span>
+                                                    {% elif student|grade:course == "A" %}
+                                                    <span class="badge light badge-success">A</span>
+                                                    {% elif student|grade:course == "B" %}
+                                                    <span class="badge light badge-warning">B</span>
+                                                    {% elif student|grade:course == "C" %}
+                                                    <span class="badge light badge-warning">C</span>
+                                                    {% elif student|grade:course == "D" %}
+                                                    <span class="badge light badge-danger">D</span>
+                                                    {% elif student|grade:course == "E" %}
+                                                    <span class="badge light badge-danger">E</span>
+                                                    {% else %}
+                                                    <span class="badge light badge-warning">Unmarked</span>
+
+                                                    {% endif %}
+
+                                                </td>
+                                                {% comment %} <td>
+													<div class="d-flex">
+														<a href="/markGrade/{{entry.course.subno}}/unmarked?student={{student.rollno}}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-check"></i></a>
+													</div>
+												</td> {% endcomment %}
+                                                <td>
+                                                    <div class="dropdown">
+                        <button type="button" class="btn btn-success light sharp" data-bs-toggle="dropdown" aria-expanded="false">
+                          <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                              <rect x="0" y="0" width="24" height="24"></rect>
+                              <circle fill="#000000" cx="5" cy="12" r="2"></circle>
+                              <circle fill="#000000" cx="12" cy="12" r="2"></circle>
+                              <circle fill="#000000" cx="19" cy="12" r="2"></circle>
+                            </g>
+                          </svg>
+                        </button>
+                        <div class="dropdown-menu" style="">
+                          <a class="dropdown-item" href="/markGrade/{{course.subno}}/EX/{{date}}?student={{student.rollno}}">EX</a>
+															<a class="dropdown-item" href="/markGrade/{{course.subno}}/A/{{date}}?student={{student.rollno}}">A</a>
+															<a class="dropdown-item" href="/markGrade/{{course.subno}}/B/{{date}}?student={{student.rollno}}">B</a>
+															<a class="dropdown-item" href="/markGrade/{{course.subno}}/C/{{date}}?student={{student.rollno}}">C</a>
+															<a class="dropdown-item" href="/markGrade/{{course.subno}}/D/{{date}}?student={{student.rollno}}">D</a>
+															<a class="dropdown-item" href="/markGrade/{{course.subno}}/E/{{date}}?student={{student.rollno}}">E</a>
+                        </div>
+                      </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+<tr height="200px">
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#checkAll").on("change",function(){
+            console.log("change")
+    $('input:checkbox').prop('checked', this.checked);
+});
+    $(".form-check").on("change",function(){
+         console.log($(this))
+         console.log($('.form-check-input:checked'))
+         var list=[]
+        list=$('.form-check-input:checked').map(function() { return this.id; }).get()
+        console.log(list)
+        var str=""
+        
+        list.forEach((el)=>{
+            if(el!="checkAll")
+          str+="student="+el+"&"
+        })
+
+        $(".present").attr("href","/markPresent/{{date}}/{{course.subno}}?"+str.substring(0,str.length-1));
+        $(".absent").attr("href","/markAbsent/{{date}}/{{course.subno}}?"+str.substring(0,str.length-1));
+
+    })
+})
+</script>
+{% endblock content %}
