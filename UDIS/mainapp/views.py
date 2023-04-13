@@ -41,7 +41,11 @@ def dashboard(request):
 	notif = Notification.objects.filter(
 		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
-	courses = Course.objects.all()
+	if request.user.derived_type=="Professor":
+			prof=Professor.objects.filter(email=request.user.email)[0]
+			courses = prof.courses.all()
+	else:
+			courses=Course.objects.all()
 	context["courses"] = courses
 	if request.user.derived_type == "Student":
 		student = Student.objects.filter(email=request.user.email)[0]
@@ -94,7 +98,11 @@ def gradeCard(request, rollno, name):
 	notif = Notification.objects.filter(
 		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
-	courses = Course.objects.all()
+	if request.user.derived_type=="Professor":
+			prof=Professor.objects.filter(email=request.user.email)[0]
+			courses = prof.courses.all()
+	else:
+			courses=Course.objects.all()
 	context["courses"] = courses
 	# if request.user.derived_type == "Student":
 	#     student = Student.objects.filter(email=request.user.email)[0]
@@ -125,7 +133,11 @@ def research(request):
 	notif = Notification.objects.filter(
 		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
-	courses = Course.objects.all()
+	if request.user.derived_type=="Professor":
+			prof=Professor.objects.filter(email=request.user.email)[0]
+			courses = prof.courses.all()
+	else:
+			courses=Course.objects.all()
 	context["courses"] = courses
 	# return response with template and context
 	return render(request, "research.html", context)
@@ -192,7 +204,11 @@ def Subregistration(request):
 	notif = Notification.objects.filter(
 		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
-	courses = Course.objects.all()
+	if request.user.derived_type=="Professor":
+			prof=Professor.objects.filter(email=request.user.email)[0]
+			courses = prof.courses.all()
+	else:
+			courses=Course.objects.all()
 	context["courses"] = courses
 	# return response with template and context
 	if request.user.derived_type == "Student":
@@ -341,7 +357,11 @@ def calendar(request):
 	notif = Notification.objects.filter(
 		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
-	courses = Course.objects.all()
+	if request.user.derived_type=="Professor":
+			prof=Professor.objects.filter(email=request.user.email)[0]
+			courses = prof.courses.all()
+	else:
+			courses=Course.objects.all()
 	context["courses"] = courses
 	# return response with template and context
 	return render(request, "calendar.html", context)
@@ -399,7 +419,11 @@ def profile(request, rollno):
 	notif = Notification.objects.filter(
 		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
-	courses = Course.objects.all()
+	if request.user.derived_type=="Professor":
+			prof=Professor.objects.filter(email=request.user.email)[0]
+			courses = prof.courses.all()
+	else:
+			courses=Course.objects.all()
 	context["courses"] = courses
 	# return response with template and context
 	return render(request, "student-profile.html", context)
@@ -421,7 +445,11 @@ def curriculum(request):
 	notif = Notification.objects.filter(
 		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
-	courses = Course.objects.all()
+	if request.user.derived_type=="Professor":
+			prof=Professor.objects.filter(email=request.user.email)[0]
+			courses = prof.courses.all()
+	else:
+			courses=Course.objects.all()
 	context["courses"] = courses
 	# return response with template and context
 
@@ -453,7 +481,11 @@ def cashregister(request):
 	notif = Notification.objects.filter(
 		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
-	courses = Course.objects.all()
+	if request.user.derived_type=="Professor":
+			prof=Professor.objects.filter(email=request.user.email)[0]
+			courses = prof.courses.all()
+	else:
+			courses=Course.objects.all()
 	context["courses"] = courses
 	# return response with template and context
 	return render(request, "cash-register.html", context)
@@ -473,7 +505,11 @@ def inventory(request):
 	notif = Notification.objects.filter(
 		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
-	courses = Course.objects.all()
+	if request.user.derived_type=="Professor":
+			prof=Professor.objects.filter(email=request.user.email)[0]
+			courses = prof.courses.all()
+	else:
+			courses=Course.objects.all()
 	context["courses"] = courses
 	# return response with template and context
 	return render(request, "inventory.html", context)
@@ -562,7 +598,11 @@ def Fee(request):
 	notif = Notification.objects.filter(
 		receiver=request.user).order_by("-date")
 	context["notifications"] = notif
-	courses = Course.objects.all()
+	if request.user.derived_type=="Professor":
+			prof=Professor.objects.filter(email=request.user.email)[0]
+			courses = prof.courses.all()
+	else:
+			courses=Course.objects.all()
 	context["courses"] = courses
 
 	# return response with template and context
@@ -918,7 +958,18 @@ def attendance(request, subno, date):
 
 	}
 
-	context["courses"] = Course.objects.all()
+	# context["courses"] = Course.objects.all()
+	context["user"] = {"user": request.user,
+					 "utype": request.user.derived_type}
+	notif = Notification.objects.filter(
+		receiver=request.user).order_by("-date")
+	context["notifications"] = notif
+	if request.user.derived_type=="Professor":
+			prof=Professor.objects.filter(email=request.user.email)[0]
+			courses = prof.courses.all()
+	else:
+			courses=Course.objects.all()
+	context["courses"] = courses
 
 	return render(request, "attendance.html", context)
 # class SignInView(LoginView):
