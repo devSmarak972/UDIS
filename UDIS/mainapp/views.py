@@ -756,6 +756,9 @@ def signIn(request):
 		print(password1, email)
 		user = authenticate(email=email, password=password1)
 		print(user)
+		if user==None:
+			return render(request, "signin.html",{"error":"User do not exist!"})
+	  
 		login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 		return redirect('/')
 	return render(request, "signin.html")
